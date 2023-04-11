@@ -8,12 +8,13 @@
  */
 
 import { history, useIntl } from '@umijs/max'
-import { message } from 'antd'
+import { App } from 'antd'
 import { stringify } from 'querystring'
 import { useCallback } from 'react'
 
 const useParamsRedirect = () => {
   const intl = useIntl()
+  const { message } = App.useApp()
 
   const redirect = useCallback(
     (

@@ -1,6 +1,26 @@
-﻿import type { RequestOptions } from '@@/plugin-request/request'
-import type { RequestConfig } from '@umijs/max'
+﻿import type { RequestConfig, RequestOptions } from '@@/plugin-request/request'
+import { history } from '@umijs/max'
 import { message, notification } from 'antd'
+import { stringify } from 'querystring'
+
+const codeMessage: any = {
+  200: '服务器成功返回请求的数据。',
+  201: '新建或修改数据成功。',
+  202: '一个请求已经进入后台排队（异步任务）。',
+  204: '删除数据成功。',
+  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
+  401: '用户登录已过期， 需要重新登录。',
+  403: '用户得到授权，但是访问是被禁止的。',
+  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
+  405: '请求方法不被允许。',
+  406: '请求的格式不可得。',
+  410: '请求的资源被永久删除，且不会再得到的。',
+  422: '当创建一个对象时，发生一个验证错误。',
+  500: '服务器发生错误，请检查服务器。',
+  502: '网关错误。',
+  503: '服务不可用，服务器暂时过载或维护。',
+  504: '网关超时。'
+}
 
 // 错误处理方案： 错误类型
 enum ErrorShowType {
@@ -8,13 +28,16 @@ enum ErrorShowType {
   WARN_MESSAGE = 1,
   ERROR_MESSAGE = 2,
   NOTIFICATION = 3,
+  LOGIN_EXPIRED = 4,
   REDIRECT = 9
 }
-// 与后端约定的响应数据格式
+
+// 与后端约定的响应数据格式，后台必须严格遵守
 interface ResponseStructure {
   success: boolean
   data: any
-  errorCode?: number
+  errorCode: number
+  statusText?: string
   errorMessage?: string
   showType?: ErrorShowType
 }
@@ -25,30 +48,37 @@ interface ResponseStructure {
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const errorConfig: RequestConfig = {
+  baseURL: '/api',
+  timeout: 60000,
   // 错误处理： umi@3 的错误处理方案。
   errorConfig: {
-    // 错误抛出
+    // 错误抛出，当且仅当后台返回的 data 中 success 为 false 时启用
     errorThrower: res => {
-      const { success, data, errorCode, errorMessage, showType } =
+      const { success, data, errorCode, errorMessage, statusText, showType } =
         res as unknown as ResponseStructure
       if (!success) {
-        const error: any = new Error(errorMessage)
+        const errorText = errorMessage || data.msg || codeMessage[errorCode] || statusText
+        const error: any = new Error(errorText)
         error.name = 'BizError'
-        error.info = { errorCode, errorMessage, showType, data }
+        error.info = { errorCode, errorMessage: errorText, showType, data }
         throw error // 抛出自制的错误
       }
     },
     // 错误接收及处理
     errorHandler: (error: any, opts: any) => {
       if (opts?.skipErrorHandler) throw error
+
       // 我们的 errorThrower 抛出的错误。
       if (error.name === 'BizError') {
         const errorInfo: ResponseStructure | undefined = error.info
+
         if (errorInfo) {
           const { errorMessage, errorCode } = errorInfo
+          const { search, pathname } = location
+
           switch (errorInfo.showType) {
             case ErrorShowType.SILENT:
-              // do nothing
+              // 不需要提示，可以在这里做相应的处理
               break
             case ErrorShowType.WARN_MESSAGE:
               message.warning(errorMessage)
@@ -62,8 +92,25 @@ export const errorConfig: RequestConfig = {
                 message: errorCode
               })
               break
+            case ErrorShowType.LOGIN_EXPIRED:
+              notification.warning({
+                message: '提示',
+                description: errorMessage
+              })
+
+              localStorage.clear()
+
+              if (pathname !== '/user/login') {
+                history.replace({
+                  pathname: '/user/login',
+                  search: stringify({
+                    redirect: pathname + search
+                  })
+                })
+              }
+              break
             case ErrorShowType.REDIRECT:
-              // TODO: redirect
+              // 跳转到哪个页面
               break
             default:
               message.error(errorMessage)
@@ -98,11 +145,11 @@ export const errorConfig: RequestConfig = {
   responseInterceptors: [
     response => {
       // 拦截响应数据，进行个性化处理
-      const { data } = response as unknown as ResponseStructure
+      // const { data } = response as unknown as ResponseStructure
 
-      if (data?.success === false) {
-        message.error('请求失败！')
-      }
+      // if (data?.success === false) {
+      //   message.error('请求失败！')
+      // }
       return response
     }
   ]

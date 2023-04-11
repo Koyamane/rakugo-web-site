@@ -53,7 +53,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
     [setInitialState]
   )
 
-  const goLogin = () => paramsRedirect()
+  const goLogin = () => paramsRedirect({ isNotHint: true })
 
   const notLogin = (
     <Avatar

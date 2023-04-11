@@ -1,6 +1,6 @@
-import { Footer } from '@/components'
 // import { login } from '@/services/ant-design-pro/api';
 // import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+import { Footer, SelectLang } from '@/components'
 import {
   AlipayCircleOutlined,
   LockOutlined,
@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons'
 import { LoginForm, ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { FormattedMessage, Helmet, SelectLang, useIntl } from '@umijs/max'
+import { FormattedMessage, Helmet, useIntl } from '@umijs/max'
 import { Alert, message, Tabs } from 'antd'
 import React, { useState } from 'react'
 import Settings from '../../../../config/defaultSettings'
@@ -43,9 +43,7 @@ const ActionIcons = () => {
 const Lang = () => {
   const langClassName = useEmotionCss(({ token }) => {
     return {
-      width: 42,
-      height: 42,
-      lineHeight: '42px',
+      padding: token.paddingSM,
       position: 'fixed',
       right: 16,
       borderRadius: token.borderRadius,

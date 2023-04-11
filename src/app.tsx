@@ -2,44 +2,53 @@
 import { AvatarDropdown, AvatarName, Footer, Question, SelectLang } from '@/components'
 import { Settings as LayoutSettings } from '@ant-design/pro-components'
 import type { RunTimeLayoutConfig } from '@umijs/max'
+import { App } from 'antd'
+import { ReactNode } from 'react'
 import defaultSettings from '../config/defaultSettings'
 import { errorConfig } from './requestErrorConfig'
+import { GetCrsfKey, GetUserInfo } from './services/global'
 // import { currentUser as queryCurrentUser } from '@/services/ant-design-proz/api';
 // const isDev = process.env.NODE_ENV === 'development';
-// const loginPath = '/user/login';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>
-  currentUser?: API.CurrentUser
+  currentUser?: API.UserInfo
   loading?: boolean
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>
+  fetchUserInfo?: () => Promise<API.UserInfo | undefined>
 }> {
-  // const fetchUserInfo = async () => {
-  //   try {
-  //     const msg = await queryCurrentUser({
-  //       skipErrorHandler: true,
-  //     });
-  //     return msg.data;
-  //   } catch (error) {
-  //     history.push(loginPath);
-  //   }
-  //   return undefined;
-  // };
-  // 如果不是登录页面，执行
-  // const { location } = history;
-  // if (location.pathname !== loginPath) {
-  //   const currentUser = await fetchUserInfo();
-  //   return {
-  //     fetchUserInfo,
-  //     currentUser,
-  //     settings: defaultSettings as Partial<LayoutSettings>,
-  //   };
-  // }
+  try {
+    // 这个有可能过期的，所以每次都要拿
+    const res = await GetCrsfKey()
+    sessionStorage.setItem('csrfToken', res)
+  } catch (error) {
+    console.log(error)
+  }
+
+  const fetchUserInfo = async () => {
+    try {
+      const userInfo: API.UserInfo = await GetUserInfo()
+      return userInfo
+    } catch (error) {
+      console.log(error)
+    }
+    return undefined
+  }
+
+  // 不是登录页面且有token时，就获取用户信息
+  if (location.pathname !== '/user/login' && localStorage.getItem('token')) {
+    const currentUser = await fetchUserInfo()
+    return {
+      fetchUserInfo,
+      currentUser,
+      settings: defaultSettings as Partial<LayoutSettings>
+    }
+  }
+
   return {
-    fetchUserInfo: undefined,
+    fetchUserInfo,
     settings: defaultSettings as Partial<LayoutSettings>
   }
 }
@@ -66,35 +75,39 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     //     history.push(loginPath);
     //   }
     // },
-    colorPrimary: initialState?.settings?.colorPrimary,
     navTheme: initialState?.settings?.navTheme,
     // menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
     // childrenRender: (children) => {
-    //   // if (initialState?.loading) return <PageLoading />;
-    //   return (
-    //     <>
-    //       {children}
-    //       {isDev && (
-    //         <SettingDrawer
-    //           disableUrlParams
-    //           enableDarkTheme
-    //           settings={initialState?.settings}
-    //           onSettingChange={(settings) => {
-    //             setInitialState((preInitialState) => ({
-    //               ...preInitialState,
-    //               settings,
-    //             }));
-    //           }}
-    //         />
-    //       )}
-    //     </>
-    //   );
+    // if (initialState?.loading) return <PageLoading />;
+    // return (
+    //   <>
+    //     {children}
+    //     {isDev && (
+    //       <SettingDrawer
+    //         disableUrlParams
+    //         enableDarkTheme
+    //         settings={initialState?.settings}
+    //         onSettingChange={(settings) => {
+    //           setInitialState((preInitialState) => ({
+    //             ...preInitialState,
+    //             settings,
+    //           }));
+    //         }}
+    //       />
+    //     )}
+    //   </>
+    // );
     // },
     ...initialState?.settings
   }
+}
+
+export function rootContainer(container: ReactNode) {
+  // 方便所有组件和页面使用 App.useModel，使用它的组件能够更改静态方法图标颜色
+  return <App>{container}</App>
 }
 
 /**
