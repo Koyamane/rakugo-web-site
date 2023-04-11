@@ -19,12 +19,15 @@
           background-size: 100% auto;
         }
 
+        .page-icon {
+          height: 200px;
+        }
+
         .loading-title {
           font-size: 1.1rem;
         }
 
         .loading-sub-title {
-          margin-top: 20px;
           font-size: 1rem;
           color: #888;
         }
@@ -35,6 +38,7 @@
           justify-content: center;
           padding: 26px;
         }
+
         .ant-spin {
           position: absolute;
           display: none;
@@ -80,7 +84,7 @@
           display: block;
           width: 9px;
           height: 9px;
-          background-color: #1890ff;
+          background-color: #de8972;
           border-radius: 100%;
           -webkit-transform: scale(0.75);
           -ms-transform: scale(0.75);
@@ -180,6 +184,7 @@
         height: 100%;
         min-height: 362px;
       ">
+        <img class='page-icon' src='/logo.svg' alt='落語' />
         <div class="page-loading-warp">
           <div class="ant-spin ant-spin-lg ant-spin-spinning">
             <span class="ant-spin-dot ant-spin-dot-spin">
@@ -190,11 +195,8 @@
             </span>
           </div>
         </div>
-        <div class="loading-title">
-          正在加载资源
-        </div>
         <div class="loading-sub-title">
-          初次加载资源可能需要较多时间 请耐心等待
+          你轻轻地来，诉说着往事，留下一段佳话
         </div>
       </div>
     `;
