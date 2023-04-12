@@ -81,3 +81,16 @@ export default (): React.ReactNode => {
   return <div onClick={() => paramsRedirect()} />
 }
 ```
+
+## useGoRedirect 跳转到路由的重定向页面
+
+```tsx
+import useGoRedirect from '@/hooks/useGoRedirect'
+import React from 'react'
+
+export default (): React.ReactNode => {
+  const goRedirect = useGoRedirect()
+
+  return <div onClick={() => goRedirect()} />
+}
+```

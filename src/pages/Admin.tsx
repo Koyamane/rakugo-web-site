@@ -3,11 +3,10 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-10 12:21:06
+ * @LastEditTime: 2023-04-12 11:54:43
  * @Description:
  */
 import { HeartTwoTone, SmileTwoTone } from '@ant-design/icons'
-import { PageContainer } from '@ant-design/pro-components'
 import { useIntl } from '@umijs/max'
 import { Alert, Card, Typography } from 'antd'
 import React from 'react'
@@ -16,12 +15,7 @@ const Admin: React.FC = () => {
   const intl = useIntl()
 
   return (
-    <PageContainer
-      content={intl.formatMessage({
-        id: 'pages.admin.subPage.title',
-        defaultMessage: 'This page can only be viewed by admin'
-      })}
-    >
+    <>
       <Card>
         <Alert
           message={intl.formatMessage({
@@ -47,7 +41,7 @@ const Admin: React.FC = () => {
         </a>
         。
       </p>
-    </PageContainer>
+    </>
   )
 }
 

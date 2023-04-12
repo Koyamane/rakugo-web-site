@@ -1,9 +1,9 @@
-// import { outLogin } from '@/services/ant-design-pro/api';
 import { useParamsRedirect } from '@/hooks'
+import { LogOutApi } from '@/services/global'
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { history, useModel } from '@umijs/max'
-import { Avatar } from 'antd'
+import { history, useIntl, useModel } from '@umijs/max'
+import { App, Avatar } from 'antd'
 import type { MenuInfo } from 'rc-menu/lib/interface'
 import React, { useCallback } from 'react'
 import { flushSync } from 'react-dom'
@@ -17,22 +17,43 @@ export type GlobalHeaderRightProps = {
 export const AvatarName = () => {
   const { initialState } = useModel('@@initialState')
   const { currentUser } = initialState || {}
-  return <span className='anticon'>{currentUser?.name}</span>
+  return <>{currentUser?.nickname}</>
 }
 
 export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, children }) => {
   const paramsRedirect = useParamsRedirect()
+  const intl = useIntl()
+  const { message } = App.useApp()
+  const goLogin = () => paramsRedirect({ isNotHint: true })
+
   /**
    * 退出登录，并且将当前的 url 保存
    */
   const loginOut = async () => {
-    // await outLogin();
-    paramsRedirect({ isNotHint: true })
+    try {
+      await LogOutApi()
+      message.success(
+        intl.formatMessage({
+          id: 'pages.account.logOut.success',
+          defaultMessage: '退出登录成功！'
+        })
+      )
+      goLogin()
+      // 如果当前页是仅登录可查的话，会有闪烁，加异步1s也没用
+      localStorage.clear()
+    } catch (error) {
+      console.log(error)
+    }
   }
-  const actionClassName = useEmotionCss(({ token }) => {
+
+  const avatarClassName = useEmotionCss(({ token }) => {
     return {
+      padding: token.paddingXXS,
+      display: 'inline-flex',
+      marginInlineEnd: token.marginXXS,
+      borderRadius: token.borderRadius,
       '&:hover': {
-        backgroundColor: token.colorBgTextHover
+        backgroundColor: token.controlItemBgHover
       }
     }
   })
@@ -53,16 +74,10 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
     [setInitialState]
   )
 
-  const goLogin = () => paramsRedirect({ isNotHint: true })
-
   const notLogin = (
-    <Avatar
-      size='small'
-      onClick={goLogin}
-      className={actionClassName}
-      icon={<UserOutlined />}
-      alt='avatar'
-    />
+    <span className={avatarClassName}>
+      <Avatar size='small' alt='avatar' onClick={goLogin} icon={<UserOutlined />} />
+    </span>
   )
 
   if (!initialState) {

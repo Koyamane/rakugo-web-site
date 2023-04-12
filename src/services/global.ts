@@ -6,7 +6,7 @@
  * @LastEditTime: 2023-04-11 23:10:20
  * @Description:
  */
-import { request } from 'umi'
+import { request } from '@umijs/max'
 
 /**
  * @description 拿到crsf token，不然post请求发送不了，egg的安全策略

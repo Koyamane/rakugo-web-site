@@ -14,11 +14,22 @@ export default [
   {
     path: '/user',
     layout: false,
+    component: './User',
     routes: [
       {
         name: 'login',
         path: '/user/login',
         component: './User/Login'
+      },
+      {
+        name: 'register',
+        path: '/user/register',
+        component: './User/Register'
+      },
+      {
+        name: 'register-result',
+        path: '/user/register/result',
+        component: './User/RegisterResult'
       }
     ]
   },

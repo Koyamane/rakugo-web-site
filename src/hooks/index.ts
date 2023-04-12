@@ -4,7 +4,8 @@
  */
 import useFormatTime from './useFormatTime'
 import useFormItemFillHint from './useFormItemFillHint'
+import useGoRedirect from './useGoRedirect'
 import usePaginationItem from './usePaginationItem'
 import useParamsRedirect from './useParamsRedirect'
 
-export { useFormItemFillHint, useFormatTime, usePaginationItem, useParamsRedirect }
+export { useFormItemFillHint, useFormatTime, usePaginationItem, useParamsRedirect, useGoRedirect }

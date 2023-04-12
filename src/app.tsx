@@ -1,5 +1,13 @@
+/*
+ * @Author: dingyun
+ * @Date: 2023-04-10 11:46:12
+ * @LastEditors: dingyun
+ * @Email: dingyun@zhuosoft.com
+ * @LastEditTime: 2023-04-12 13:01:39
+ * @Description:
+ */
 // import { history } from '@umijs/max';
-import { AvatarDropdown, AvatarName, Footer, Question, SelectLang } from '@/components'
+import { AvatarDropdown, AvatarName, Footer, SelectLang, ThemeIcon } from '@/components'
 import { Settings as LayoutSettings } from '@ant-design/pro-components'
 import type { RunTimeLayoutConfig } from '@umijs/max'
 import { App } from 'antd'
@@ -56,14 +64,16 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
-    actionsRender: () => [<Question key='doc' />, <SelectLang key='SelectLang' />],
+    actionsRender: () => [<ThemeIcon key='ThemeIcon' />, <SelectLang key='SelectLang' />],
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
+      style: { border: 'none' },
       render: (_, avatarChildren) => {
-        return <AvatarDropdown>{avatarChildren}</AvatarDropdown>
+        return <AvatarDropdown menu>{avatarChildren}</AvatarDropdown>
       }
     },
+    contentStyle: { padding: 0 },
     // waterMarkProps: {
     //   content: initialState?.currentUser?.name,
     // },

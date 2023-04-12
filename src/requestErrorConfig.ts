@@ -9,7 +9,7 @@ const codeMessage: any = {
   202: '一个请求已经进入后台排队（异步任务）。',
   204: '删除数据成功。',
   400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户登录已过期， 需要重新登录。',
+  401: '用户登录已过期，需要重新登录。',
   403: '用户得到授权，但是访问是被禁止的。',
   404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
   405: '请求方法不被允许。',
@@ -28,7 +28,6 @@ enum ErrorShowType {
   WARN_MESSAGE = 1,
   ERROR_MESSAGE = 2,
   NOTIFICATION = 3,
-  LOGIN_EXPIRED = 4,
   REDIRECT = 9
 }
 
@@ -68,13 +67,37 @@ export const errorConfig: RequestConfig = {
     errorHandler: (error: any, opts: any) => {
       if (opts?.skipErrorHandler) throw error
 
+      if (error.response && error.response.status === 401) {
+        const { data = {}, status, statusText } = error.response
+        const { search, pathname } = location
+
+        const errorMessage = data?.msg || codeMessage[status] || statusText || error.message
+
+        notification.warning({
+          message: '提示',
+          description: errorMessage
+        })
+
+        localStorage.clear()
+
+        if (pathname !== '/user/login') {
+          history.replace({
+            pathname: '/user/login',
+            search: stringify({
+              redirect: pathname + search
+            })
+          })
+        }
+
+        throw error
+      }
+
       // 我们的 errorThrower 抛出的错误。
       if (error.name === 'BizError') {
         const errorInfo: ResponseStructure | undefined = error.info
 
         if (errorInfo) {
           const { errorMessage, errorCode } = errorInfo
-          const { search, pathname } = location
 
           switch (errorInfo.showType) {
             case ErrorShowType.SILENT:
@@ -92,23 +115,6 @@ export const errorConfig: RequestConfig = {
                 message: errorCode
               })
               break
-            case ErrorShowType.LOGIN_EXPIRED:
-              notification.warning({
-                message: '提示',
-                description: errorMessage
-              })
-
-              localStorage.clear()
-
-              if (pathname !== '/user/login') {
-                history.replace({
-                  pathname: '/user/login',
-                  search: stringify({
-                    redirect: pathname + search
-                  })
-                })
-              }
-              break
             case ErrorShowType.REDIRECT:
               // 跳转到哪个页面
               break
@@ -119,7 +125,8 @@ export const errorConfig: RequestConfig = {
       } else if (error.response) {
         // Axios 的错误
         // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
-        message.error(`Response status:${error.response.status}`)
+        const errorMessage = error.response.data?.message || error.response.statusText
+        message.error(`${error.response.status}：${errorMessage}`)
       } else if (error.request) {
         // 请求已经成功发起，但没有收到响应
         // \`error.request\` 在浏览器中是 XMLHttpRequest 的实例，
@@ -136,8 +143,20 @@ export const errorConfig: RequestConfig = {
   requestInterceptors: [
     (config: RequestOptions) => {
       // 拦截请求配置，进行个性化处理。
-      const url = config?.url?.concat('?token = 123')
-      return { ...config, url }
+      const Authorization = localStorage.getItem('token')
+      const csrfToken = sessionStorage.getItem('csrfToken')
+      let headers: any = {
+        ...config.headers,
+        'x-csrf-token': csrfToken
+      }
+      if (Authorization) {
+        headers = {
+          ...headers,
+          Authorization: `Bearer ${Authorization}`
+        }
+      }
+
+      return { ...config, headers }
     }
   ],
 
@@ -145,12 +164,8 @@ export const errorConfig: RequestConfig = {
   responseInterceptors: [
     response => {
       // 拦截响应数据，进行个性化处理
-      // const { data } = response as unknown as ResponseStructure
-
-      // if (data?.success === false) {
-      //   message.error('请求失败！')
-      // }
-      return response
+      const { data } = response as unknown as ResponseStructure
+      return data?.data ? data : response
     }
   ]
 }

@@ -1,6 +1,5 @@
-import { PageContainer } from '@ant-design/pro-components'
 import { useModel } from '@umijs/max'
-import { Button, Card, theme } from 'antd'
+import { Card, theme } from 'antd'
 import React from 'react'
 
 /**
@@ -85,23 +84,10 @@ const InfoCard: React.FC<{
 
 const Welcome: React.FC = () => {
   const { token } = theme.useToken()
-  const { initialState, setInitialState } = useModel('@@initialState')
-
-  const changeTheme = () => {
-    setInitialState({
-      ...initialState,
-      settings: {
-        ...initialState?.settings,
-        navTheme: initialState?.settings?.navTheme === 'light' ? 'realDark' : 'light'
-      }
-    })
-  }
+  const { initialState } = useModel('@@initialState')
 
   return (
-    <PageContainer>
-      <Button type='primary' onClick={changeTheme}>
-        点我切换主题
-      </Button>
+    <>
       <Card
         style={{
           borderRadius: 8
@@ -171,7 +157,7 @@ const Welcome: React.FC = () => {
           </div>
         </div>
       </Card>
-    </PageContainer>
+    </>
   )
 }
 

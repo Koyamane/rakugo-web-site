@@ -1,3 +1,4 @@
+import account from './ja-JP/account'
 import component from './ja-JP/component'
 import globalHeader from './ja-JP/globalHeader'
 import menu from './ja-JP/menu'
@@ -11,6 +12,7 @@ export default {
   'layout.user.link.help': 'ヘルプ',
   'layout.user.link.privacy': 'プライバシー',
   'layout.user.link.terms': '利用規約',
+  'app.copyright.produced': '小山音出品',
   'app.preview.down.block': 'このページをローカルプロジェクトにダウンロードしてください',
   'app.welcome.link.fetch-blocks': '',
   'app.welcome.link.block-list': '',
@@ -20,5 +22,6 @@ export default {
   ...settings,
   ...pwa,
   ...component,
-  ...pages
+  ...pages,
+  ...account
 }
