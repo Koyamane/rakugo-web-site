@@ -68,6 +68,11 @@ export default {
   'pages.blog.comments': 'Comments',
   'pages.blog.replyTo': 'Reply to',
   'pages.blog.noMore': "There's no more",
+  'pages.blog.sort.createdDate': 'Up-to-date',
+  'pages.blog.sort.likes': 'Hottest',
+  'pages.blog.sort.reads': 'High reading',
+  'pages.blog.sort.collections': 'Most collections',
+  'pages.blog.sort.comments': 'Most comments',
   'pages.blog.blogEdit.success': 'Successfully posted',
   'pages.blog.blogAdd.topNotice':
     'Post your blog here. After leaving the page, the data will not be saved',

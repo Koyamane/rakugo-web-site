@@ -17,3 +17,5 @@ export interface OperationItem {
   text: number
   hint: string
 }
+
+export type BlogSortKey = 'createdDate' | 'reads' | 'likes' | 'collections' | 'comments'

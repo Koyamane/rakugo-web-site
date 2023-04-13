@@ -67,6 +67,11 @@ export default {
   'pages.blog.comments': 'コメント',
   'pages.blog.replyTo': '返事',
   'pages.blog.noMore': 'これ以上はありません',
+  'pages.blog.sort.createdDate': '最近',
+  'pages.blog.sort.likes': 'モテル',
+  'pages.blog.sort.reads': '高読み取り',
+  'pages.blog.sort.collections': '最大コレクション',
+  'pages.blog.sort.comments': '最大コメント',
   'pages.blog.blogEdit.success': '投稿に成功しました',
   'pages.blog.blogAdd.topNotice':
     'ここでブログを投稿します。ページを離れると、データは保存されません',
