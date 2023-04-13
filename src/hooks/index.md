@@ -49,9 +49,9 @@ import useFormatTime from '@/hooks/useFormatTime'
 import React from 'react'
 
 export default (): React.ReactNode => {
-  // 小于 7 天的显示几天前，超过的显示具体的时间。默认为 7
-  const formatTime = useFormatTime(7)
+  const formatTime = useFormatTime()
 
+  // 小于 7 天的显示几天前，超过的显示具体的时间。默认为 7
   return formatTime('2023-03-31T10:18:24.841Z', 7)
 }
 ```

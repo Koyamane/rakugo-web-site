@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-12 23:29:17
+ * @LastEditTime: 2023-04-13 18:42:25
  * @Description:
  */
 /**
@@ -19,6 +19,18 @@
  * @doc https://umijs.org/docs/guides/routes
  */
 export default [
+  {
+    path: '/home',
+    name: 'home',
+    icon: 'home',
+    component: './Home'
+  },
+  {
+    path: '/article/:id',
+    name: 'article',
+    hideInMenu: true,
+    component: './Post/Article'
+  },
   {
     path: '/user',
     layout: false,
@@ -38,35 +50,6 @@ export default [
         name: 'register-result',
         path: '/user/register/result',
         component: './User/RegisterResult'
-      }
-    ]
-  },
-  {
-    path: '/home',
-    name: 'home',
-    icon: 'home',
-    component: './Home'
-  },
-  {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome'
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin', // 登录权限
-    routes: [
-      {
-        path: '/admin',
-        redirect: '/admin/sub-page'
-      },
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin'
       }
     ]
   },

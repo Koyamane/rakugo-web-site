@@ -3,17 +3,16 @@
  * @Date: 2023-04-12 22:45:02
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-13 15:46:58
+ * @LastEditTime: 2023-04-13 23:39:36
  * @Description:
  */
 import sakuraBg from '@/assets/sakura.jpg'
 import { SoundOutlined } from '@ant-design/icons'
-import { useToken } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { Affix, Alert, FloatButton } from 'antd'
+import { useModel } from '@umijs/max'
+import { Alert, FloatButton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import Marquee from 'react-fast-marquee'
-import { useModel } from 'umi'
 import HomeList from './components/HomeList'
 import SortSideBar from './components/SortSideBar'
 import { AnnouncementInfo, BlogSortKey } from './data'
@@ -24,7 +23,6 @@ export default (): React.ReactNode => {
   const { initialState } = useModel('@@initialState')
   const { currentUser } = initialState || {}
   const [sortKey, setSortKey] = useState<BlogSortKey>('createdDate')
-  const { token } = useToken()
 
   const homeLayoutClassName = useEmotionCss(({ token }) => {
     return {
@@ -34,7 +32,9 @@ export default (): React.ReactNode => {
 
       '.home-layout-side-bar': {
         flexShrink: '0',
+        position: 'sticky',
         minWidth: '180px',
+        top: token.marginMD,
         marginInlineEnd: token.marginMD,
 
         '&-menu': {
@@ -122,30 +122,28 @@ export default (): React.ReactNode => {
       )}
 
       <div className={homeLayoutClassName}>
-        <Affix className='home-layout-side-bar' offsetTop={token.marginMD}>
-          <div>
-            <SortSideBar setSortKey={setSortKey} sortKey={sortKey} />
+        <div className='home-layout-side-bar'>
+          <SortSideBar setSortKey={setSortKey} sortKey={sortKey} />
 
-            <div className='home-layout-side-bar-title'>
+          <div className='home-layout-side-bar-title'>
+            <ruby>
               <ruby>
-                <ruby>
-                  <span>生</span>
-                  <rp>(</rp>
-                  <rt>い</rt>
-                  <rp>)</rp>
-                </ruby>
-                <span>きているだけで、</span>
-                <ruby>
-                  <span>大変</span>
-                  <rp>(</rp>
-                  <rt>たいへん</rt>
-                  <rp>)</rp>
-                </ruby>
-                <span>だ</span>
+                <span>生</span>
+                <rp>(</rp>
+                <rt>い</rt>
+                <rp>)</rp>
               </ruby>
-            </div>
+              <span>きているだけで、</span>
+              <ruby>
+                <span>大変</span>
+                <rp>(</rp>
+                <rt>たいへん</rt>
+                <rp>)</rp>
+              </ruby>
+              <span>だ</span>
+            </ruby>
           </div>
-        </Affix>
+        </div>
 
         <div style={{ flex: 1 }}>
           <HomeList userId={currentUser?.userId} sortKey={sortKey} />

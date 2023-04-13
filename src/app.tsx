@@ -10,9 +10,9 @@
 import { AvatarDropdown, AvatarName, Footer, SelectLang, ThemeIcon } from '@/components'
 import { Settings as LayoutSettings } from '@ant-design/pro-components'
 import type { RunTimeLayoutConfig } from '@umijs/max'
-import { App } from 'antd'
 import { ReactNode } from 'react'
 import defaultSettings from '../config/defaultSettings'
+import RenderApp from './RenderApp'
 import { errorConfig } from './requestErrorConfig'
 import { GetCrsfKey, GetUserInfo } from './services/global'
 // import { currentUser as queryCurrentUser } from '@/services/ant-design-proz/api';
@@ -68,7 +68,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
-      style: { border: 'none' },
       render: (_, avatarChildren) => {
         return <AvatarDropdown menu>{avatarChildren}</AvatarDropdown>
       }
@@ -117,7 +116,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
 
 export function rootContainer(container: ReactNode) {
   // 方便所有组件和页面使用 App.useModel，使用它的组件能够更改静态方法图标颜色
-  return <App>{container}</App>
+  return <RenderApp>{container}</RenderApp>
 }
 
 /**

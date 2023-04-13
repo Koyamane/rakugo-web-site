@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 22:45:02
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-13 13:48:41
+ * @LastEditTime: 2023-04-13 23:14:06
  * @Description:
  */
 import { BlogListSkeleton, IconText } from '@/components'
@@ -40,24 +40,24 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
 
     const scrollClassName = useEmotionCss(({ token }) => {
       return {
-        background: token.colorBgBase,
-        borderRadius: token.borderRadius
+        paddingInline: token.paddingMD,
+        borderRadius: token.borderRadius,
+        background: token.colorBgContainer
       }
     })
 
     const contentListClassName = useEmotionCss(({ token }) => {
       return {
         color: token.colorText,
-        paddingInline: token.paddingMD,
 
         '.content-list-item': {
           display: 'flex',
           paddingBlock: token.paddingSM,
           justifyContent: 'space-between',
-          borderBottom: `1px solid ${token.colorBorder}`,
+          borderBottom: `1px solid ${token.colorBorderSecondary}`,
 
           '&-left': {
-            flex: '1 1',
+            flex: '1',
             display: 'flex',
             color: token.colorTextDescription,
             flexDirection: 'column',
@@ -234,7 +234,9 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
                     <div className='content-list-item-left-userInfo text-ellipsis'>
                       {formatTime(item.approvedDate)}
                       <Divider type='vertical' />
-                      <NavLink to={`/account/center/${item.id}`}>{item.createdName}</NavLink>
+                      <NavLink target='_blank' to={`/account/center/${item.id}`}>
+                        {item.createdName}
+                      </NavLink>
                       {!!item.tags.length && (
                         <>
                           <Divider type='vertical' />
@@ -243,38 +245,41 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
                       )}
                     </div>
                     <div className='content-list-item-left-title text-ellipsis'>
-                      <NavLink to={`/article/${item.id}`}>{item.title}</NavLink>
+                      <NavLink target='_blank' to={`/article/${item.id}`}>
+                        {item.title}
+                      </NavLink>
                     </div>
                     <div className='content-list-item-left-body'>
                       {item.content && item.content.replace(/<[^>]+>/g, '')}
                     </div>
-                    <div className='content-list-item-left-actions'>
-                      <Space size='large'>
-                        <IconText icon={EyeOutlined} text={item.reads} />
-                        <IconText
-                          text={item.likes}
-                          icon={isIncludeMe('LIKE', item.blogDataArr) ? LikeFilled : LikeOutlined}
-                          className={`${
-                            isIncludeMe('LIKE', item.blogDataArr) &&
-                            'content-list-item-left-actions-active'
-                          }`}
-                        />
-                        <IconText
-                          text={item.collections}
-                          icon={
-                            isIncludeMe('COLLECT', item.blogDataArr) ? StarFilled : StarOutlined
-                          }
-                          className={`${
-                            isIncludeMe('COLLECT', item.blogDataArr) &&
-                            'content-list-item-left-actions-active'
-                          }`}
-                        />
-                        <IconText text={item.comments} icon={MessageOutlined} />
-                      </Space>
-                    </div>
+
+                    <Space size='large' className='content-list-item-left-actions'>
+                      <IconText icon={EyeOutlined} text={item.reads} />
+                      <IconText
+                        text={item.likes}
+                        icon={isIncludeMe('LIKE', item.blogDataArr) ? LikeFilled : LikeOutlined}
+                        className={`${
+                          isIncludeMe('LIKE', item.blogDataArr) &&
+                          'content-list-item-left-actions-active'
+                        }`}
+                      />
+                      <IconText
+                        text={item.collections}
+                        icon={isIncludeMe('COLLECT', item.blogDataArr) ? StarFilled : StarOutlined}
+                        className={`${
+                          isIncludeMe('COLLECT', item.blogDataArr) &&
+                          'content-list-item-left-actions-active'
+                        }`}
+                      />
+                      <IconText text={item.comments} icon={MessageOutlined} />
+                    </Space>
                   </div>
                   {item.cover && (
-                    <NavLink className='content-list-item-right' to={`/article/${item.id}`}>
+                    <NavLink
+                      target='_blank'
+                      className='content-list-item-right'
+                      to={`/article/${item.id}`}
+                    >
                       <img
                         src={item.cover}
                         alt={item.title}

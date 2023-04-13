@@ -11,13 +11,15 @@ import { getLocale, useIntl } from '@umijs/max'
 import moment from 'moment'
 import { useCallback } from 'react'
 
-const useFormatTime = (day?: number) => {
+const useFormatTime = (isFull?: boolean, day?: number) => {
   const intl = useIntl()
   moment.locale(getLocale())
 
   // 格式化时间显示
   const formatTime = useCallback(
     (date: string, day2?: number) => {
+      if (isFull) return moment(date).format('YYYY-MM-DD HH:mm:ss')
+
       const day3 = day || day2
       if (day3) {
         const lastDate = new Date(date).getTime()
