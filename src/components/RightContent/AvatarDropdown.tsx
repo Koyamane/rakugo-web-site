@@ -25,6 +25,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
   const intl = useIntl()
   const { message } = App.useApp()
   const goLogin = () => paramsRedirect({ isNotHint: true })
+  const { initialState, setInitialState } = useModel('@@initialState')
 
   /**
    * 退出登录，并且将当前的 url 保存
@@ -57,7 +58,6 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
       }
     }
   })
-  const { initialState, setInitialState } = useModel('@@initialState')
 
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
@@ -96,12 +96,18 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
           {
             key: 'center',
             icon: <UserOutlined />,
-            label: '个人中心'
+            label: intl.formatMessage({
+              id: 'pages.account.center',
+              defaultMessage: '个人中心'
+            })
           },
           {
             key: 'settings',
             icon: <SettingOutlined />,
-            label: '个人设置'
+            label: intl.formatMessage({
+              id: 'pages.account.settings',
+              defaultMessage: '个人设置'
+            })
           },
           {
             type: 'divider' as const
@@ -111,7 +117,10 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
     {
       key: 'logout',
       icon: <LogoutOutlined />,
-      label: '退出登录'
+      label: intl.formatMessage({
+        id: 'pages.account.logOut',
+        defaultMessage: '退出登录'
+      })
     }
   ]
 

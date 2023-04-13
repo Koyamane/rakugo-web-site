@@ -1,4 +1,12 @@
-﻿/**
+﻿/*
+ * @Author: dingyun
+ * @Date: 2023-04-12 19:25:38
+ * @LastEditors: dingyun
+ * @Email: dingyun@zhuosoft.com
+ * @LastEditTime: 2023-04-12 23:29:17
+ * @Description:
+ */
+/**
  * @name umi 的路由配置
  * @description 只支持 path,component,routes,redirect,wrappers,name,icon 的配置
  * @param path  path 只支持两种占位符配置，第一种是动态参数 :id 的形式，第二种是 * 通配符，通配符只能出现路由字符串的最后。
@@ -34,6 +42,12 @@ export default [
     ]
   },
   {
+    path: '/home',
+    name: 'home',
+    icon: 'home',
+    component: './Home'
+  },
+  {
     path: '/welcome',
     name: 'welcome',
     icon: 'smile',
@@ -43,7 +57,7 @@ export default [
     path: '/admin',
     name: 'admin',
     icon: 'crown',
-    // access: 'canAdmin',  登录权限
+    access: 'canAdmin', // 登录权限
     routes: [
       {
         path: '/admin',
@@ -58,10 +72,10 @@ export default [
   },
   {
     path: '/',
-    redirect: '/welcome'
+    redirect: '/home'
   },
   {
     path: '*',
-    component: './404'
+    component: './Exception/404'
   }
 ]

@@ -12,6 +12,13 @@ body,
     padding-inline-end: @padding-md;
   }
 
+  .ant-pro-top-nav-header-logo {
+    // 隐藏首页标题
+    h1 {
+      display: none;
+    }
+  }
+
   .ant-pro-global-header-right-content {
     .ant-pro-global-header-header-actions-item {
       padding: 0;
@@ -21,6 +28,14 @@ body,
       margin-right: -@margin-xs;
       padding: 0;
     }
+  }
+
+  // 添加缩略...
+  .text-ellipsis {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 

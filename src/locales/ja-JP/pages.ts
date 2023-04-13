@@ -66,6 +66,7 @@ export default {
   'pages.blog.collections': 'コレクション',
   'pages.blog.comments': 'コメント',
   'pages.blog.replyTo': '返事',
+  'pages.blog.noMore': 'これ以上はありません',
   'pages.blog.blogEdit.success': '投稿に成功しました',
   'pages.blog.blogAdd.topNotice':
     'ここでブログを投稿します。ページを離れると、データは保存されません',

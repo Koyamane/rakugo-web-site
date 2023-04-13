@@ -67,6 +67,7 @@ export default {
   'pages.blog.collections': 'Collect',
   'pages.blog.comments': 'Comments',
   'pages.blog.replyTo': 'Reply to',
+  'pages.blog.noMore': "There's no more",
   'pages.blog.blogEdit.success': 'Successfully posted',
   'pages.blog.blogAdd.topNotice':
     'Post your blog here. After leaving the page, the data will not be saved',

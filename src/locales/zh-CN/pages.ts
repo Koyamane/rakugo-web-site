@@ -64,6 +64,7 @@ export default {
   'pages.blog.collections': '收藏',
   'pages.blog.comments': '评论',
   'pages.blog.replyTo': '回复',
+  'pages.blog.noMore': '没有更多了',
   'pages.blog.blogEdit.success': '发布成功',
   'pages.blog.blogAdd.topNotice': '在这里发布您的博客。离开页面后，数据不会保存',
   'pages.blog.blogAdd.success': '发布成功，请耐心等待审核',

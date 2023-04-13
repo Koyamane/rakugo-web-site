@@ -5,8 +5,10 @@
 /**
  * 布局组件
  */
+import BlogListSkeleton from './BlogListSkeleton'
 import Footer from './Footer'
+import IconText from './IconText'
 import { SelectLang, ThemeIcon } from './RightContent'
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown'
 
-export { Footer, ThemeIcon, SelectLang, AvatarDropdown, AvatarName }
+export { IconText, BlogListSkeleton, Footer, ThemeIcon, SelectLang, AvatarDropdown, AvatarName }
