@@ -18,7 +18,7 @@ interface DirectoryAnchorProps {
   items?: AnchorLinkItemProps[]
 }
 
-const DirectoryAnchor: React.FC<DirectoryAnchorProps & AffixProps> = React.memo(
+const DirectoryAnchor: React.FC<DirectoryAnchorProps & Omit<AffixProps, 'children'>> = React.memo(
   ({ className, items, ...resetProps }) => {
     const { token } = useToken()
 
