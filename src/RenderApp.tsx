@@ -10,8 +10,11 @@ import { App, ConfigProvider } from 'antd'
 import { ReactNode } from 'react'
 
 const RenderApp: React.FC<{ children: ReactNode }> = ({ children }) => {
+  // 这个组件里面是拿不到主题 token 的，且只会走一次
+  const color = localStorage.getItem('navTheme') === 'realDark' ? '#141414' : '#f5f5f5'
+
   return (
-    <App>
+    <App style={{ height: '100%', background: color }}>
       <ConfigProvider>{children}</ConfigProvider>
     </App>
   )

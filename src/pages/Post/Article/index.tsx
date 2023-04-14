@@ -3,10 +3,10 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-14 15:45:12
+ * @LastEditTime: 2023-04-14 22:28:42
  * @Description:
  */
-import { BackTop, FollowButton, FooterBar } from '@/components'
+import { BackTop, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
 import IconText from '@/components/IconText'
 import useFormatTime from '@/hooks/useFormatTime'
 import { EyeOutlined, TagsOutlined } from '@ant-design/icons'
@@ -16,14 +16,22 @@ import { Avatar, Space, Spin } from 'antd'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import ArticleFooterUser from './components/ArticleFooterUser'
 import ArticleOperationBtn from './components/ArticleOperationBtn'
+import MarkdownItem from './components/MarkdownItem'
 import { BlogInfoApi, BlogSimplePageApi } from './services'
+
+const ReaderValue = ({ editor, value }: { editor: API.BlogInfo['editor']; value: string }) =>
+  editor === 'RICH_TEXT' ? (
+    <article dangerouslySetInnerHTML={{ __html: value }} />
+  ) : (
+    <MarkdownItem value={value} />
+  )
 
 export default (): React.ReactNode => {
   const { id } = useParams<{ id: string }>()
   const { initialState } = useModel('@@initialState')
   const userId = initialState?.currentUser?.userId
   const { setTo404 } = useModel('use404Model')
-  const { followed, setFollowed } = useModel('useArticle')
+  const { followed, setFollowed, directoryList } = useModel('useArticle')
   const [blogInfo, setBlogInfo] = useState<API.BlogInfo>()
   const [userBlogList, setUserBlogList] = useState<API.BlogInfo[]>([])
   const [loading, setLoading] = useState(true)
@@ -102,20 +110,21 @@ export default (): React.ReactNode => {
         },
 
         '&-detail': {
-          overflow: 'hidden'
+          overflow: 'hidden',
+          '.markdown-body': {
+            color: token.colorText
+          }
         }
       },
 
       '.article-layout-right': {
-        position: 'sticky',
-        top: token.marginMD,
         width: '300px',
-        overflow: 'hidden',
-        borderRadius: token.borderRadius,
         marginInlineStart: token.marginMD,
 
         '&-user': {
           padding: token.paddingMD,
+          marginBlockEnd: token.marginMD,
+          borderRadius: token.borderRadius,
           background: token.colorBgContainer,
 
           '&-info': {
@@ -278,13 +287,10 @@ export default (): React.ReactNode => {
               </div>
 
               {articleDetail && (
-                <>
-                  <article
-                    className='article-layout-content-detail'
-                    dangerouslySetInnerHTML={{ __html: articleDetail }}
-                  />
+                <div id='article-layout-content-detail' className='article-layout-content-detail'>
+                  <ReaderValue editor={blogInfo.editor} value={articleDetail} />
                   <div id='comments'>评论</div>
-                </>
+                </div>
               )}
             </div>
 
@@ -338,6 +344,8 @@ export default (): React.ReactNode => {
                   </div>
                 )}
               </div>
+
+              <DirectoryAnchor items={directoryList} />
             </div>
           </div>
 

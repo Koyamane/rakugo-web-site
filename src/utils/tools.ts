@@ -1,3 +1,75 @@
+/**
+ * @description: 获取文章目录，务必放在 userLayoutEffect 中使用
+ * @param {String} targetID: 目标节点下面的标题
+ */
+export const getArticleDirectory = (targetId: string) => {
+  const nodeList = Array.from(
+    document.querySelectorAll(`
+      ${targetId} h1,
+      ${targetId} h2,
+      ${targetId} h3,
+      ${targetId} h4,
+      ${targetId} h5,
+      ${targetId} h6
+    `)
+  )
+
+  const anchorData: any[] = []
+
+  const pushData = (pre, obj) => {
+    if (!pre) {
+      anchorData.push(obj)
+      return obj
+    }
+
+    // 等级小说明标签大
+    if (pre.level < obj.level) {
+      // 最多到第三层
+      if (pre.rank <= 2) {
+        obj.parent = pre
+        obj.rank = pre.rank + 1
+        pre.children.push(obj)
+      } else {
+        return pre
+      }
+    } else if (pre.level === obj.level) {
+      obj.parent = pre.parent
+      obj.rank = pre.rank
+
+      if (pre.parent) {
+        pre.parent.children?.push(obj)
+      } else {
+        // 说明到顶了
+        anchorData.push(obj)
+      }
+    } else {
+      // 直接递归，看上一级是否比它小
+      return pushData(pre.parent, obj)
+    }
+
+    return obj
+  }
+
+  nodeList.reduce((pre, next, index) => {
+    const id = 'header-' + index
+    next.setAttribute('id', id)
+
+    const obj = {
+      key: index,
+      href: '#' + id,
+      rank: 1,
+      level: Number(next.nodeName.substring(1, 2)),
+      title: next.innerHTML,
+      parent: undefined,
+      children: []
+    }
+
+    return pushData(pre, obj)
+  }, '')
+
+  return anchorData
+}
+
 // 中文当作两个长度
 export const getStrLen = (str: string) => {
   if (str === null) return 0

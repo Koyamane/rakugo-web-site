@@ -12,11 +12,13 @@ export const ThemeIcon = () => {
   }, [initialState?.settings])
 
   const changeTheme = () => {
+    const navTheme = initialState?.settings?.navTheme === 'light' ? 'realDark' : 'light'
+    localStorage.setItem('navTheme', navTheme)
     setInitialState({
       ...initialState,
       settings: {
         ...initialState?.settings,
-        navTheme: initialState?.settings?.navTheme === 'light' ? 'realDark' : 'light'
+        navTheme
       }
     })
   }

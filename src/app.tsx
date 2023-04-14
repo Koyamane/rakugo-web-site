@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-13 13:45:19
+ * @LastEditTime: 2023-04-14 22:43:30
  * @Description:
  */
 // import { history } from '@umijs/max';
@@ -45,6 +45,8 @@ export async function getInitialState(): Promise<{
     return undefined
   }
 
+  defaultSettings.navTheme = (localStorage.getItem('navTheme') as any) || defaultSettings.navTheme
+
   // 不是登录页面且有token时，就获取用户信息
   if (location.pathname !== '/user/login' && localStorage.getItem('token')) {
     const currentUser = await fetchUserInfo()
@@ -60,7 +62,6 @@ export async function getInitialState(): Promise<{
     settings: defaultSettings as Partial<LayoutSettings>
   }
 }
-
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {

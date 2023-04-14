@@ -4,6 +4,7 @@
  */
  (function () {
   const _root = document.querySelector('#root');
+  const color = localStorage.getItem('navTheme') === 'realDark' ? '#141414' : '#f5f5f5'
   if (_root && _root.innerHTML === '') {
     _root.innerHTML = `
       <style>
@@ -14,6 +15,7 @@
           margin: 0;
           padding: 0;
         }
+
         #root {
           background-repeat: no-repeat;
           background-size: 100% auto;
@@ -182,6 +184,7 @@
         align-items: center;
         justify-content: center;
         height: 100%;
+        background: ${color};
         min-height: 362px;
       ">
         <img class='page-icon' src='/logo.svg' alt='落語' />
