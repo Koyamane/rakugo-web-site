@@ -71,6 +71,7 @@ export default {
   'pages.account.open': '开',
   'pages.account.close': '关',
   'pages.account.follow': '关注',
+  'pages.account.followTa': '关注 TA',
   'pages.account.follow.error': '不能关注自己',
   'pages.account.watchers': '关注数',
   'pages.account.followers': '粉丝数',

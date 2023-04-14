@@ -3,12 +3,13 @@
  * @Date: 2021-12-25 16:34:33
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-03-31 15:52:03
+ * @LastEditTime: 2023-04-14 15:02:55
  * @Description:
  */
 
-export interface BlogDataContentProps {
+export interface ArticleOperationBtnProps {
   blogInfo: API.BlogInfo
+  mobileMode?: boolean
   userId?: string
 }
 

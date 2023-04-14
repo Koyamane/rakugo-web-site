@@ -3,22 +3,27 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-14 00:12:46
+ * @LastEditTime: 2023-04-14 15:45:12
  * @Description:
  */
+import { BackTop, FollowButton, FooterBar } from '@/components'
 import IconText from '@/components/IconText'
 import useFormatTime from '@/hooks/useFormatTime'
 import { EyeOutlined, TagsOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, NavLink, useModel, useParams } from '@umijs/max'
-import { Avatar, Button, FloatButton, Space, Spin } from 'antd'
+import { Avatar, Space, Spin } from 'antd'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
+import ArticleFooterUser from './components/ArticleFooterUser'
+import ArticleOperationBtn from './components/ArticleOperationBtn'
 import { BlogInfoApi, BlogSimplePageApi } from './services'
 
 export default (): React.ReactNode => {
   const { id } = useParams<{ id: string }>()
   const { initialState } = useModel('@@initialState')
   const userId = initialState?.currentUser?.userId
+  const { setTo404 } = useModel('use404Model')
+  const { followed, setFollowed } = useModel('useArticle')
   const [blogInfo, setBlogInfo] = useState<API.BlogInfo>()
   const [userBlogList, setUserBlogList] = useState<API.BlogInfo[]>([])
   const [loading, setLoading] = useState(true)
@@ -31,6 +36,26 @@ export default (): React.ReactNode => {
       color: token.colorText,
 
       '.article-layout-left': {
+        flexShrink: '0',
+        position: 'sticky',
+        top: '276px',
+        display: 'flex',
+        gap: token.marginMD,
+        flexDirection: 'column',
+        marginBlockStart: '200px',
+        marginInlineEnd: token.marginXL,
+
+        button: {
+          border: 'none',
+          boxShadow: token.boxShadow,
+
+          '&.ant-btn-default': {
+            color: token.colorTextDescription
+          }
+        }
+      },
+
+      '.article-layout-content': {
         flex: '1',
         overflow: 'hidden',
         padding: token.paddingLG,
@@ -84,7 +109,6 @@ export default (): React.ReactNode => {
       '.article-layout-right': {
         position: 'sticky',
         top: token.marginMD,
-        flexShrink: '0',
         width: '300px',
         overflow: 'hidden',
         borderRadius: token.borderRadius,
@@ -150,7 +174,7 @@ export default (): React.ReactNode => {
 
       // 放后面权重高，所以媒体查询要放后面来
       [`@media screen and (max-width: ${token.screenLG}px)`]: {
-        '.article-layout-right': {
+        '.article-layout-right, .article-layout-left': {
           display: 'none'
         }
       }
@@ -159,6 +183,7 @@ export default (): React.ReactNode => {
 
   const getBlogInfo = async () => {
     setLoading(true)
+
     if (id) {
       try {
         const res = await BlogInfoApi(id, userId)
@@ -182,14 +207,12 @@ export default (): React.ReactNode => {
         }
       } catch (error: any) {
         if (!error.response) return
-
-        // if (error.response && error.response.status === 404) {
-        //   setTo404(true)
-        // }
+        if (error.response.status === 404) setTo404(true)
       }
     } else {
       setBlogInfo(undefined)
     }
+
     setLoading(false)
   }
 
@@ -203,34 +226,38 @@ export default (): React.ReactNode => {
 
   return (
     <Spin spinning={loading}>
-      <div className={articleLayoutClassName}>
-        {blogInfo && (
-          <>
+      {blogInfo && (
+        <>
+          <div className={articleLayoutClassName}>
             <div className='article-layout-left'>
-              <div className='article-layout-left-header'>
-                <h1 className='article-layout-left-header-title'>{blogInfo.title}</h1>
+              <ArticleOperationBtn blogInfo={blogInfo} userId={userId} />
+            </div>
 
-                <div className='article-layout-left-header-middle'>
+            <div className='article-layout-content'>
+              <div className='article-layout-content-header'>
+                <h1 className='article-layout-content-header-title'>{blogInfo.title}</h1>
+
+                <div className='article-layout-content-header-middle'>
                   <NavLink
                     target='_blank'
                     to={`/account/center/${blogInfo.createdId}`}
-                    className='article-layout-left-header-middle-avatar'
+                    className='article-layout-content-header-middle-avatar'
                   >
                     <Avatar size={50} src={blogInfo.createdAvatar} />
                   </NavLink>
-                  <div className='article-layout-left-header-middle-right'>
+                  <div className='article-layout-content-header-middle-right'>
                     <NavLink
                       target='_blank'
                       to={`/account/center/${blogInfo.createdId}`}
-                      className='article-layout-left-header-middle-right-name'
+                      className='article-layout-content-header-middle-right-name'
                     >
                       {blogInfo.createdName}
                     </NavLink>
 
-                    <div className='article-layout-left-header-middle-right-data'>
+                    <div className='article-layout-content-header-middle-right-data'>
                       <span>{formatTime(blogInfo.approvedDate)}</span>
                       <IconText
-                        className='article-layout-left-header-middle-right-data-reads'
+                        className='article-layout-content-header-middle-right-data-reads'
                         icon={EyeOutlined}
                         text={blogInfo.reads}
                       />
@@ -245,16 +272,19 @@ export default (): React.ReactNode => {
                   <img
                     src={blogInfo.cover}
                     alt={blogInfo.cover}
-                    className='article-layout-left-header-cover'
+                    className='article-layout-content-header-cover'
                   />
                 )}
               </div>
 
               {articleDetail && (
-                <article
-                  className='article-layout-left-detail'
-                  dangerouslySetInnerHTML={{ __html: articleDetail }}
-                />
+                <>
+                  <article
+                    className='article-layout-content-detail'
+                    dangerouslySetInnerHTML={{ __html: articleDetail }}
+                  />
+                  <div id='comments'>评论</div>
+                </>
               )}
             </div>
 
@@ -276,7 +306,15 @@ export default (): React.ReactNode => {
                   </div>
                 </div>
 
-                <Button className='article-layout-right-user-follow'>关注 TA</Button>
+                <FollowButton
+                  size='middle'
+                  shape='default'
+                  followedValue={followed}
+                  onFollowChange={setFollowed}
+                  targetId={blogInfo.createdId}
+                  followHintId='pages.account.followTa'
+                  className='article-layout-right-user-follow'
+                />
 
                 {!!userBlogList.length && (
                   <div className='article-layout-right-user-list'>
@@ -301,11 +339,15 @@ export default (): React.ReactNode => {
                 )}
               </div>
             </div>
-          </>
-        )}
-      </div>
+          </div>
 
-      <FloatButton.BackTop />
+          <FooterBar mobileMode extra={<ArticleFooterUser blogInfo={blogInfo} />}>
+            <ArticleOperationBtn mobileMode blogInfo={blogInfo} userId={userId} />
+          </FooterBar>
+        </>
+      )}
+
+      <BackTop />
     </Spin>
   )
 }

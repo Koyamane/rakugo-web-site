@@ -1,5 +1,6 @@
 import account from './ja-JP/account'
 import component from './ja-JP/component'
+import form from './ja-JP/form'
 import globalHeader from './ja-JP/globalHeader'
 import menu from './ja-JP/menu'
 import pages from './ja-JP/pages'
@@ -23,5 +24,6 @@ export default {
   ...pwa,
   ...component,
   ...pages,
-  ...account
+  ...account,
+  ...form
 }

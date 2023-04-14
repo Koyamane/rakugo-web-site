@@ -5,10 +5,24 @@
 /**
  * 布局组件
  */
+import BackTop from './BackTop'
 import BlogListSkeleton from './BlogListSkeleton'
+import FollowButton from './FollowButton'
 import Footer from './Footer'
+import FooterBar from './FooterBar'
 import IconText from './IconText'
 import { SelectLang, ThemeIcon } from './RightContent'
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown'
 
-export { IconText, BlogListSkeleton, Footer, ThemeIcon, SelectLang, AvatarDropdown, AvatarName }
+export {
+  BackTop,
+  FollowButton,
+  FooterBar,
+  IconText,
+  BlogListSkeleton,
+  Footer,
+  ThemeIcon,
+  SelectLang,
+  AvatarDropdown,
+  AvatarName
+}

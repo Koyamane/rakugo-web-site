@@ -1,5 +1,6 @@
 import account from './en-US/account'
 import component from './en-US/component'
+import form from './en-US/form'
 import globalHeader from './en-US/globalHeader'
 import menu from './en-US/menu'
 import pages from './en-US/pages'
@@ -23,5 +24,6 @@ export default {
   ...pwa,
   ...component,
   ...pages,
-  ...account
+  ...account,
+  ...form
 }

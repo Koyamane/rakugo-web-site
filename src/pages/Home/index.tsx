@@ -3,14 +3,15 @@
  * @Date: 2023-04-12 22:45:02
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-13 23:39:36
+ * @LastEditTime: 2023-04-14 13:31:31
  * @Description:
  */
 import sakuraBg from '@/assets/sakura.jpg'
+import { BackTop } from '@/components'
 import { SoundOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useModel } from '@umijs/max'
-import { Alert, FloatButton } from 'antd'
+import { Alert } from 'antd'
 import React, { useEffect, useState } from 'react'
 import Marquee from 'react-fast-marquee'
 import HomeList from './components/HomeList'
@@ -150,7 +151,7 @@ export default (): React.ReactNode => {
         </div>
       </div>
 
-      <FloatButton.BackTop />
+      <BackTop />
     </>
   )
 }

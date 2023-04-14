@@ -75,6 +75,7 @@ export default {
   'pages.account.open': '開く',
   'pages.account.close': '閉じる',
   'pages.account.follow': 'フォロー',
+  'pages.account.followTa': '彼をフォロー',
   'pages.account.follow.error': '自分をフォローできません',
   'pages.account.watchers': 'フォロー中',
   'pages.account.followers': 'フォロワー',

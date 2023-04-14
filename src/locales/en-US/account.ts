@@ -76,6 +76,7 @@ export default {
   'pages.account.open': 'Open',
   'pages.account.close': 'Close',
   'pages.account.follow': 'Follow',
+  'pages.account.followTa': 'Follow he',
   'pages.account.follow.error': "Can't follow yourself",
   'pages.account.watchers': 'Following',
   'pages.account.followers': 'Followers',
