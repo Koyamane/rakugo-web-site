@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 22:45:02
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 16:24:45
+ * @LastEditTime: 2023-04-15 18:44:07
  * @Description:
  */
 import { BlogListSkeleton, IconText } from '@/components'
@@ -62,6 +62,10 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
             color: token.colorTextDescription,
             flexDirection: 'column',
             justifyContent: 'space-between',
+
+            '&-userInfo': {
+              wordBreak: 'break-all'
+            },
 
             '&-title': {
               fontSize: token.fontSizeLG,
@@ -233,7 +237,7 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
               {blogData.list.map(item => (
                 <div key={item.id} className='content-list-item'>
                   <div className='content-list-item-left'>
-                    <div className='content-list-item-left-userInfo text-ellipsis'>
+                    <div className='content-list-item-left-userInfo'>
                       {formatTime(item.approvedDate)}
                       <Divider type='vertical' />
                       <NavLink target='_blank' to={`/account/center/${item.id}`}>

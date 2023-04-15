@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 18:09:55
+ * @LastEditTime: 2023-04-15 18:56:16
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -96,6 +96,10 @@ export default (): React.ReactNode => {
 
               '&-data-reads': {
                 marginInline: token.marginSM
+              },
+
+              '&-data-tags': {
+                wordBreak: 'break-all'
               }
             }
           },
@@ -263,12 +267,17 @@ export default (): React.ReactNode => {
                     <div className='article-layout-content-header-middle-right-data'>
                       <span>{formatTime(blogInfo.approvedDate)}</span>
                       <IconText
-                        className='article-layout-content-header-middle-right-data-reads'
                         icon={EyeOutlined}
                         text={blogInfo.reads}
+                        className='article-layout-content-header-middle-right-data-reads'
                       />
                       {blogInfo.tags && !!blogInfo.tags.length && (
-                        <IconText icon={TagsOutlined} text={blogInfo.tags.join('・')} />
+                        <IconText
+                          align='start'
+                          icon={TagsOutlined}
+                          text={blogInfo.tags.join('・')}
+                          className='article-layout-content-header-middle-right-data-tags'
+                        />
                       )}
                     </div>
                   </div>
