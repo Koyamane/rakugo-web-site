@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 13:41:39
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 17:25:33
+ * @LastEditTime: 2023-04-15 19:13:07
  * @Description:
  */
 import { UserOutlined } from '@ant-design/icons'
@@ -20,7 +20,7 @@ const CommentBar: React.FC<CommentBarProps> = React.memo(props => {
   const intl = useIntl()
   const [form] = Form.useForm()
   const { message } = App.useApp()
-  const { commenting, setCommenting } = useModel('useComment')
+  const { commenting, setCommenting, setCurrentComment } = useModel('useComment')
 
   const commentPlaceholder = useMemo(() => {
     if (!commentInfo) {
@@ -84,6 +84,7 @@ const CommentBar: React.FC<CommentBarProps> = React.memo(props => {
         })
       )
       form.resetFields()
+      setCurrentComment(undefined)
     } catch (error) {
       console.log(error)
     }

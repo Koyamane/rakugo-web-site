@@ -59,7 +59,11 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
         left: '6%',
         display: 'none',
         border: 'none',
-        boxShadow: token.boxShadow
+        boxShadow: token.boxShadow,
+
+        '&.ant-btn-default': {
+          background: token.colorBgElevated
+        }
       },
 
       [`@media screen and (max-width: ${token.screenSM}px)`]: {

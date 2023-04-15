@@ -14,7 +14,7 @@ const RenderApp: React.FC<{ children: ReactNode }> = ({ children }) => {
   const color = localStorage.getItem('navTheme') === 'realDark' ? '#141414' : '#f5f5f5'
 
   return (
-    <App style={{ height: '100%', background: color }}>
+    <App style={{ height: '100%', background: color }} className='render-app'>
       <ConfigProvider>{children}</ConfigProvider>
     </App>
   )
