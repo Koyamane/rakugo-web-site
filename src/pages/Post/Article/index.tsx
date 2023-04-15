@@ -3,10 +3,10 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 10:58:51
+ * @LastEditTime: 2023-04-15 14:16:28
  * @Description:
  */
-import { BackTop, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
+import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
 import IconText from '@/components/IconText'
 import useFormatTime from '@/hooks/useFormatTime'
 import { EyeOutlined, TagsOutlined } from '@ant-design/icons'
@@ -63,7 +63,7 @@ export default (): React.ReactNode => {
       '.article-layout-content': {
         flex: '1',
         overflow: 'hidden',
-        padding: token.paddingLG,
+        paddingInline: token.paddingLG,
         background: token.colorBgContainer,
         borderRadius: token.borderRadius,
 
@@ -286,8 +286,11 @@ export default (): React.ReactNode => {
               {articleDetail && (
                 <div id='article-layout-content-detail' className='article-layout-content-detail'>
                   <ReaderValue editor={blogInfo.editor} value={articleDetail} />
-                  <div id='comments'>评论</div>
                 </div>
+              )}
+
+              {blogInfo.status === 'APPROVED' && (
+                <Comment targetType='Blog' targetId={blogInfo.id} />
               )}
             </div>
 

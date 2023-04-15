@@ -50,7 +50,7 @@ const DirectoryAnchor: React.FC<DirectoryAnchorProps & Omit<AffixProps, 'childre
               marginBlock: token.marginXXS,
               borderRadius: token.borderRadius,
               '&:hover': {
-                background: token.colorPrimaryHover
+                background: token.colorPrimaryTextHover
               }
             }
           }
@@ -62,7 +62,7 @@ const DirectoryAnchor: React.FC<DirectoryAnchorProps & Omit<AffixProps, 'childre
       <Affix offsetTop={token.marginMD} {...resetProps}>
         <div className={classNames(anchorClassName, className)}>
           <div className='directory-anchor-title'>
-            <FormattedMessage id='component.DirectoryAnchor.directory' />
+            <FormattedMessage id='component.directoryAnchor.directory' />
           </div>
           <Divider />
           <Anchor items={items} affix={false} />

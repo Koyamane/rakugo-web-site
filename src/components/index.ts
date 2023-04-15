@@ -7,6 +7,7 @@
  */
 import BackTop from './BackTop'
 import BlogListSkeleton from './BlogListSkeleton'
+import Comment from './Comment'
 import DirectoryAnchor from './DirectoryAnchor'
 import FollowButton from './FollowButton'
 import Footer from './Footer'
@@ -16,6 +17,7 @@ import { SelectLang, ThemeIcon } from './RightContent'
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown'
 
 export {
+  Comment,
   DirectoryAnchor,
   BackTop,
   FollowButton,

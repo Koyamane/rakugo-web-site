@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 22:45:02
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 11:41:20
+ * @LastEditTime: 2023-04-15 16:24:45
  * @Description:
  */
 import { BlogListSkeleton, IconText } from '@/components'
@@ -89,7 +89,7 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
             },
 
             '&-actions-active': {
-              color: token.colorPrimary
+              color: token.colorPrimaryText
             }
           },
 

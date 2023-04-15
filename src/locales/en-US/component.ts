@@ -2,5 +2,8 @@ export default {
   'component.tagSelect.expand': 'Expand',
   'component.tagSelect.collapse': 'Collapse',
   'component.tagSelect.all': 'All',
-  'component.DirectoryAnchor.directory': 'Directory'
+  'component.directoryAnchor.directory': 'Directory',
+  'component.comment.clickToView': 'Click to view',
+  'component.comment.total': ' ',
+  'component.comment.repliesInTotal': 'replies in total, '
 }

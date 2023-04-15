@@ -1,10 +1,10 @@
 import useParamsRedirect from '@/hooks/useParamsRedirect'
 import { CheckOutlined, PlusOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
+import { useIntl, useModel } from '@umijs/max'
 import { App, Button, ButtonProps } from 'antd'
 import classNames from 'classnames'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useIntl, useModel } from 'umi'
 import { FollowSomeBodyApi, IsFollowedApi } from './services'
 
 interface FollowButtonProps {

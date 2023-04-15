@@ -64,7 +64,7 @@ const User: React.FC = () => {
         paddingBlockStart: token.paddingXL
       },
       '& .ant-pro-form-login-title': {
-        color: token.colorPrimary
+        color: token.colorPrimaryText
       },
       '& .ant-pro-form-login-logo img': {
         transform: `translateY(${token.marginSM}px)`

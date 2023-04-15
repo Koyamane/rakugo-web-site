@@ -3,7 +3,7 @@
  * @Date: 2023-03-28 19:32:45
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-14 15:09:43
+ * @LastEditTime: 2023-04-15 16:25:21
  * @Description:
  */
 import IconText from '@/components/IconText'
@@ -42,7 +42,7 @@ const ArticleOperationBtn: React.FC<ArticleOperationBtnProps> = React.memo(
         '.footer-blog-data-item': {
           cursor: 'pointer',
           '&-active': {
-            color: token.colorPrimary
+            color: token.colorPrimaryText
           }
         }
       }
