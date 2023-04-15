@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 22:45:02
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-13 23:14:06
+ * @LastEditTime: 2023-04-15 11:41:20
  * @Description:
  */
 import { BlogListSkeleton, IconText } from '@/components'
@@ -89,12 +89,13 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
             },
 
             '&-actions-active': {
-              color: token.colorPrimaryActive
+              color: token.colorPrimary
             }
           },
 
           '&-right': {
             flexShrink: 0,
+            borderRadius: token.borderRadius,
             overflow: 'hidden',
             position: 'relative',
             width: '220px',
@@ -103,6 +104,7 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
             marginInlineStart: token.marginXS,
 
             '&-cover': {
+              borderRadius: token.borderRadius,
               position: 'absolute',
               top: '50%',
               left: '50%',

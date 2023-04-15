@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-14 22:28:42
+ * @LastEditTime: 2023-04-15 10:58:51
  * @Description:
  */
 import { BackTop, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -17,14 +17,11 @@ import React, { useLayoutEffect, useMemo, useState } from 'react'
 import ArticleFooterUser from './components/ArticleFooterUser'
 import ArticleOperationBtn from './components/ArticleOperationBtn'
 import MarkdownItem from './components/MarkdownItem'
+import RichTextItem from './components/RichTextItem'
 import { BlogInfoApi, BlogSimplePageApi } from './services'
 
 const ReaderValue = ({ editor, value }: { editor: API.BlogInfo['editor']; value: string }) =>
-  editor === 'RICH_TEXT' ? (
-    <article dangerouslySetInnerHTML={{ __html: value }} />
-  ) : (
-    <MarkdownItem value={value} />
-  )
+  editor === 'RICH_TEXT' ? <RichTextItem value={value} /> : <MarkdownItem value={value} />
 
 export default (): React.ReactNode => {
   const { id } = useParams<{ id: string }>()
@@ -46,11 +43,11 @@ export default (): React.ReactNode => {
       '.article-layout-left': {
         flexShrink: '0',
         position: 'sticky',
-        top: '276px',
+        top: '50%',
         display: 'flex',
         gap: token.marginMD,
         flexDirection: 'column',
-        marginBlockStart: '200px',
+        transform: 'translateY(-50%)',
         marginInlineEnd: token.marginXL,
 
         button: {
@@ -345,7 +342,7 @@ export default (): React.ReactNode => {
                 )}
               </div>
 
-              <DirectoryAnchor items={directoryList} />
+              {!!directoryList.length && <DirectoryAnchor items={directoryList} />}
             </div>
           </div>
 

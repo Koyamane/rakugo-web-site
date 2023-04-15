@@ -1,16 +1,16 @@
 /**
  * @description: 获取文章目录，务必放在 userLayoutEffect 中使用
- * @param {String} targetID: 目标节点下面的标题
+ * @param {String} target: 目标节点下面的标题
  */
-export const getArticleDirectory = (targetId: string) => {
+export const getArticleDirectory = (target: string) => {
   const nodeList = Array.from(
     document.querySelectorAll(`
-      ${targetId} h1,
-      ${targetId} h2,
-      ${targetId} h3,
-      ${targetId} h4,
-      ${targetId} h5,
-      ${targetId} h6
+      ${target} h1,
+      ${target} h2,
+      ${target} h3,
+      ${target} h4,
+      ${target} h5,
+      ${target} h6
     `)
   )
 
@@ -59,7 +59,7 @@ export const getArticleDirectory = (targetId: string) => {
       href: '#' + id,
       rank: 1,
       level: Number(next.nodeName.substring(1, 2)),
-      title: next.innerHTML,
+      title: next.innerText,
       parent: undefined,
       children: []
     }

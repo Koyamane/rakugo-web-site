@@ -14,8 +14,8 @@ export default function useArticle() {
   const [followed, setFollowed] = useState(false)
   const [directoryList, setDirectoryList] = useState<AnchorLinkItemProps[]>([])
 
-  const getDirectoryList = (targetId: string) => {
-    setDirectoryList(getArticleDirectory(targetId))
+  const getDirectoryList = (target: string) => {
+    setDirectoryList(getArticleDirectory(target))
   }
 
   return {

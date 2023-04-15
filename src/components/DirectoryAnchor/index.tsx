@@ -3,7 +3,7 @@
  * @Date: 2023-04-14 21:04:56
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-14 23:05:09
+ * @LastEditTime: 2023-04-15 11:32:57
  * @Description:
  */
 import { useToken } from '@ant-design/pro-components'
@@ -36,9 +36,12 @@ const DirectoryAnchor: React.FC<DirectoryAnchorProps & Omit<AffixProps, 'childre
           marginBlock: token.padding
         },
 
-        '.ant-anchor-wrapper .ant-anchor': {
+        '.ant-anchor-wrapper': {
+          overflowY: 'auto',
+          maxHeight: '81vh !important',
+
           // 这里用缩略符反而会导致权重不够
-          '.ant-anchor-link': {
+          '.ant-anchor .ant-anchor-link': {
             margin: '0',
             paddingBlock: '0',
 

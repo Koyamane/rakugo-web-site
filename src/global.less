@@ -43,6 +43,22 @@ body,
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+
+  // 富文本编辑器的样式
+  .bf-container {
+    .bf-content {
+      height: auto;
+      padding: 0;
+
+      .public-DraftEditor-content {
+        padding: 0;
+
+        & > div {
+          padding: 0;
+        }
+      }
+    }
+  }
 }
 
 .colorWeak {
