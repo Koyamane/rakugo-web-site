@@ -3,7 +3,7 @@
  * @Date: 2023-03-28 19:32:45
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 16:25:21
+ * @LastEditTime: 2023-04-15 18:30:31
  * @Description:
  */
 import IconText from '@/components/IconText'
@@ -11,7 +11,7 @@ import useParamsRedirect from '@/hooks/useParamsRedirect'
 import { LikeFilled, MessageFilled, StarFilled } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl } from '@umijs/max'
-import { App, Badge, Button, Space, Tooltip } from 'antd'
+import { App, Badge, Button, Space } from 'antd'
 import React, { useState } from 'react'
 import { ArticleOperationBtnProps, OperationItem, OperationRes } from '../data'
 import { BlogCollectApi, BlogLikeApi } from '../services'
@@ -70,20 +70,12 @@ const ArticleOperationBtn: React.FC<ArticleOperationBtnProps> = React.memo(
       {
         key: 'LIKE',
         icon: LikeFilled,
-        text: blogData.likeArr.length,
-        hint: intl.formatMessage({
-          id: 'pages.blog.like',
-          defaultMessage: '赞'
-        })
+        text: blogData.likeArr.length
       },
       {
         key: 'COLLECT',
         icon: StarFilled,
-        text: blogData.collectionArr.length,
-        hint: intl.formatMessage({
-          id: 'pages.blog.collect',
-          defaultMessage: '收藏'
-        })
+        text: blogData.collectionArr.length
       }
     ]
 
@@ -168,50 +160,44 @@ const ArticleOperationBtn: React.FC<ArticleOperationBtnProps> = React.memo(
       setLoading(false)
     }
 
+    const scrollToComments = () => {
+      const node = document.getElementById('comments')
+      window.scrollTo({ behavior: 'smooth', top: node?.offsetTop })
+    }
+
     return mobileMode ? (
       <Space className={footerBlogDataClassName}>
         {operationList.map(item => (
-          <Tooltip title={item.hint} key={item.key}>
-            <IconText
-              icon={item.icon}
-              text={item.text}
-              onClick={() => handleClick(item.key)}
-              className={`footer-blog-data-item ${
-                isIncludeMe(item.key) ? 'footer-blog-data-item-active' : ''
-              }`}
-            />
-          </Tooltip>
+          <IconText
+            key={item.key}
+            icon={item.icon}
+            text={item.text}
+            onClick={() => handleClick(item.key)}
+            className={`footer-blog-data-item ${
+              isIncludeMe(item.key) ? 'footer-blog-data-item-active' : ''
+            }`}
+          />
         ))}
 
-        <Tooltip title={intl.formatMessage({ id: 'pages.blog.comments' })}>
-          <a href='#comments'>
-            <IconText icon={MessageFilled} text={blogInfo.comments} />
-          </a>
-        </Tooltip>
+        <IconText icon={MessageFilled} text={blogInfo.comments} onClick={scrollToComments} />
       </Space>
     ) : (
       <>
         {operationList.map(item => (
-          <Tooltip title={item.hint} key={item.key}>
-            <Badge count={item.text}>
-              <Button
-                size='large'
-                shape='circle'
-                icon={<item.icon />}
-                onClick={() => handleClick(item.key)}
-                type={isIncludeMe(item.key) ? 'primary' : 'default'}
-              />
-            </Badge>
-          </Tooltip>
+          <Badge count={item.text} key={item.key}>
+            <Button
+              size='large'
+              shape='circle'
+              icon={<item.icon />}
+              onClick={() => handleClick(item.key)}
+              type={isIncludeMe(item.key) ? 'primary' : 'default'}
+            />
+          </Badge>
         ))}
 
-        <Tooltip title={intl.formatMessage({ id: 'pages.blog.comments' })}>
-          <a href='#comments'>
-            <Badge count={blogInfo.comments}>
-              <Button shape='circle' size='large' icon={<MessageFilled />} />
-            </Badge>
-          </a>
-        </Tooltip>
+        <Badge count={blogInfo.comments}>
+          <Button shape='circle' size='large' onClick={scrollToComments} icon={<MessageFilled />} />
+        </Badge>
       </>
     )
   }

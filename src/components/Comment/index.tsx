@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 13:41:39
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 17:55:20
+ * @LastEditTime: 2023-04-15 18:06:29
  * @Description:
  */
 import useParamsRedirect from '@/hooks/useParamsRedirect'
@@ -199,8 +199,9 @@ const Comment: React.FC<CommentProps> = props => {
     }
   })
 
+  // 加 id 是为了锚点跳转
   return (
-    <div className={CommentClassName}>
+    <div className={CommentClassName} id='comments'>
       <Divider orientation='center' className='comment-title'>
         <Space size={40}>
           <Space>

@@ -17,7 +17,7 @@ export interface OperationItem {
   key: 'LIKE' | 'DISLIKE' | 'COLLECT' | 'COMMENT'
   icon: any
   text: number
-  hint: string
+  hint?: string
 }
 
 export interface OperationRes {

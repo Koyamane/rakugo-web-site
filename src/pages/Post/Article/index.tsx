@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 14:16:28
+ * @LastEditTime: 2023-04-15 18:09:55
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -195,9 +195,9 @@ export default (): React.ReactNode => {
         const res = await BlogInfoApi(id, userId)
         setBlogInfo(res)
 
-        if (userId) {
+        if (res?.createdId) {
           const data = await BlogSimplePageApi({
-            dto: { createdId: userId },
+            dto: { createdId: res.createdId },
             pageSize: 5,
             searchMap: {
               id: {
@@ -297,15 +297,21 @@ export default (): React.ReactNode => {
             <div className='article-layout-right'>
               <div className='article-layout-right-user'>
                 <div className='article-layout-right-user-info'>
-                  <Avatar
-                    size='large'
-                    src={blogInfo.createdAvatar}
+                  <NavLink
+                    target='_blank'
+                    to={`/account/center/${blogInfo.createdId}`}
                     className='article-layout-right-user-info-avatar'
-                  />
+                  >
+                    <Avatar size='large' src={blogInfo.createdAvatar} />
+                  </NavLink>
                   <div className='article-layout-right-user-info-right'>
-                    <div className='article-layout-right-user-info-right-name'>
+                    <NavLink
+                      target='_blank'
+                      to={`/account/center/${blogInfo.createdId}`}
+                      className='article-layout-right-user-info-right-name'
+                    >
                       {blogInfo.createdName}
-                    </div>
+                    </NavLink>
                     <div className='article-layout-right-user-info-right-signature text-ellipsis'>
                       {blogInfo.createdSignature}
                     </div>
