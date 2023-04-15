@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 13:41:39
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 17:50:45
+ * @LastEditTime: 2023-04-15 17:55:20
  * @Description:
  */
 import useParamsRedirect from '@/hooks/useParamsRedirect'
@@ -172,10 +172,15 @@ const Comment: React.FC<CommentProps> = props => {
 
       '.comment-title': {
         marginBlock: token.marginMD,
+        color: token.colorTextDescription,
+
+        '&-name': {
+          color: token.colorText,
+          fontSize: token.fontSizeXL
+        },
 
         '&-btn': {
           cursor: 'pointer',
-          color: token.colorTextDescription,
           '&:hover': {
             color: token.colorPrimaryTextHover
           },
