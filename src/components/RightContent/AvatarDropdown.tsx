@@ -26,6 +26,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
   const { message } = App.useApp()
   const goLogin = () => paramsRedirect({ isNotHint: true })
   const { initialState, setInitialState } = useModel('@@initialState')
+  const currentUser = initialState?.currentUser
 
   /**
    * 退出登录，并且将当前的 url 保存
@@ -69,6 +70,12 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
         loginOut()
         return
       }
+
+      if (key === 'center') {
+        history.push(`/account/center/${currentUser?.userId}`)
+        return
+      }
+
       history.push(`/account/${key}`)
     },
     [setInitialState]
@@ -83,8 +90,6 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
   if (!initialState) {
     return notLogin
   }
-
-  const { currentUser } = initialState
 
   if (!currentUser || !currentUser.username) {
     return notLogin

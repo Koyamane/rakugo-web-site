@@ -54,6 +54,34 @@ export default [
     ]
   },
   {
+    path: '/account',
+    name: 'account',
+    hideInMenu: true,
+    routes: [
+      {
+        path: '/account/center',
+        name: 'center',
+        wrappers: ['@/wrappers/auth'],
+        component: './Account/Center/redirect'
+      },
+      {
+        path: '/account/center/:userId',
+        name: 'center',
+        wrappers: ['@/wrappers/auth'],
+        component: './Account/Center'
+      }
+      // {
+      //   path: '/account/settings',
+      //   name: 'settings',
+      //   wrappers: ['@/wrappers/auth'],
+      //   component: './Account/Settings'
+      // },
+      // {
+      //   component: './Exception/404'
+      // }
+    ]
+  },
+  {
     path: '/',
     redirect: '/home'
   },

@@ -56,7 +56,7 @@ export const errorConfig: RequestConfig = {
       const { success, data, errorCode, errorMessage, statusText, showType } =
         res as unknown as ResponseStructure
       if (!success) {
-        const errorText = errorMessage || data.msg || codeMessage[errorCode] || statusText
+        const errorText = errorMessage || data?.msg || codeMessage[errorCode] || statusText
         const error: any = new Error(errorText)
         error.name = 'BizError'
         error.info = { errorCode, errorMessage: errorText, showType, data }

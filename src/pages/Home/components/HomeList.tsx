@@ -240,7 +240,7 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
                     <div className='content-list-item-left-userInfo'>
                       {formatTime(item.approvedDate)}
                       <Divider type='vertical' />
-                      <NavLink target='_blank' to={`/account/center/${item.id}`}>
+                      <NavLink target='_blank' to={`/account/center/${item.createdId}`}>
                         {item.createdName}
                       </NavLink>
                       {!!item.tags.length && (

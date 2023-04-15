@@ -197,6 +197,7 @@ export default (): React.ReactNode => {
     if (id) {
       try {
         const res = await BlogInfoApi(id, userId)
+
         setBlogInfo(res)
 
         if (res?.createdId) {
@@ -216,8 +217,7 @@ export default (): React.ReactNode => {
           setUserBlogList([])
         }
       } catch (error: any) {
-        if (!error.response) return
-        if (error.response.status === 404) setTo404(true)
+        if (error?.info?.errorCode === 404) setTo404(true)
       }
     } else {
       setBlogInfo(undefined)

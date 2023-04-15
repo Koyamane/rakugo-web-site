@@ -9,7 +9,7 @@ export interface CommentBarProps {
   targetId: string
   paramsRedirect: () => void
   commentInfo?: CommentType
-  userInfo?: API.CurrentUser
+  userInfo?: API.UserInfo
   targetType?: CommentType['targetType']
   setCommentList: (commentInfo: any) => void
 }

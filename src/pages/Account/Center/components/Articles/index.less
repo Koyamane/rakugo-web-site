@@ -1,0 +1,140 @@
+// @import '~/src/custom.less';
+
+.skeleton {
+  padding: @padding-xs 0;
+}
+
+.blogList {
+  :global {
+    .blog-list-item-action-active {
+      color: @primary-color;
+    }
+
+    .collection-expired {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      // color: @gray;
+      font-size: @heading-3-size;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .ant-list-item {
+      position: relative;
+
+      .ant-list-item-main {
+        display: flex;
+        flex-direction: column;
+
+        .ant-list-item-meta {
+          flex: 0;
+        }
+
+        .ant-list-item-action {
+          margin-left: 0;
+        }
+      }
+
+      .ant-list-item-meta-title {
+        margin: 0;
+      }
+
+      .ant-list-item-meta-description {
+        overflow: hidden;
+
+        & > span {
+          margin-top: @margin-sm;
+        }
+      }
+
+      .blog-list-item-cover {
+        position: relative;
+        width: 270px;
+        height: 100%;
+        min-height: 200px;
+        overflow: hidden;
+
+        .blog-list-item-cover-img {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100%;
+          transform: translate(-50%, -50%);
+          cursor: pointer;
+        }
+      }
+
+      .blog-list-item-content {
+        display: -webkit-box; // 对象作为伸缩盒子模型展示
+        flex: 1;
+        overflow: hidden;
+        text-indent: 2em;
+        text-overflow: ellipsis;
+        word-break: break-word;
+        -webkit-box-orient: vertical; // 设置或检索伸缩盒子对象的子元素的排列方式
+        -webkit-line-clamp: 4; // 在第几行上加 ...
+
+        span {
+          cursor: pointer;
+        }
+      }
+
+      .blog-list-item-time {
+        margin-top: @margin-sm;
+      }
+    }
+
+    .ant-pagination {
+      margin-bottom: @margin-lg;
+      text-align: center;
+    }
+  }
+}
+
+.followList {
+  :global {
+    .ant-list-item {
+      .ant-list-item-meta {
+        align-items: center;
+        margin: 0;
+      }
+
+      .ant-list-item-meta-title {
+        margin: 0;
+      }
+
+      .ant-list-item-meta-description {
+        overflow: hidden;
+        font-size: @font-size-sm;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .ant-list-item-extra {
+        margin: auto;
+      }
+    }
+
+    .ant-pagination {
+      margin-bottom: @margin-lg;
+      text-align: center;
+    }
+  }
+}
+
+.blogTitle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.blogTitleLeft {
+  margin-right: @margin-sm;
+  &:extend(.text-ellipsis);
+}
+
+.blogLargeStar {
+  color: @primary-color;
+  font-size: @heading-4-size;
+  cursor: pointer;
+}
