@@ -69,16 +69,16 @@ export default [
         name: 'center',
         wrappers: ['@/wrappers/auth'],
         component: './Account/Center'
+      },
+      {
+        path: '/account/settings',
+        name: 'settings',
+        wrappers: ['@/wrappers/auth'],
+        component: './Account/Settings'
+      },
+      {
+        component: './Exception/404'
       }
-      // {
-      //   path: '/account/settings',
-      //   name: 'settings',
-      //   wrappers: ['@/wrappers/auth'],
-      //   component: './Account/Settings'
-      // },
-      // {
-      //   component: './Exception/404'
-      // }
     ]
   },
   {
