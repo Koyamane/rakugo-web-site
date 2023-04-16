@@ -218,7 +218,7 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
     }, [sortKey])
 
     return (
-      <BlogListSkeleton className='home-layout-blog-list' loading={firstEnter}>
+      <BlogListSkeleton num={3} className='home-layout-blog-list' loading={firstEnter}>
         <InfiniteScroll
           next={loadMoreData}
           className={scrollClassName}
@@ -255,9 +255,12 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
                         {item.title}
                       </NavLink>
                     </div>
-                    <div className='content-list-item-left-body'>
-                      {item.content && item.content.replace(/<[^>]+>/g, '')}
-                    </div>
+
+                    {item.content && (
+                      <div className='content-list-item-left-body'>
+                        {item.content.replace(/<[^>]+>/g, '')}
+                      </div>
+                    )}
 
                     <Space size='large' className='content-list-item-left-actions'>
                       <IconText icon={EyeOutlined} text={item.reads} />

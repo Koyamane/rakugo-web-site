@@ -1,12 +1,11 @@
+import { FollowButton } from '@/components'
 import BlogListSkeleton from '@/components/BlogListSkeleton'
-import FollowButton from '@/components/FollowButton'
 import usePaginationItem from '@/hooks/usePaginationItem'
-import { UserOutlined } from '@ant-design/icons'
+import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { connect, Dispatch, NavLink } from '@umijs/max'
-import { Avatar, List } from 'antd'
+import { Avatar, Pagination, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { UserFollowPage } from '../../service'
-import styles from '../Articles/index.less'
 
 interface SelfProps {
   dispatch: Dispatch
@@ -69,42 +68,96 @@ const Follows: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
     initList()
   }, [userId])
 
+  const skeletonClassName = useEmotionCss(({ token }) => ({
+    paddingBlockEnd: token.paddingXS
+  }))
+
+  const contentListClassName = useEmotionCss(({ token }) => ({
+    color: token.colorText,
+    paddingInline: token.paddingMD,
+    borderRadius: token.borderRadius,
+    background: token.colorBgContainer,
+
+    '.content-list-item': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingBlock: token.paddingSM,
+      color: token.colorTextDescription,
+      borderBottom: `1px solid ${token.colorBorderSecondary}`,
+
+      '&-user': {
+        flex: '1',
+        display: 'flex',
+        overflow: 'hidden',
+        alignItems: 'center',
+        marginInlineEnd: token.marginSM,
+
+        '&-avatar': {
+          flexShrink: '0',
+          marginInlineEnd: token.marginSM
+        },
+
+        '&-right': {
+          overflow: 'hidden',
+          '&-name': {
+            fontSize: token.fontSizeLG,
+            marginBlock: token.marginXS
+          },
+
+          '&-signature': {
+            fontSize: token.fontSizeSM,
+            color: token.colorTextDescription
+          }
+        }
+      }
+    },
+
+    '.ant-pagination': {
+      textAlign: 'center',
+      marginBlock: token.marginMD
+    }
+  }))
+
   return (
-    <BlogListSkeleton split rows={2} className={styles.skeleton} loading={firstEnter}>
-      <List
-        size='large'
-        loading={listLoading}
-        itemLayout='vertical'
-        pagination={{
-          ...followData.pagination,
-          itemRender,
-          onChange: getFollowData
-        }}
-        className={styles.followList}
-        dataSource={followData?.list}
-        renderItem={item => (
-          <List.Item
-            key={item.userId}
-            extra={
-              isMe ? (
-                <FollowButton isFollowed targetId={item.userId!} onFollowed={setFollowsNum} />
-              ) : (
-                false
-              )
-            }
-          >
-            <List.Item.Meta
-              description={item.signature}
-              avatar={
-                <NavLink to={`/account/center/${item.userId}`}>
-                  <Avatar size='large' src={item.avatar} icon={<UserOutlined />} />
+    <BlogListSkeleton split rows={1} className={skeletonClassName} loading={firstEnter}>
+      <Spin spinning={listLoading}>
+        <div className={contentListClassName}>
+          {followData.list.map(item => (
+            <div key={item.userId} className='content-list-item'>
+              <div className='content-list-item-user'>
+                <NavLink
+                  target='_blank'
+                  to={`/account/center/${item.userId}`}
+                  className='content-list-item-user-avatar'
+                >
+                  <Avatar size='large' src={item.avatar} />
                 </NavLink>
-              }
-              title={<NavLink to={`/account/center/${item.userId}`}>{item.nickname}</NavLink>}
-            />
-          </List.Item>
-        )}
-      />
+
+                <div className='content-list-item-user-right'>
+                  <NavLink
+                    target='_blank'
+                    to={`/account/center/${item.userId}`}
+                    className='content-list-item-user-right-name'
+                  >
+                    {item.nickname}
+                  </NavLink>
+
+                  <div className='content-list-item-user-right-signature text-ellipsis'>
+                    {item.signature}
+                  </div>
+                </div>
+              </div>
+
+              {isMe && (
+                <FollowButton isFollowed targetId={item.userId!} onFollowed={setFollowsNum} />
+              )}
+            </div>
+          ))}
+
+          <Pagination itemRender={itemRender} onChange={getFollowData} {...followData.pagination} />
+        </div>
+      </Spin>
     </BlogListSkeleton>
   )
 }

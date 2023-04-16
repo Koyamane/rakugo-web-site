@@ -4,21 +4,21 @@
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
  * @LastEditTime: 2023-04-12 20:56:28
- * @Description: 有id时，就是别人的详情页面，没有就是自己的详情页面
+ * @Description:
  */
 import { BackTop } from '@/components'
 import IconText from '@/components/IconText'
 import { GetUserInfo } from '@/services/global'
 import { ContactsOutlined, HomeOutlined, SmileOutlined } from '@ant-design/icons'
+import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { connect, FormattedMessage, useModel, useParams } from '@umijs/max'
-import { Card, Col, Divider, Row, Space, Tag } from 'antd'
+import { Card, Col, Divider, Row, Space, Spin, Tag } from 'antd'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import Articles from './components/Articles'
 import Collections from './components/Collections'
 import FollowButton from './components/FollowButton'
 import Follows from './components/Follows'
 import type { AccountCenterState, AccountProps, tabKeyType } from './data'
-import styles from './index.less'
 
 const Center: React.FC<AccountProps> = ({
   articlesNum,
@@ -37,7 +37,7 @@ const Center: React.FC<AccountProps> = ({
   const { userId } = useParams<{ userId: string }>()
 
   const isMe = useMemo(() => {
-    return !userId || loginUser?.userId === userId
+    return loginUser?.userId === userId
   }, [userId])
 
   //  获取页面的用户信息，默认不发请求
@@ -95,7 +95,7 @@ const Center: React.FC<AccountProps> = ({
   //  渲染用户信息
   const renderUserInfo = ({ post, country, area, address }: Partial<API.UserInfo>) => {
     return (
-      <Row className={styles.detail} justify='center' gutter={[0, 10]}>
+      <Row className='user-info-card-middle' justify='center' gutter={[0, 10]}>
         <Col span={24}>
           <IconText align='start' icon={ContactsOutlined} text={post} />
         </Col>
@@ -140,26 +140,117 @@ const Center: React.FC<AccountProps> = ({
     getCurrentUserInfo()
   }, [userId])
 
+  const leftClassName = useEmotionCss(({ token }) => ({
+    '.account-center-left': {
+      position: 'sticky',
+      top: token.marginMD
+    },
+
+    '.user-info-card': {
+      background: token.colorBgContainer,
+      color: token.colorText,
+      marginBottom: token.marginMD,
+      borderRadius: token.borderRadius,
+      padding: `${token.paddingMD}px ${token.paddingMD}px ${token.paddingSM}px`,
+
+      '&-top': {
+        textAlign: 'center',
+        marginBlockEnd: token.marginLG,
+
+        '&>img': {
+          width: '104px',
+          height: '104px',
+          borderRadius: '50%',
+          marginBottom: token.marginMD
+        },
+
+        '&-name': {
+          wordBreak: 'break-all',
+          marginBlockEnd: token.marginXXS,
+          fontWeight: token.fontWeightStrong,
+          fontSize: token.fontSizeHeading3
+        },
+
+        '&-follow': {
+          marginBlockStart: token.marginXS,
+
+          '&-item': {
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+
+            '&-num': {
+              fontSize: token.fontSizeHeading4,
+              fontWeight: token.fontWeightStrong
+            },
+
+            '&-title': {
+              fontSize: token.fontSizeSM,
+              color: token.colorTextDescription
+            }
+          }
+        }
+      },
+
+      '&-middle': {
+        paddingInline: token.paddingLG
+      },
+
+      '&-tags': {
+        '.ant-tag': {
+          marginBlockEnd: token.marginXS
+        },
+
+        '&-title': {
+          marginBlockEnd: token.marginSM,
+          color: token.colorTextHeading,
+          fontWeight: token.fontWeightStrong
+        }
+      }
+    },
+
+    '.account-center-right': {
+      '.ant-card': {
+        boxShadow: 'none'
+      },
+
+      '.ant-card-head': {
+        paddingInline: token.paddingMD
+      },
+
+      '.ant-card-body': {
+        padding: '0'
+      }
+    },
+
+    [`@media screen and (max-width: ${token.screenLG}px)`]: {
+      '.account-center-left': {
+        position: 'relative',
+        top: 'auto'
+      }
+    }
+  }))
+
   return (
-    <>
+    <Spin spinning={loading}>
       {currentUser && (
-        <Row gutter={24}>
-          <Col lg={8} md={24} sm={24} xs={24}>
-            <Card bordered={false} className={styles.userInfoCard} loading={loading}>
-              <div className={styles.avatarHolder}>
+        <Row gutter={20} align='top' className={leftClassName}>
+          <Col lg={8} md={24} sm={24} xs={24} className='account-center-left'>
+            <div className='user-info-card'>
+              <div className='user-info-card-top'>
                 <img src={currentUser.avatar} alt='avatar' />
-                <div className={styles.name}>{currentUser.nickname}</div>
+                <div className='user-info-card-top-name'>{currentUser.nickname}</div>
                 <div>{currentUser?.signature}</div>
-                <Space size='large' className={styles.followContent}>
-                  <div className={styles.followItem}>
-                    <span className={styles.followItemNum}>{followsNum}</span>
-                    <span className={styles.followItemTitle}>
+                <Space size='large' className='user-info-card-top-follow'>
+                  <div className='user-info-card-top-follow-item'>
+                    <span className='user-info-card-top-follow-item-num'>{followsNum}</span>
+                    <span className='user-info-card-top-follow-item-title'>
                       <FormattedMessage id='pages.account.watchers' defaultMessage='关注数' />
                     </span>
                   </div>
-                  <div className={styles.followItem}>
-                    <span className={styles.followItemNum}>{followersNum}</span>
-                    <span className={styles.followItemTitle}>
+                  <div className='user-info-card-top-follow-item'>
+                    <span className='user-info-card-top-follow-item-num'>{followersNum}</span>
+                    <span className='user-info-card-top-follow-item-title'>
                       <FormattedMessage id='pages.account.followers' defaultMessage='粉丝数' />
                     </span>
                   </div>
@@ -173,37 +264,20 @@ const Center: React.FC<AccountProps> = ({
 
               <Divider dashed />
 
-              <div className={styles.tags}>
-                <div className={styles.tagsTitle}>
+              <div className='user-info-card-tags'>
+                <div className='user-info-card-tags-title'>
                   <FormattedMessage id='pages.account.basic.tags' defaultMessage='标签' />
                 </div>
                 {currentUser.tags && currentUser.tags.map(item => <Tag key={item}>{item}</Tag>)}
               </div>
-
-              {/* <Divider style={{ marginTop: 16 }} dashed />
-                <div className={styles.team}>
-                  <div className={styles.teamTitle}>团队</div>
-                  <Row gutter={36}>
-                    {currentUser.notice &&
-                      currentUser.notice.map((item) => (
-                        <Col key={item.id} lg={24} xl={12}>
-                          <Link to={item.href}>
-                            <Avatar size="small" src={item.logo} />
-                            {item.member}
-                          </Link>
-                        </Col>
-                      ))}
-                  </Row>
-                </div> */}
-            </Card>
+            </div>
           </Col>
 
-          <Col lg={16} md={24} sm={24} xs={24}>
+          <Col lg={16} md={24} sm={24} xs={24} className='account-center-right'>
             <Card
               bordered={false}
               activeTabKey={tabKey}
               tabList={operationTabList}
-              className={styles.tabsCard}
               onTabChange={(_tabKey: string) => {
                 setTabKey(_tabKey as tabKeyType)
               }}
@@ -215,7 +289,7 @@ const Center: React.FC<AccountProps> = ({
       )}
 
       <BackTop />
-    </>
+    </Spin>
   )
 }
 

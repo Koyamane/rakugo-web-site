@@ -6,18 +6,18 @@
  * @LastEditTime: 2023-04-02 19:01:00
  * @Description:
  */
-import { Action, ImmerReducer } from '@umijs/max'
+import { Action, Reducer } from '@umijs/max'
 import { AccountCenterState as ModelState } from './data'
 
 export interface ModelType {
   namespace: string
   state: ModelState
   reducers: {
-    setAllNum: ImmerReducer<ModelState, Action & ModelState>
-    setArticlesNum: ImmerReducer<ModelState, Action & Pick<ModelState, 'articlesNum'>>
-    setCollectionsNum: ImmerReducer<ModelState, Action & Pick<ModelState, 'collectionsNum'>>
-    setFollowsNum: ImmerReducer<ModelState, Action & Pick<ModelState, 'followsNum'>>
-    setFollowersNum: ImmerReducer<ModelState, Action & Pick<ModelState, 'followersNum'>>
+    setAllNum: Reducer<ModelState, Action & ModelState>
+    setArticlesNum: Reducer<ModelState, Action & Pick<ModelState, 'articlesNum'>>
+    setCollectionsNum: Reducer<ModelState, Action & Pick<ModelState, 'collectionsNum'>>
+    setFollowsNum: Reducer<ModelState, Action & Pick<ModelState, 'followsNum'>>
+    setFollowersNum: Reducer<ModelState, Action & Pick<ModelState, 'followersNum'>>
   }
 }
 

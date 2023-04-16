@@ -5,22 +5,19 @@ import usePaginationItem from '@/hooks/usePaginationItem'
 import { BLOG_STATUS, toObj } from '@/locales/dataDictionary'
 import { OperationItem } from '@/pages/Post/Article/data'
 import {
-  DislikeFilled,
-  DislikeOutlined,
   EyeOutlined,
   LikeFilled,
   LikeOutlined,
   MessageOutlined,
   StarFilled,
-  StarOutlined,
-  StockOutlined
+  StarOutlined
 } from '@ant-design/icons'
-import { connect, Dispatch, history, useIntl } from '@umijs/max'
-import { App, List, Popover, Tag } from 'antd'
+import { useEmotionCss } from '@ant-design/use-emotion-css'
+import { connect, Dispatch, NavLink, useIntl } from '@umijs/max'
+import { Divider, Pagination, Popover, Space, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { DeleteBlogApi, SomebodyBlogPage } from '../../service'
-import BlogTitle from './BlogTitle'
-import styles from './index.less'
+import { SomebodyBlogPage } from '../../service'
+import OperateItem from './OperateItem'
 
 interface SelfProps {
   dispatch: Dispatch
@@ -31,25 +28,28 @@ interface SelfProps {
 
 const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) => {
   const intl = useIntl()
-  const [listLoading, setBistLoading] = useState(true)
+  const [listLoading, setListLoading] = useState(true)
   const [firstEnter, setFirstEnter] = useState(true)
   const formatTime = useFormatTime()
-  const { message } = App.useApp()
   const itemRender = usePaginationItem()
   const [blogData, setBlogData] = useState<{
     list: API.BlogInfo[]
-    pagination: { current: number; total: number }
+    pagination: { current: number; pageSize: number; total: number }
   }>({
     list: [],
-    pagination: { current: 1, total: 0 }
+    pagination: { current: 1, pageSize: 10, total: 0 }
   })
 
-  const getBlogList = async (current: number = blogData.pagination.current) => {
-    setBistLoading(true)
+  const getBlogList = async (
+    current: number = blogData.pagination.current,
+    pageSize: number = blogData.pagination.pageSize
+  ) => {
+    setListLoading(true)
     try {
       const params = {
         dto: {},
-        current
+        current,
+        pageSize
       }
 
       if (!isMe) {
@@ -63,6 +63,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
           list: res.list,
           pagination: {
             current: res.current,
+            pageSize: res.pageSize,
             total: res.total
           }
         })
@@ -74,33 +75,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
     } catch (error) {
       console.log('获取博客报错了', error)
     }
-    setBistLoading(false)
-  }
-
-  const deleteBlog = async (id: API.BlogInfo['id']) => {
-    setBistLoading(true)
-    try {
-      await DeleteBlogApi(id)
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete.success',
-          defaultMessage: '删除成功！'
-        })
-      )
-      getBlogList()
-    } catch (error) {
-      message.success(
-        intl.formatMessage({
-          id: 'pages.form.delete.error',
-          defaultMessage: '删除失败，请重试！'
-        })
-      )
-    }
-    setBistLoading(false)
-  }
-
-  const goDetail = (id: string | number) => {
-    history.push(`/article/${id}`)
+    setListLoading(false)
   }
 
   const isIncludeMe = (type: OperationItem['key'], blogDataArr: API.BlogDataItem[]) => {
@@ -113,9 +88,6 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
       case 'LIKE':
         flag = blogDataObj.likeArr.includes(loginUserId)
         break
-      case 'DISLIKE':
-        flag = blogDataObj.dislikeArr.includes(loginUserId)
-        break
       case 'COLLECT':
         flag = blogDataObj.collectionArr.includes(loginUserId)
         break
@@ -125,62 +97,18 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
     return flag
   }
 
-  const itemActions = (item: API.BlogInfo) => {
-    const arr = [
-      <IconText icon={EyeOutlined} text={item.reads} key='list-vertical-reads' />,
-      <IconText
-        text={item.likes}
-        key='list-vertical-likes'
-        icon={isIncludeMe('LIKE', item.blogDataArr) ? LikeFilled : LikeOutlined}
-        className={`${isIncludeMe('LIKE', item.blogDataArr) ? 'blog-list-item-action-active' : ''}`}
-      />,
-      <IconText
-        text={item.dislikes}
-        key='list-vertical-dislikes'
-        icon={isIncludeMe('DISLIKE', item.blogDataArr) ? DislikeFilled : DislikeOutlined}
-        className={`${
-          isIncludeMe('DISLIKE', item.blogDataArr) ? 'blog-list-item-action-active' : ''
-        }`}
-      />,
-      <IconText
-        text={item.collections}
-        key='list-vertical-collections'
-        icon={isIncludeMe('COLLECT', item.blogDataArr) ? StarFilled : StarOutlined}
-        className={`${
-          isIncludeMe('COLLECT', item.blogDataArr) ? 'blog-list-item-action-active' : ''
-        }`}
-      />,
-      <IconText icon={MessageOutlined} text={item.comments} key='list-vertical-comments' />
-    ]
-
-    if (isMe) {
-      // 是自己时，显示博文状态和其他图标
-      const status = toObj(BLOG_STATUS)[item.status]
-      arr.unshift(
-        <IconText
-          key='blog-status'
-          icon={StockOutlined}
-          text={
-            item.status === 'REJECT' ? (
-              <Popover
-                trigger='hover'
-                content={item.rejectReason || '无'}
-                title={intl.formatMessage({
-                  id: 'pages.form.rejectReason',
-                  defaultMessage: '驳回原因'
-                })}
-              >
-                <a>{status}</a>
-              </Popover>
-            ) : (
-              status
-            )
-          }
-        />
-      )
-    }
-
-    return arr
+  const articleStatus = (item: API.BlogInfo) => {
+    return item.status === 'REJECT' ? (
+      <Popover
+        trigger='hover'
+        content={item.rejectReason || '无'}
+        title={intl.formatMessage({ id: 'pages.form.rejectReason' })}
+      >
+        <a>{toObj(BLOG_STATUS)[item.status]}</a>
+      </Popover>
+    ) : (
+      toObj(BLOG_STATUS)[item.status]
+    )
   }
 
   const initList = async () => {
@@ -194,45 +122,186 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
     initList()
   }, [userId])
 
-  return (
-    <BlogListSkeleton split className={styles.skeleton} loading={firstEnter}>
-      <List
-        size='large'
-        loading={listLoading}
-        itemLayout='vertical'
-        pagination={{
-          ...blogData.pagination,
-          itemRender,
-          onChange: getBlogList
-        }}
-        className={styles.blogList}
-        dataSource={blogData?.list}
-        renderItem={item => (
-          <List.Item
-            key={item.id}
-            actions={itemActions(item)}
-            extra={
-              item.cover && (
-                <div className='blog-list-item-cover' onClick={() => goDetail(item.id)}>
-                  <img className='blog-list-item-cover-img' alt='cover' src={item.cover} />
-                </div>
-              )
-            }
-          >
-            <List.Item.Meta
-              title={<BlogTitle isMe={isMe} blogInfo={item} deleteBlog={deleteBlog} />}
-              description={item.tags.length > 0 && item.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
-            />
-            <div className='blog-list-item-content'>
-              <span onClick={() => goDetail(item.id)}>
-                {item.content && item.content.replace(/<[^>]+>/g, '')}
-              </span>
-            </div>
+  const skeletonClassName = useEmotionCss(({ token }) => ({
+    paddingBlockEnd: token.paddingXS
+  }))
 
-            <div className='blog-list-item-time'>{formatTime(item.approvedDate)}</div>
-          </List.Item>
-        )}
-      />
+  const contentListClassName = useEmotionCss(({ token }) => ({
+    color: token.colorText,
+    paddingInline: token.paddingMD,
+    borderRadius: token.borderRadius,
+    background: token.colorBgContainer,
+
+    '.content-list-item': {
+      display: 'flex',
+      paddingBlock: token.paddingSM,
+      justifyContent: 'space-between',
+      borderBottom: `1px solid ${token.colorBorderSecondary}`,
+
+      '&-left': {
+        flex: '1',
+        display: 'flex',
+        color: token.colorTextDescription,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+
+        '&-userInfo': {
+          wordBreak: 'break-all'
+        },
+
+        '&-title': {
+          fontSize: token.fontSizeLG,
+          fontWeight: token.fontWeightStrong,
+          marginBlock: token.marginXS,
+
+          a: {
+            color: token.colorTextHeading,
+            '&:hover': {
+              textDecoration: 'underline'
+            }
+          }
+        },
+
+        '&-body': {
+          display: '-webkit-box', // 对象作为伸缩盒子模型展示
+          flex: 1,
+          overflow: 'hidden',
+          color: token.colorText,
+          marginBlockEnd: token.marginXXS,
+          textOverflow: 'ellipsis',
+          wordBreak: 'break-word',
+          WebkitBoxOrient: 'vertical', // 设置或检索伸缩盒子对象的子元素的排列方式
+          WebkitLineClamp: '3' // 在第几行上加 ...
+        },
+
+        '&-actions': {
+          display: 'flex',
+          justifyContent: 'space-between',
+
+          '&-active': {
+            color: token.colorPrimaryText
+          }
+        }
+      },
+
+      '&-right': {
+        flexShrink: 0,
+        borderRadius: token.borderRadius,
+        overflow: 'hidden',
+        position: 'relative',
+        width: '220px',
+        minHeight: '155px',
+        cursor: 'pointer',
+        marginInlineStart: token.marginXS,
+
+        '&-cover': {
+          borderRadius: token.borderRadius,
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          width: '100%',
+          transform: 'translate(-50%, -50%)'
+        }
+      }
+    },
+
+    '.ant-pagination': {
+      textAlign: 'center',
+      marginBlock: token.marginMD
+    },
+
+    // 放后面权重高，所以媒体查询要放后面来
+    [`@media screen and (max-width: ${token.screenMD}px)`]: {
+      '.content-list-item': {
+        flexDirection: 'column-reverse',
+
+        '&-right': {
+          marginInline: 'auto',
+          marginBlockEnd: token.marginSM
+        }
+      }
+    }
+  }))
+
+  return (
+    <BlogListSkeleton split loading={firstEnter} className={skeletonClassName}>
+      <Spin spinning={listLoading}>
+        <div className={contentListClassName}>
+          {blogData.list.map(item => (
+            <div key={item.id} className='content-list-item'>
+              <div className='content-list-item-left'>
+                <div className='content-list-item-left-userInfo'>
+                  {formatTime(item.approvedDate)}
+                  {!!item.tags.length && (
+                    <>
+                      <Divider type='vertical' />
+                      {item.tags.join('・')}
+                    </>
+                  )}
+                </div>
+                <div className='content-list-item-left-title text-ellipsis'>
+                  <NavLink target='_blank' to={`/article/${item.id}`}>
+                    {item.title}
+                  </NavLink>
+                </div>
+
+                {item.content && (
+                  <div className='content-list-item-left-body'>
+                    {item.content.replace(/<[^>]+>/g, '')}
+                  </div>
+                )}
+
+                <div className='content-list-item-left-actions'>
+                  <Space size='middle'>
+                    {isMe && <span>{articleStatus(item)}</span>}
+                    <IconText icon={EyeOutlined} text={item.reads} />
+                    <IconText
+                      text={item.likes}
+                      icon={isIncludeMe('LIKE', item.blogDataArr) ? LikeFilled : LikeOutlined}
+                      className={`${
+                        isIncludeMe('LIKE', item.blogDataArr) &&
+                        'content-list-item-left-actions-active'
+                      }`}
+                    />
+                    <IconText
+                      text={item.collections}
+                      icon={isIncludeMe('COLLECT', item.blogDataArr) ? StarFilled : StarOutlined}
+                      className={`${
+                        isIncludeMe('COLLECT', item.blogDataArr) &&
+                        'content-list-item-left-actions-active'
+                      }`}
+                    />
+                    <IconText text={item.comments} icon={MessageOutlined} />
+                  </Space>
+
+                  {isMe && <OperateItem blogInfo={item} onDeleted={getBlogList} />}
+                </div>
+              </div>
+              {item.cover && (
+                <NavLink
+                  target='_blank'
+                  className='content-list-item-right'
+                  to={`/article/${item.id}`}
+                >
+                  <img
+                    src={item.cover}
+                    alt={item.title}
+                    className='content-list-item-right-cover'
+                  />
+                </NavLink>
+              )}
+            </div>
+          ))}
+
+          <Pagination
+            showSizeChanger
+            showQuickJumper
+            itemRender={itemRender}
+            onChange={getBlogList}
+            {...blogData.pagination}
+          />
+        </div>
+      </Spin>
     </BlogListSkeleton>
   )
 }

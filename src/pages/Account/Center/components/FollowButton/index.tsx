@@ -1,11 +1,11 @@
 import { FollowSomeBodyApi, IsFollowedApi } from '@/components/FollowButton/services'
 import useParamsRedirect from '@/hooks/useParamsRedirect'
 import { CheckOutlined, PlusOutlined } from '@ant-design/icons'
+import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { connect, Dispatch, useIntl } from '@umijs/max'
 import { App, Button, ButtonProps } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AccountCenterState } from '../../data'
-import '../../index.less'
 
 interface FollowButtonProps {
   targetId: string
@@ -92,6 +92,38 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
     getFollowed()
   }, [])
 
+  const followBtnClassName = useEmotionCss(({ token }) => ({
+    '&.ant-btn': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      height: 'auto',
+      paddingInline: token.paddingXS,
+      marginInline: -token.marginXS,
+      border: 'none'
+    },
+
+    '&.ant-btn > span:first-child': {
+      fontWeight: token.fontWeightStrong,
+      fontSize: token.fontSizeHeading4,
+      lineHeight: token.lineHeight,
+
+      '& > span': {
+        padding: '0'
+      },
+
+      '& > svg': {
+        verticalAlign: 'inherit'
+      }
+    },
+
+    '&.ant-btn > span:last-child': {
+      margin: 0,
+      fontSize: token.fontSizeSM,
+      color: token.colorTextDescription
+    }
+  }))
+
   return (
     <Button
       type='text'
@@ -99,7 +131,7 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
       shape='default'
       loading={loading}
       onClick={handleFollow}
-      className='account-center-follow-item-button'
+      className={followBtnClassName}
       icon={isFollowed ? <CheckOutlined /> : <PlusOutlined />}
       {...otherProps}
     >

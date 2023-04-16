@@ -2,13 +2,13 @@ import BlogListSkeleton from '@/components/BlogListSkeleton'
 import IconText from '@/components/IconText'
 import useFormatTime from '@/hooks/useFormatTime'
 import usePaginationItem from '@/hooks/usePaginationItem'
-import { ClockCircleOutlined, EyeOutlined, UserOutlined } from '@ant-design/icons'
+import { EyeOutlined, UserOutlined } from '@ant-design/icons'
+import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { connect, Dispatch, FormattedMessage, NavLink } from '@umijs/max'
-import { List } from 'antd'
+import { Divider, Pagination, Space, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { BlogCollectionPage } from '../../service'
-import styles from '../Articles/index.less'
-import BlogTitle from './BlogTitle'
+import CancelCollect from './CancelCollect'
 
 interface SelfProps {
   dispatch: Dispatch
@@ -57,24 +57,6 @@ const Articles: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
     setBistLoading(false)
   }
 
-  const itemActions = (item: API.BlogInfo) => {
-    const arr = [
-      <IconText
-        key='list-vertical-user'
-        icon={UserOutlined}
-        text={<NavLink to={`/account/center/${item.createdId}`}>{item.createdName}</NavLink>}
-      />,
-      <IconText
-        key='list-vertical-date'
-        icon={ClockCircleOutlined}
-        text={formatTime(item.approvedDate)}
-      />,
-      <IconText icon={EyeOutlined} text={item.reads} key='list-vertical-message' />
-    ]
-
-    return arr
-  }
-
   const initList = async () => {
     setFirstEnter(true)
     await getBlogCollectList()
@@ -86,30 +68,144 @@ const Articles: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
     initList()
   }, [userId])
 
+  const skeletonClassName = useEmotionCss(({ token }) => ({
+    paddingBlockEnd: token.paddingXS
+  }))
+
+  const contentListClassName = useEmotionCss(({ token }) => ({
+    color: token.colorText,
+    paddingInline: token.paddingMD,
+    borderRadius: token.borderRadius,
+    background: token.colorBgContainer,
+
+    '.content-list-item': {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      paddingBlock: token.paddingSM,
+      color: token.colorTextDescription,
+      borderBottom: `1px solid ${token.colorBorderSecondary}`,
+
+      '&-userInfo': {
+        wordBreak: 'break-all'
+      },
+
+      '&-title': {
+        fontSize: token.fontSizeLG,
+        fontWeight: token.fontWeightStrong,
+        marginBlock: token.marginXS,
+
+        a: {
+          color: token.colorTextHeading,
+          '&:hover': {
+            textDecoration: 'underline'
+          }
+        }
+      },
+
+      '&-body': {
+        marginBlockEnd: token.marginXXS
+      },
+
+      '&-expired': {
+        textAlign: 'center',
+        fontSize: token.fontSizeXL,
+        fontWeight: token.fontWeightStrong
+      },
+
+      '&-actions': {
+        display: 'flex',
+        justifyContent: 'space-between'
+      }
+    },
+
+    '.ant-pagination': {
+      textAlign: 'center',
+      marginBlock: token.marginMD
+    }
+  }))
+
   return (
-    <BlogListSkeleton split rows={1} className={styles.skeleton} loading={firstEnter}>
-      <List
-        size='large'
-        loading={listLoading}
-        itemLayout='vertical'
-        pagination={{
-          ...collectionData.pagination,
-          itemRender,
-          onChange: getBlogCollectList
-        }}
-        className={styles.blogList}
-        dataSource={collectionData?.list}
-        renderItem={item => (
-          <List.Item key={item.id} actions={itemActions(item)}>
-            <List.Item.Meta title={<BlogTitle isMe={isMe} initList={initList} blogInfo={item} />} />
-            {item.status === 'DELETED' && (
-              <div className='collection-expired'>
-                <FormattedMessage id='pages.account.expired' defaultMessage='已失效' />
-              </div>
-            )}
-          </List.Item>
-        )}
-      />
+    <BlogListSkeleton split rows={1} className={skeletonClassName} loading={firstEnter}>
+      <Spin spinning={listLoading}>
+        <div className={contentListClassName}>
+          {collectionData.list.map(item => (
+            <div key={item.id} className='content-list-item'>
+              {item.status === 'DELETED' ? (
+                <>
+                  <div className='content-list-item-userInfo'>{formatTime(item.approvedDate)}</div>
+
+                  <div className='content-list-item-expired'>
+                    <FormattedMessage id='pages.account.expired' defaultMessage='已失效' />
+                  </div>
+
+                  <div className='content-list-item-actions'>
+                    <IconText
+                      key='list-vertical-user'
+                      icon={UserOutlined}
+                      text={
+                        <NavLink target='_blank' to={`/account/center/${item.userId}`}>
+                          {item.username}
+                        </NavLink>
+                      }
+                    />
+
+                    {isMe && <CancelCollect blogInfo={item} onCancelled={initList} />}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className='content-list-item-userInfo'>
+                    {formatTime(item.approvedDate)}
+
+                    {!!item.tags.length && (
+                      <>
+                        <Divider type='vertical' />
+                        {item.tags.join('・')}
+                      </>
+                    )}
+                  </div>
+
+                  <div className='content-list-item-title text-ellipsis'>
+                    <NavLink target='_blank' to={`/article/${item.id}`}>
+                      {item.title}
+                    </NavLink>
+                  </div>
+
+                  {item.content && (
+                    <div className='content-list-item-body text-ellipsis'>
+                      {item.content.replace(/<[^>]+>/g, '')}
+                    </div>
+                  )}
+
+                  <div className='content-list-item-actions'>
+                    <Space size='middle'>
+                      <IconText
+                        key='list-vertical-user'
+                        icon={UserOutlined}
+                        text={
+                          <NavLink target='_blank' to={`/account/center/${item.createdId}`}>
+                            {item.createdName}
+                          </NavLink>
+                        }
+                      />
+                      <IconText icon={EyeOutlined} text={item.reads} />
+                    </Space>
+
+                    {isMe && <CancelCollect blogInfo={item} onCancelled={initList} />}
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
+
+          <Pagination
+            itemRender={itemRender}
+            onChange={getBlogCollectList}
+            {...collectionData.pagination}
+          />
+        </div>
+      </Spin>
     </BlogListSkeleton>
   )
 }

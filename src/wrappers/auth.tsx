@@ -12,11 +12,7 @@ export default () => {
   const { initialState } = useModel('@@initialState')
 
   if (initialState?.currentUser?.userId) {
-    return (
-      <div className='aaaaaaaaaaaaaaaa'>
-        <Outlet />
-      </div>
-    )
+    return <Outlet />
   }
 
   return <Navigate to={`/user/login?redirect=${location?.pathname}`} />

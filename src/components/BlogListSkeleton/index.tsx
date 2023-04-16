@@ -23,7 +23,7 @@ const BlogListSkeleton: React.FC<BlogSkeletonProps> = React.memo(props => {
   const { loading, num, rows, split, className, avatar, children } = props
   const paragraph = { rows: rows || 4 }
   const listData = useMemo(() => {
-    return Array.from({ length: num || 3 }).map((item, index) => index)
+    return Array.from({ length: num || 2 }).map((item, index) => index)
   }, [num])
 
   return (
