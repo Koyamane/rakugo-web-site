@@ -3,16 +3,16 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-17 10:20:12
+ * @LastEditTime: 2023-04-17 23:49:48
  * @Description:
  */
 
 import { AvatarDropdown } from '@/components'
 import { SwapOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { useModel } from '@umijs/max'
+import { useIntl, useModel } from '@umijs/max'
 import { Avatar, Button, Input, Modal, Popover } from 'antd'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import MarkdownEditor from './components/MarkdownEditor'
 import RichtextEditor from './components/RichtextEditor'
 import { AddBlogType } from './data'
@@ -20,13 +20,20 @@ import { AddBlogType } from './data'
 export default (): React.ReactNode => {
   const { initialState } = useModel('@@initialState')
   const [mdValue, setMdValue] = useState('')
+  const intl = useIntl()
   const [modal, contextHolder] = Modal.useModal()
   const [editor, setEditor] = useState<AddBlogType['editor']>('MARKDOWN')
+  const switchTo = useMemo(() => {
+    if (editor === 'MARKDOWN') {
+      return intl.formatMessage({ id: 'pages.post.switchToRichText' })
+    }
+    return intl.formatMessage({ id: 'pages.post.switchToMarkdown' })
+  }, [editor, intl.locale])
 
   const changeEditor = () => {
     modal.confirm({
-      title: '切换编辑器',
-      content: '切换后数据不会保留，确定要切换吗？',
+      title: switchTo,
+      content: intl.formatMessage({ id: 'pages.post.switchToHint' }),
       onOk() {
         setEditor(editor === 'RICH_TEXT' ? 'MARKDOWN' : 'RICH_TEXT')
       }
@@ -49,8 +56,8 @@ export default (): React.ReactNode => {
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
-      marginInline: editor === 'MARKDOWN' ? 'auto' : '0',
-      maxWidth: editor === 'MARKDOWN' ? (token as any).pageMaxWidth : 'auto'
+      marginInline: editor === 'RICH_TEXT' ? 'auto' : '0',
+      maxWidth: editor === 'RICH_TEXT' ? (token as any).pageMaxWidth : 'auto'
     },
 
     '.post-article': {
@@ -125,13 +132,13 @@ export default (): React.ReactNode => {
         <header className='post-article-header'>
           <Input
             bordered={false}
-            placeholder='请输入文章标题……'
             className='post-article-header-title'
+            placeholder={intl.formatMessage({ id: 'pages.post.titlePlaceholder' })}
           />
 
           <>
-            <Button type='primary'>发布</Button>
-            <Popover content='切换编辑器'>
+            <Button type='primary'>{intl.formatMessage({ id: 'menu.post' })}</Button>
+            <Popover content={switchTo}>
               <SwapOutlined onClick={changeEditor} className='post-article-header-change-editor' />
             </Popover>
             <AvatarDropdown menu>
@@ -144,7 +151,7 @@ export default (): React.ReactNode => {
         </header>
 
         <div className='post-article-editor'>
-          {editor === 'RICH_TEXT' ? (
+          {editor === 'MARKDOWN' ? (
             <MarkdownEditor value={mdValue} onChange={setMdValue} />
           ) : (
             <RichtextEditor />

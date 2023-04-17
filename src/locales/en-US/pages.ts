@@ -122,5 +122,10 @@ export default {
   'pages.searchTable.query': 'Query',
   'pages.exception.403Title': "Sorry, you don't have access to this page.",
   'pages.exception.404Title': 'Sorry, the page you visited does not exist.',
-  'pages.exception.500Title': 'Sorry, the server is reporting an error.'
+  'pages.exception.500Title': 'Sorry, the server is reporting an error.',
+  'pages.post.titlePlaceholder': 'Please enter the article title...',
+  'pages.post.textPlaceholder': 'Please enter the text...',
+  'pages.post.switchToRichText': 'Switch to Rich Text Editor',
+  'pages.post.switchToMarkdown': 'Switch to Markdown Editor',
+  'pages.post.switchToHint': 'After switching editors, the current text will not be migrated'
 }

@@ -117,5 +117,10 @@ export default {
   'pages.searchTable.query': '查询',
   'pages.exception.403Title': '很抱歉，您没有访问此页面的权限。',
   'pages.exception.404Title': '很抱歉，您访问的页面不存在。',
-  'pages.exception.500Title': '很抱歉，服务器正在报告错误。'
+  'pages.exception.500Title': '很抱歉，服务器正在报告错误。',
+  'pages.post.titlePlaceholder': '请输入文章标题……',
+  'pages.post.textPlaceholder': '请输入正文……',
+  'pages.post.switchToRichText': '切换为富文本编辑器',
+  'pages.post.switchToMarkdown': '切换为 Markdown 编辑器',
+  'pages.post.switchToHint': '切换编辑器后，当前正文不会迁移'
 }

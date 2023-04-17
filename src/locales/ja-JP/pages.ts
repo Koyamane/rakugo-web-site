@@ -120,5 +120,10 @@ export default {
   'pages.searchTable.query': '検索',
   'pages.exception.403Title': '申し訳ありませんが、このページにアクセスする権限がありません。',
   'pages.exception.404Title': '申し訳ありませんが、アクセスしたページは存在しません。',
-  'pages.exception.500Title': '申し訳ありませんが、サーバがエラーを報告しています。'
+  'pages.exception.500Title': '申し訳ありませんが、サーバがエラーを報告しています。',
+  'pages.post.titlePlaceholder': '記事のタイトルを入力してください…',
+  'pages.post.textPlaceholder': 'テキストを入力してください…',
+  'pages.post.switchToRichText': 'リッチテキストエディタに切り替え',
+  'pages.post.switchToMarkdown': 'マークダウンエディタに切り替え',
+  'pages.post.switchToHint': 'エディタを切り替えても、現在のテキストは移行されません'
 }

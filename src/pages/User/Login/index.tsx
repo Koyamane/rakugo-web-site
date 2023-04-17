@@ -32,6 +32,7 @@ const Login: React.FC = () => {
       })
 
       localStorage.setItem('token', res.token)
+
       await setInitialState(s => ({
         ...s,
         currentUser: res.userInfo

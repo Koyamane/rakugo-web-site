@@ -1,3 +1,12 @@
+/*
+ * @Author: dingyun
+ * @Date: 2023-04-17 17:50:04
+ * @LastEditors: dingyun
+ * @Email: dingyun@zhuosoft.com
+ * @LastEditTime: 2023-04-17 23:23:24
+ * @Description:
+ */
+import { useIntl } from '@umijs/max'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
 import React, { useMemo, useRef, useState } from 'react'
@@ -19,6 +28,7 @@ Icons['code-block'] = `<svg
 
 const ReactQuillEditor = React.memo(() => {
   const [value, setValue] = useState('')
+  const intl = useIntl()
   const quillRef = useRef<ReactQuill>()
 
   // 剩下参数 delta: DeltaStatic, source: Sources, editor: ReactQuill.UnprivilegedEditor
@@ -53,11 +63,11 @@ const ReactQuillEditor = React.memo(() => {
   return (
     <ReactQuill
       ref={quillRef as any}
-      placeholder='请输入正文……'
       theme='snow'
       value={value}
       modules={modules}
       onChange={handleChangeValue}
+      placeholder={intl.formatMessage({ id: 'pages.post.textPlaceholder' })}
     />
   )
 })
