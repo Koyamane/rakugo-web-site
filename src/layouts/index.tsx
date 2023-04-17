@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 15:36:32
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-14 11:45:35
+ * @LastEditTime: 2023-04-16 23:11:02
  * @Description:
  */
 import { useEmotionCss } from '@ant-design/use-emotion-css'
@@ -18,9 +18,9 @@ export default function Layout() {
   const layoutClassName = useEmotionCss(({ token }) => {
     return {
       width: '100%',
-      maxWidth: token.pageMaxWidth,
+      marginInline: 'auto',
       padding: token.paddingMD,
-      marginInline: 'auto'
+      maxWidth: (token as any).pageMaxWidth
     }
   })
 

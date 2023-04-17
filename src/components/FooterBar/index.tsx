@@ -26,7 +26,7 @@ const FooterBar: React.FC<FooterBarProps> = React.memo(({ mobileMode, extra, chi
         alignItems: 'center',
         paddingInline: token.paddingMD,
         justifyContent: 'space-between',
-        maxWidth: token.pageMaxWidth,
+        maxWidth: (token as any).pageMaxWidth,
 
         '&-left': {
           flex: 'auto',

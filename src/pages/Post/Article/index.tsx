@@ -114,6 +114,9 @@ export default (): React.ReactNode => {
           overflow: 'hidden',
           '.markdown-body': {
             color: token.colorText
+          },
+          '.ql-editor': {
+            padding: '0'
           }
         }
       },

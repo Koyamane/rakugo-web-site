@@ -13,10 +13,11 @@ import FollowButton from './FollowButton'
 import Footer from './Footer'
 import FooterBar from './FooterBar'
 import IconText from './IconText'
-import { SelectLang, ThemeIcon } from './RightContent'
+import { PostArticle, SelectLang, ThemeIcon } from './RightContent'
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown'
 
 export {
+  PostArticle,
   Comment,
   DirectoryAnchor,
   BackTop,

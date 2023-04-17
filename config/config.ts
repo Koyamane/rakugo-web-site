@@ -7,6 +7,9 @@ import routes from './routes'
 const { REACT_APP_ENV = 'dev' } = process.env
 
 export default defineConfig({
+  codeSplitting: {
+    jsStrategy: 'granularChunks'
+  },
   dva: {
     immer: { enableES5: true },
     extraModels: []

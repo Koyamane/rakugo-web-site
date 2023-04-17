@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-13 18:42:25
+ * @LastEditTime: 2023-04-16 22:57:54
  * @Description:
  */
 /**
@@ -30,6 +30,19 @@ export default [
     name: 'article',
     hideInMenu: true,
     component: './Post/Article'
+  },
+  {
+    path: '/post',
+    name: 'post',
+    hideInMenu: true,
+    routes: [
+      {
+        name: 'article',
+        path: '/post/article',
+        wrappers: ['@/wrappers/auth'],
+        component: './Post/New'
+      }
+    ]
   },
   {
     path: '/user',
@@ -75,9 +88,6 @@ export default [
         name: 'settings',
         wrappers: ['@/wrappers/auth'],
         component: './Account/Settings'
-      },
-      {
-        component: './Exception/404'
       }
     ]
   },

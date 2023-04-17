@@ -1,6 +1,16 @@
+/*
+ * @Author: dingyun
+ * @Date: 2023-04-12 19:25:38
+ * @LastEditors: dingyun
+ * @Email: dingyun@zhuosoft.com
+ * @LastEditTime: 2023-04-16 22:35:09
+ * @Description:
+ */
+import { FormOutlined } from '@ant-design/icons'
 import { useToken } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { SelectLang as UmiSelectLang, useModel } from '@umijs/max'
+import { FormattedMessage, NavLink, SelectLang as UmiSelectLang, useModel } from '@umijs/max'
+import { Popover } from 'antd'
 import { useMemo } from 'react'
 
 export type SiderTheme = 'light' | 'dark'
@@ -23,12 +33,10 @@ export const ThemeIcon = () => {
     })
   }
 
-  const themeIconClassName = useEmotionCss(({ token }) => {
-    return {
-      display: 'inline-flex',
-      fontSize: token.fontSizeHeading4
-    }
-  })
+  const themeIconClassName = useEmotionCss(({ token }) => ({
+    display: 'inline-flex',
+    fontSize: token.fontSizeXL
+  }))
 
   return (
     <span onClick={changeTheme} className={themeIconClassName}>
@@ -61,7 +69,26 @@ export const ThemeIcon = () => {
   )
 }
 
-export const SelectLang: React.FC = () => {
+export const PostArticle: React.FC = () => {
+  const postArticleClassName = useEmotionCss(({ token }) => ({
+    display: 'inline-flex',
+    fontSize: token.fontSizeXL,
+    color: token.colorTextDescription,
+    '&:hover': {
+      color: token.colorTextDescription
+    }
+  }))
+
+  return (
+    <Popover content={<FormattedMessage id='menu.post.article' />}>
+      <NavLink target='_blank' to='/post/article' className={postArticleClassName}>
+        <FormOutlined />
+      </NavLink>
+    </Popover>
+  )
+}
+
+export const SelectLang: React.FC<{ className?: string }> = ({ className }) => {
   const { token } = useToken()
 
   const selectLangStyle = {
@@ -69,5 +96,5 @@ export const SelectLang: React.FC = () => {
     padding: token.paddingXS - 2
   }
 
-  return <UmiSelectLang style={selectLangStyle} reload={false} />
+  return <UmiSelectLang className={className} style={selectLangStyle} reload={false} />
 }

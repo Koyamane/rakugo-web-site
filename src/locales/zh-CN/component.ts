@@ -5,5 +5,7 @@ export default {
   'component.directoryAnchor.directory': '目录',
   'component.comment.clickToView': '点击查看',
   'component.comment.total': '共',
-  'component.comment.repliesInTotal': '条回复，'
+  'component.comment.repliesInTotal': '条回复，',
+  'component.theme.nightMode': '夜间模式',
+  'component.theme.lightMode': '亮色模式'
 }

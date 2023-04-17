@@ -1,6 +1,7 @@
 export default {
   'menu.home': 'ホーム',
   'menu.post': '投稿',
+  'menu.post.article': '記事の投稿',
   'menu.post.edit': 'コンテントの変更',
   'menu.article': '記事',
   'menu.admin': '管理者',

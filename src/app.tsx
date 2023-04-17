@@ -3,11 +3,11 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-14 22:43:30
+ * @LastEditTime: 2023-04-16 22:27:41
  * @Description:
  */
 // import { history } from '@umijs/max';
-import { AvatarDropdown, AvatarName, Footer, SelectLang, ThemeIcon } from '@/components'
+import { AvatarDropdown, Footer, PostArticle, SelectLang, ThemeIcon } from '@/components'
 import { Settings as LayoutSettings } from '@ant-design/pro-components'
 import type { RunTimeLayoutConfig } from '@umijs/max'
 import { ReactNode } from 'react'
@@ -65,10 +65,13 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
-    actionsRender: () => [<ThemeIcon key='ThemeIcon' />, <SelectLang key='SelectLang' />],
+    actionsRender: () => [
+      <PostArticle key='PostArticle' />,
+      <ThemeIcon key='ThemeIcon' />,
+      <SelectLang key='SelectLang' />
+    ],
     avatarProps: {
       src: initialState?.currentUser?.avatar,
-      title: <AvatarName />,
       render: (_, avatarChildren) => {
         return <AvatarDropdown menu>{avatarChildren}</AvatarDropdown>
       }

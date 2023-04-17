@@ -7,9 +7,9 @@
  * @Description:
  */
 import { useModel } from '@umijs/max'
-import BraftEditor from 'braft-editor'
-import 'braft-editor/dist/index.css'
-import React, { useLayoutEffect, useMemo } from 'react'
+import React, { useLayoutEffect } from 'react'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.bubble.css'
 
 interface MarkdownItemProps {
   value: string
@@ -17,15 +17,12 @@ interface MarkdownItemProps {
 
 const RichTextItem: React.FC<MarkdownItemProps> = React.memo(({ value }) => {
   const { getDirectoryList } = useModel('useArticle')
-  const richData = useMemo(() => {
-    return BraftEditor.createEditorState(value)
-  }, [value])
 
   useLayoutEffect(() => {
     getDirectoryList('#article-layout-content-detail')
   }, [])
 
-  return <BraftEditor readOnly controls={[]} value={richData} />
+  return <ReactQuill theme='bubble' readOnly value={value} />
 })
 
 export default RichTextItem

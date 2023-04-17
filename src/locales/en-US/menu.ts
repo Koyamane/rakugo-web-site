@@ -1,6 +1,7 @@
 export default {
   'menu.home': 'Home',
   'menu.post': 'Post',
+  'menu.post.article': 'Post an article',
   'menu.post.edit': 'Edit Content',
   'menu.article': 'Articles',
   'menu.admin': 'Admin',
