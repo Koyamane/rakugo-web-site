@@ -34,16 +34,16 @@ const AnnouncementManagement: React.FC = () => {
   const formatRequest = async (params: any, sort: any) => {
     const par = formatTableParams(params, sort, ['status', 'access'], ['title', 'createdName'])
 
-    const msg = await AnnouncementPageApi(par)
+    const res = await AnnouncementPageApi(par)
 
     actionRef.current && actionRef.current.clearSelected && actionRef.current.clearSelected()
 
     return {
-      data: msg.list,
+      data: res.list,
       // success 请返回 true，不然 table 会停止解析数据，即使有数据
       success: true,
       // 不传会使用 data 的长度，如果是分页一定要传
-      total: msg.total
+      total: res.total
     }
   }
 

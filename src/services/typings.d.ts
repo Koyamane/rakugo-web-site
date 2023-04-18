@@ -89,9 +89,12 @@ declare namespace API {
   }
 
   type DataDictionaryItem = {
-    order: string | number
-    value: string | number
-    label: string | number | boolean
+    order: number
+    key: string | number
+    value: string | number | boolean
+    valueZh: string | number | boolean
+    valueEn: string | number | boolean
+    valueJa: string | number | boolean
   }
 
   type DataDictionaryInfo = {
@@ -104,7 +107,7 @@ declare namespace API {
     key: string
     description: string
     status: DataDictionary.DATA_DICTIONARY_STATUS
-    data: DataDictionaryItem[]
+    datas: DataDictionaryItem[]
   }
 
   type UpdateCurrentUser = Omit<

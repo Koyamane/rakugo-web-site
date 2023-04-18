@@ -3,7 +3,7 @@
  * @Date: 2023-03-22 11:29:07
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-03-28 16:09:35
+ * @LastEditTime: 2023-04-18 19:10:40
  * @Description:
  */
 
@@ -35,8 +35,8 @@ export const DATA_DICTIONARY_STATUS = [
   { label: '无效', value: 'INVALID' }
 ]
 
-export function toObj(dataArr: DataDictionary.Item[]) {
+export function toObj(dataArr: any[], valueKey: string = 'value', labelKey: string = 'label') {
   const obj: Record<string, string> = {}
-  dataArr.forEach(item => (obj[item.value.toString()] = item.label))
+  dataArr.forEach(item => (obj[item[valueKey].toString()] = item[labelKey]))
   return obj
 }

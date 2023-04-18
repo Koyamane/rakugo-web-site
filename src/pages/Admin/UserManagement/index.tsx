@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 16:55:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 12:54:36
+ * @LastEditTime: 2023-04-18 17:04:58
  * @Description:
  */
 import { ACCESS, toObj } from '@/locales/dataDictionary'
@@ -25,16 +25,16 @@ const UserManagement: React.FC = () => {
   const formatRequest = async (params: any, sort: any) => {
     const par = formatTableParams(params, sort, ['userId', 'access'], ['username', 'nickname'])
 
-    const msg = await UserPageApi(par)
+    const res = await UserPageApi(par)
 
     actionRef.current && actionRef.current.clearSelected && actionRef.current.clearSelected()
 
     return {
-      data: msg.list,
+      data: res.list,
       // success 请返回 true，不然 table 会停止解析数据，即使有数据
       success: true,
       // 不传会使用 data 的长度，如果是分页一定要传
-      total: msg.total
+      total: res.total
     }
   }
 

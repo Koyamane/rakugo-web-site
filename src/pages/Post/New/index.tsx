@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-17 23:49:48
+ * @LastEditTime: 2023-04-18 18:04:15
  * @Description:
  */
 
@@ -12,13 +12,14 @@ import { SwapOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl, useModel } from '@umijs/max'
 import { Avatar, Button, Input, Modal, Popover } from 'antd'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import MarkdownEditor from './components/MarkdownEditor'
 import RichtextEditor from './components/RichtextEditor'
 import { AddBlogType } from './data'
 
 export default (): React.ReactNode => {
   const { initialState } = useModel('@@initialState')
+  const { getDataDictionary } = useModel('useDataDictionary')
   const [mdValue, setMdValue] = useState('')
   const intl = useIntl()
   const [modal, contextHolder] = Modal.useModal()
@@ -124,6 +125,10 @@ export default (): React.ReactNode => {
       }
     }
   }))
+
+  useEffect(() => {
+    getDataDictionary(['ARTICLE_SORT'])
+  }, [])
 
   return (
     <main className={postArticleClassName + ' post-article'}>

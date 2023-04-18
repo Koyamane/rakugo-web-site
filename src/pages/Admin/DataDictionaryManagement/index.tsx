@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 16:55:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 16:49:53
+ * @LastEditTime: 2023-04-18 18:47:47
  * @Description:
  */
 import { DATA_DICTIONARY_STATUS, toObj } from '@/locales/dataDictionary'
@@ -50,16 +50,16 @@ const DataDictionaryManagement: React.FC = () => {
       ['key', 'title', 'description', 'createdName']
     )
 
-    const msg = await DataDictionaryPageApi(par)
+    const res = await DataDictionaryPageApi(par)
 
     actionRef.current && actionRef.current.clearSelected && actionRef.current.clearSelected()
 
     return {
-      data: msg.list,
+      data: res.list,
       // success 请返回 true，不然 table 会停止解析数据，即使有数据
       success: true,
       // 不传会使用 data 的长度，如果是分页一定要传
-      total: msg.total
+      total: res.total
     }
   }
 
@@ -138,12 +138,12 @@ const DataDictionaryManagement: React.FC = () => {
     },
     {
       title: '值',
-      dataIndex: 'data',
+      dataIndex: 'datas',
       hideInForm: true,
       hideInSearch: true,
-      render: data =>
-        (data as [])?.reduce((pre: any, next: any) => {
-          return pre ? pre + ',' + next.label : next.label
+      render: datas =>
+        (datas as [])?.reduce((pre: any, next: any) => {
+          return pre ? pre + ', ' + next.value : next.value
         }, '')
     },
     {
@@ -211,6 +211,7 @@ const DataDictionaryManagement: React.FC = () => {
 
       <ModalForm
         form={form}
+        width={1000}
         title={modalTitle}
         open={modalVisible}
         disabled={modalType === 'DETAIL'}
@@ -241,7 +242,7 @@ const DataDictionaryManagement: React.FC = () => {
         </Row>
 
         <Row gutter={24}>
-          <Form.List name='data' initialValue={[]}>
+          <Form.List name='datas' initialValue={[]}>
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, ...restField }) => (
@@ -256,24 +257,20 @@ const DataDictionaryManagement: React.FC = () => {
                         <InputNumber
                           min={1}
                           placeholder='顺序'
-                          style={{ width: '100%' }}
                           parser={(value: any) => value.replace(/\D/g, '')}
                           formatter={(value: any) => value.replace(/\D/g, '')}
                         />
                       </Form.Item>
                       <ProFormText
                         {...restField}
-                        placeholder='值'
-                        name={[name, 'value']}
+                        placeholder='键'
+                        name={[name, 'key']}
                         rules={[{ required: true }]}
                       />
-                      <ProFormText
-                        {...restField}
-                        placeholder='内容'
-                        name={[name, 'label']}
-                        rules={[{ required: true }]}
-                      />
-
+                      <ProFormText {...restField} placeholder='默认值' name={[name, 'value']} />
+                      <ProFormText {...restField} placeholder='中文值' name={[name, 'valueZh']} />
+                      <ProFormText {...restField} placeholder='英文值' name={[name, 'valueEn']} />
+                      <ProFormText {...restField} placeholder='日文值' name={[name, 'valueJa']} />
                       <Button
                         type='text'
                         onClick={() => remove(name)}

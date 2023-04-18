@@ -31,16 +31,16 @@ const BlogManagement: React.FC = () => {
 
     const par = formatTableParams(params, curSrot, ['status'], ['title', 'createdName'])
 
-    const msg = await BlogPageApi(par)
+    const res = await BlogPageApi(par)
 
     actionRef.current && actionRef.current.clearSelected && actionRef.current.clearSelected()
 
     return {
-      data: msg.list,
+      data: res.list,
       // success 请返回 true，不然 table 会停止解析数据，即使有数据
       success: true,
       // 不传会使用 data 的长度，如果是分页一定要传
-      total: msg.total
+      total: res.total
     }
   }
 
