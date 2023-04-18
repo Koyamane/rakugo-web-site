@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-16 22:57:54
+ * @LastEditTime: 2023-04-18 12:52:01
  * @Description:
  */
 /**
@@ -41,6 +41,29 @@ export default [
         path: '/post/article',
         wrappers: ['@/wrappers/auth'],
         component: './Post/New'
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    icon: 'crown',
+    access: 'canAdmin',
+    routes: [
+      {
+        path: '/admin/announcement',
+        name: 'announcement',
+        component: './Admin/AnnouncementManagement'
+      },
+      {
+        path: '/admin/blog',
+        name: 'blog',
+        component: './Admin/BlogManagement'
+      },
+      {
+        path: '/admin/user',
+        name: 'user',
+        component: './Admin/UserManagement'
       }
     ]
   },

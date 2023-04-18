@@ -8,6 +8,7 @@
  */
 import sakuraBg from '@/assets/sakura.jpg'
 import { BackTop } from '@/components'
+import { AnnouncementPageApi } from '@/pages/Admin/AnnouncementManagement/service'
 import { SoundOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useModel } from '@umijs/max'
@@ -17,7 +18,6 @@ import Marquee from 'react-fast-marquee'
 import HomeList from './components/HomeList'
 import SortSideBar from './components/SortSideBar'
 import { AnnouncementInfo, BlogSortKey } from './data'
-import { AnnouncementPageApi } from './services'
 
 export default (): React.ReactNode => {
   const [announcementList, setAnnouncementList] = useState<AnnouncementInfo[]>([])
