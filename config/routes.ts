@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 12:52:01
+ * @LastEditTime: 2023-04-18 13:18:56
  * @Description:
  */
 /**
@@ -64,6 +64,11 @@ export default [
         path: '/admin/user',
         name: 'user',
         component: './Admin/UserManagement'
+      },
+      {
+        path: '/admin/data-dictionary',
+        name: 'dataDictionary',
+        component: './Admin/DataDictionaryManagement'
       }
     ]
   },

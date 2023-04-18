@@ -1,13 +1,6 @@
-/*
- * @Author: dingyun
- * @Date: 2023-04-12 22:45:02
- * @LastEditors: dingyun
- * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-14 13:31:31
- * @Description:
- */
 import sakuraBg from '@/assets/sakura.jpg'
 import { BackTop } from '@/components'
+import { AnnouncementInfo } from '@/pages/Admin/AnnouncementManagement/data'
 import { AnnouncementPageApi } from '@/pages/Admin/AnnouncementManagement/service'
 import { SoundOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
@@ -17,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 import Marquee from 'react-fast-marquee'
 import HomeList from './components/HomeList'
 import SortSideBar from './components/SortSideBar'
-import { AnnouncementInfo, BlogSortKey } from './data'
+import { BlogSortKey } from './data'
 
 export default (): React.ReactNode => {
   const [announcementList, setAnnouncementList] = useState<AnnouncementInfo[]>([])

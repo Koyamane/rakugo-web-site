@@ -8,6 +8,7 @@ export default {
   'menu.admin.user': 'ユーザー管理',
   'menu.admin.announcement': '公告管理',
   'menu.admin.blog': 'ブログ管理',
+  'menu.admin.dataDictionary': 'データ辞書',
   'menu.login': 'ログイン',
   'menu.register': '登録',
   'menu.register-result': '登録結果',

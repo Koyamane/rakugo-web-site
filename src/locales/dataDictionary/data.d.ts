@@ -8,5 +8,6 @@ declare namespace DataDictionary {
   type ACCESS = 'admin' | 'user'
   type ACCESS_RIGHTS = 'all' | ACCESS
   type BLOG_STATUS = 'REVIEWED' | 'APPROVED' | 'REJECT'
+  type DATA_DICTIONARY_STATUS = 'EFFECTIVE' | 'INVALID'
   type NOTIFICATION_STATUS = 'NOT_EXPIRED' | 'EXPIRED'
 }

@@ -30,6 +30,11 @@ export const NOTIFICATION_STATUS = [
   { label: '过期', value: 'EXPIRED' }
 ]
 
+export const DATA_DICTIONARY_STATUS = [
+  { label: '有效', value: 'EFFECTIVE' },
+  { label: '无效', value: 'INVALID' }
+]
+
 export function toObj(dataArr: DataDictionary.Item[]) {
   const obj: Record<string, string> = {}
   dataArr.forEach(item => (obj[item.value.toString()] = item.label))

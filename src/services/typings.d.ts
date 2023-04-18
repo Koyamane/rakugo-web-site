@@ -72,6 +72,8 @@ declare namespace API {
     approvedDate: string
     editor: DataDictionary.EDITOR
     status: DataDictionary.BLOG_STATUS
+    sort: string
+    description: string
     title: string
     content: string
     mdData: string
@@ -84,6 +86,25 @@ declare namespace API {
     collections: number
     rejectReason?: string
     blogDataArr: BlogDataItem[]
+  }
+
+  type DataDictionaryItem = {
+    order: string | number
+    value: string | number
+    label: string | number | boolean
+  }
+
+  type DataDictionaryInfo = {
+    id: string
+    createdName: string
+    createdId: string
+    createdDate: string
+    updateDate: string
+    title: string
+    key: string
+    description: string
+    status: DataDictionary.DATA_DICTIONARY_STATUS
+    data: DataDictionaryItem[]
   }
 
   type UpdateCurrentUser = Omit<

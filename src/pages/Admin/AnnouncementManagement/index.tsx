@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 16:55:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 12:54:09
+ * @LastEditTime: 2023-04-18 14:09:29
  * @Description:
  */
 import { ACCESS_RIGHTS, NOTIFICATION_STATUS, toObj } from '@/locales/dataDictionary'
@@ -95,7 +95,7 @@ const AnnouncementManagement: React.FC = () => {
       dataIndex: 'order'
     },
     {
-      title: '通知内容',
+      title: '公告内容',
       dataIndex: 'title'
     },
     {
@@ -151,7 +151,7 @@ const AnnouncementManagement: React.FC = () => {
         </a>,
         <Popconfirm
           key='delete'
-          title='确定要删除该通知吗？'
+          title='确定要删除该公告吗？'
           onConfirm={async () => handleRemove(record.id)}
         >
           <a>删除</a>
@@ -185,7 +185,7 @@ const AnnouncementManagement: React.FC = () => {
       />
 
       <ModalForm
-        title={modalType === 'CREATE' ? '新增通知' : '编辑通知'}
+        title={modalType === 'CREATE' ? '新增公告' : '编辑公告'}
         onFinish={value => {
           return modalType === 'CREATE' ? handleAdd(value) : handleEdit(value)
         }}
@@ -195,15 +195,15 @@ const AnnouncementManagement: React.FC = () => {
       >
         <ProFormText
           name='title'
-          label='通知内容'
+          label='公告内容'
           rules={[
             {
               required: true,
-              message: '通知内容为必填项'
+              message: '公告内容为必填项'
             }
           ]}
         />
-        <Form.Item label='通知顺序' name='order' initialValue={1}>
+        <Form.Item label='公告顺序' name='order' initialValue={1}>
           <InputNumber
             min={1}
             style={{ width: '100%' }}

@@ -11,7 +11,7 @@ import { request } from '@umijs/max'
 import { AnnouncementInfo } from './data'
 
 /**
- * @description 分页查询通知列表
+ * @description 分页查询公告列表
  * @returns Promise
  */
 export const AnnouncementPageApi = (params?: API.PageParams) => {
