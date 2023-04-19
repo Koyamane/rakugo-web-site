@@ -70,9 +70,9 @@ export default function useDataDictionary() {
 
   const keyToValue = (dataDictionaryKey: string, key: string) => {
     let obj = dataDictionaryObj
-    if (!obj[dataDictionaryKey]) return
+    if (!obj[dataDictionaryKey]) return ''
     const targetObj: any = obj[dataDictionaryKey].find((item: any) => item.key === key) || {}
-    return targetObj[`value_${locale.substring(0, 2)}`]
+    return targetObj[`value_${locale.substring(0, 2)}`] ?? ''
   }
 
   return {

@@ -13,7 +13,7 @@ import {
   StarOutlined
 } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { connect, Dispatch, NavLink, useIntl, useModel } from '@umijs/max'
+import { connect, Dispatch, NavLink, useIntl } from '@umijs/max'
 import { Divider, Pagination, Popover, Space, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { SomebodyBlogPage } from '../../service'
@@ -30,7 +30,6 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
   const intl = useIntl()
   const [listLoading, setListLoading] = useState(true)
   const [firstEnter, setFirstEnter] = useState(true)
-  const { keyToValue, getDataDictionary } = useModel('useDataDictionary')
   const formatTime = useFormatTime()
   const itemRender = usePaginationItem()
   const [blogData, setBlogData] = useState<{
@@ -119,7 +118,6 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
   }
 
   useEffect(() => {
-    getDataDictionary(['ARTICLE_SORT'])
     // 每次id不一样，都要发请求
     initList()
   }, [userId])
@@ -235,8 +233,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
                 <div className='content-list-item-left-userInfo'>
                   {formatTime(item.approvedDate)}
                   <Divider type='vertical' />
-                  {keyToValue('ARTICLE_SORT', item.sort) + '・'}
-                  {!!item.tags.length && item.tags.join('・')}
+                  {item.tags.join('・')}
                 </div>
                 <div className='content-list-item-left-title text-ellipsis'>
                   <NavLink target='_blank' to={`/article/${item.id}`}>

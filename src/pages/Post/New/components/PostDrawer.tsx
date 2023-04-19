@@ -53,10 +53,10 @@ const PostModal: React.FC<PostModalProps> = React.memo(({ titleValue, mainText, 
       const converter = new showdown.Converter()
       summaryValue = converter
         .makeHtml(mainText)
-        .replace(/<[^>]+>/g, '')
+        .replace(/(<[^>]+>)|(\n+)/g, '')
         .substring(0, 100)
     } else {
-      summaryValue = mainText.replace(/<[^>]+>/g, '').substring(0, 100)
+      summaryValue = mainText.replace(/(<[^>]+>)|(\n+)/g, '').substring(0, 100)
     }
 
     form.setFieldValue('summary', summaryValue)
@@ -138,7 +138,11 @@ const PostModal: React.FC<PostModalProps> = React.memo(({ titleValue, mainText, 
             label={intl.formatMessage({ id: 'pages.form.itemTag' })}
             placeholder={intl.formatMessage({ id: 'pages.form.selectMsg' })}
             rules={[{ required: true, message: formItemFillHint('form.itemTag', 'selectMsg') }]}
-            fieldProps={{ maxLength: 8, maxTagCount: 1, tokenSeparators: [',', '\t', '\n', '\r'] }}
+            fieldProps={{
+              maxTagCount: 1,
+              maxTagTextLength: 16,
+              tokenSeparators: [',', '\t', '\n', '\r']
+            }}
           />
 
           <Form.Item name='cover' label={intl.formatMessage({ id: 'pages.form.cover' })}>

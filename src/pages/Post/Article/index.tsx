@@ -28,7 +28,6 @@ export default (): React.ReactNode => {
   const { initialState } = useModel('@@initialState')
   const userId = initialState?.currentUser?.userId
   const { setTo404 } = useModel('use404Model')
-  const { keyToValue, getDataDictionary } = useModel('useDataDictionary')
   const { followed, setFollowed, directoryList } = useModel('useArticle')
   const [blogInfo, setBlogInfo] = useState<API.BlogInfo>()
   const [userBlogList, setUserBlogList] = useState<API.BlogInfo[]>([])
@@ -231,7 +230,6 @@ export default (): React.ReactNode => {
   }
 
   useLayoutEffect(() => {
-    getDataDictionary(['ARTICLE_SORT'])
     getBlogInfo()
   }, [id])
 
@@ -272,18 +270,13 @@ export default (): React.ReactNode => {
                         text={blogInfo.reads}
                         className='article-layout-content-header-middle-right-data-reads'
                       />
-                      {!!blogInfo.tags.length && (
-                        <IconText
-                          align='start'
-                          icon={TagsOutlined}
-                          text={
-                            keyToValue('ARTICLE_SORT', blogInfo.sort) +
-                            '・' +
-                            blogInfo.tags.join('・')
-                          }
-                          className='article-layout-content-header-middle-right-data-tags'
-                        />
-                      )}
+
+                      <IconText
+                        align='start'
+                        icon={TagsOutlined}
+                        text={blogInfo.tags.join('・')}
+                        className='article-layout-content-header-middle-right-data-tags'
+                      />
                     </div>
                   </div>
                 </div>

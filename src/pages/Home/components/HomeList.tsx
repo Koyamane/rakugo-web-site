@@ -18,7 +18,7 @@ import {
   StarOutlined
 } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { NavLink, useIntl, useModel } from '@umijs/max'
+import { NavLink, useIntl } from '@umijs/max'
 import { Divider, Skeleton, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -28,7 +28,6 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
   ({ sortKey, userId }) => {
     const intl = useIntl()
     const formatTime = useFormatTime()
-    const { keyToValue, getDataDictionary } = useModel('useDataDictionary')
     const [firstEnter, setFirstEnter] = useState(true)
     const [loading, setLoading] = useState(false)
     const [blogData, setBlogData] = useState<{
@@ -215,7 +214,6 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
     }
 
     useEffect(() => {
-      getDataDictionary(['ARTICLE_SORT'])
       initList()
     }, [sortKey])
 
@@ -246,8 +244,7 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
                         {item.createdName}
                       </NavLink>
                       <Divider type='vertical' />
-                      {keyToValue('ARTICLE_SORT', item.sort) + '・'}
-                      {!!item.tags.length && item.tags.join('・')}
+                      {item.tags.join('・')}
                     </div>
                     <div className='content-list-item-left-title text-ellipsis'>
                       <NavLink target='_blank' to={`/article/${item.id}`}>
