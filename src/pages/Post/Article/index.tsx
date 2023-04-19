@@ -7,12 +7,10 @@
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
-import IconText from '@/components/IconText'
 import useFormatTime from '@/hooks/useFormatTime'
-import { EyeOutlined, TagsOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, NavLink, useModel, useParams } from '@umijs/max'
-import { Avatar, Space, Spin } from 'antd'
+import { Avatar, Divider, Space, Spin, Tag } from 'antd'
 import React, { useLayoutEffect, useState } from 'react'
 import ArticleFooterUser from './components/ArticleFooterUser'
 import ArticleOperationBtn from './components/ArticleOperationBtn'
@@ -28,6 +26,7 @@ export default (): React.ReactNode => {
   const { initialState } = useModel('@@initialState')
   const userId = initialState?.currentUser?.userId
   const { setTo404 } = useModel('use404Model')
+  const { keyToValue, getDataDictionary } = useModel('useDataDictionary')
   const { followed, setFollowed, directoryList } = useModel('useArticle')
   const [blogInfo, setBlogInfo] = useState<API.BlogInfo>()
   const [userBlogList, setUserBlogList] = useState<API.BlogInfo[]>([])
@@ -94,13 +93,17 @@ export default (): React.ReactNode => {
                 marginBlockEnd: token.marginXXS
               },
 
-              '&-data-reads': {
-                marginInline: token.marginSM
-              },
-
-              '&-data-tags': {
-                wordBreak: 'break-all'
+              '&-data': {
+                fontSize: token.fontSizeSM
               }
+
+              // '&-data-reads': {
+              //   marginInline: token.marginSM
+              // },
+
+              // '&-data-tags': {
+              //   wordBreak: 'break-all'
+              // }
             }
           },
 
@@ -230,6 +233,7 @@ export default (): React.ReactNode => {
   }
 
   useLayoutEffect(() => {
+    getDataDictionary(['ARTICLE_SORT'])
     getBlogInfo()
   }, [id])
 
@@ -265,18 +269,10 @@ export default (): React.ReactNode => {
 
                     <div className='article-layout-content-header-middle-right-data'>
                       <span>{formatTime(blogInfo.approvedDate)}</span>
-                      <IconText
-                        icon={EyeOutlined}
-                        text={blogInfo.reads}
-                        className='article-layout-content-header-middle-right-data-reads'
-                      />
-
-                      <IconText
-                        align='start'
-                        icon={TagsOutlined}
-                        text={blogInfo.tags.join('・')}
-                        className='article-layout-content-header-middle-right-data-tags'
-                      />
+                      <span>
+                        ・<FormattedMessage id='pages.blog.reads' />
+                        &nbsp;{blogInfo.reads}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -295,6 +291,26 @@ export default (): React.ReactNode => {
                   <ReaderValue editor={blogInfo.editor} value={blogInfo.content} />
                 </div>
               )}
+
+              <Divider />
+
+              <Space size='large'>
+                <Space>
+                  <FormattedMessage id='pages.form.sort' />
+                  <Tag color='magenta'>{keyToValue('ARTICLE_SORT', blogInfo.sort)}</Tag>
+                </Space>
+
+                <Space>
+                  <FormattedMessage id='pages.form.itemTag' />
+                  <span>
+                    {blogInfo.tags.map((item, index) => (
+                      <Tag color='volcano' key={index}>
+                        {item}
+                      </Tag>
+                    ))}
+                  </span>
+                </Space>
+              </Space>
 
               {blogInfo.status === 'APPROVED' && (
                 <Comment targetType='Blog' targetId={blogInfo.id} />
