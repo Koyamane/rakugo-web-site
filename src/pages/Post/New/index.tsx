@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 18:04:15
+ * @LastEditTime: 2023-04-18 23:08:04
  * @Description:
  */
 
@@ -11,18 +11,20 @@ import { AvatarDropdown } from '@/components'
 import { SwapOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl, useModel } from '@umijs/max'
-import { Avatar, Button, Input, Modal, Popover } from 'antd'
+import { Avatar, Input, Modal, Popover } from 'antd'
 import React, { useEffect, useMemo, useState } from 'react'
 import MarkdownEditor from './components/MarkdownEditor'
+import PostDrawer from './components/PostDrawer'
 import RichtextEditor from './components/RichtextEditor'
 import { AddBlogType } from './data'
 
 export default (): React.ReactNode => {
+  const intl = useIntl()
+  const [mainText, setMainText] = useState('')
+  const [modal, contextHolder] = Modal.useModal()
+  const [titleValue, setTitleValue] = useState('')
   const { initialState } = useModel('@@initialState')
   const { getDataDictionary } = useModel('useDataDictionary')
-  const [mdValue, setMdValue] = useState('')
-  const intl = useIntl()
-  const [modal, contextHolder] = Modal.useModal()
   const [editor, setEditor] = useState<AddBlogType['editor']>('MARKDOWN')
   const switchTo = useMemo(() => {
     if (editor === 'MARKDOWN') {
@@ -30,6 +32,10 @@ export default (): React.ReactNode => {
     }
     return intl.formatMessage({ id: 'pages.post.switchToMarkdown' })
   }, [editor, intl.locale])
+
+  const titleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitleValue(e.target.value)
+  }
 
   const changeEditor = () => {
     modal.confirm({
@@ -137,12 +143,13 @@ export default (): React.ReactNode => {
         <header className='post-article-header'>
           <Input
             bordered={false}
+            onChange={titleChange}
             className='post-article-header-title'
             placeholder={intl.formatMessage({ id: 'pages.post.titlePlaceholder' })}
           />
 
           <>
-            <Button type='primary'>{intl.formatMessage({ id: 'menu.post' })}</Button>
+            <PostDrawer titleValue={titleValue} mainText={mainText} editor={editor} />
             <Popover content={switchTo}>
               <SwapOutlined onClick={changeEditor} className='post-article-header-change-editor' />
             </Popover>
@@ -157,7 +164,7 @@ export default (): React.ReactNode => {
 
         <div className='post-article-editor'>
           {editor === 'MARKDOWN' ? (
-            <MarkdownEditor value={mdValue} onChange={setMdValue} />
+            <MarkdownEditor value={mainText} onChange={setMainText} />
           ) : (
             <RichtextEditor />
           )}

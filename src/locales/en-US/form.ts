@@ -16,6 +16,8 @@ export default {
   'pages.form.inputMsg': 'Please enter',
   'pages.form.selectMsg': 'Please select',
   'pages.form.textareaMsg': 'Please fill in',
+  'pages.form.sort': 'Sort',
+  'pages.form.summary': 'Summary',
   'pages.form.itemTitle': 'Title',
   'pages.form.itemTag': 'Tag',
   'pages.form.itemEditor': 'Editor',

@@ -3,13 +3,15 @@
  * @Date: 2023-04-12 20:13:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 19:02:08
+ * @LastEditTime: 2023-04-18 21:37:08
  * @Description:
  */
 import { DataDictionaryPageApi } from '@/pages/Admin/DataDictionaryManagement/service'
+import { getLocale } from '@umijs/max'
 import { useCallback, useState } from 'react'
 
 export default function useDataDictionary() {
+  const locale = getLocale()
   const [dataDictionaryObj, setDataDictionaryObj] = useState<
     Record<string, API.DataDictionaryItem[]>
   >({})
@@ -32,10 +34,16 @@ export default function useDataDictionary() {
         obj[item.key] = arr
       }
     })
-    console.log(obj)
     setDataDictionaryObj(obj)
 
     return obj
+  }
+
+  const formatOptions = (list: any[] = [], value: string = 'key', label: string = 'value') => {
+    return list.map(item => ({
+      value: item[value],
+      label: item[`${label}_${locale.substring(0, 2)}`]
+    }))
   }
 
   const getDataDictionary = useCallback(
@@ -51,12 +59,25 @@ export default function useDataDictionary() {
         const obj = formatDataDictionaryList(res.list)
 
         cb && cb(obj)
+
+        return obj
       } catch (error) {}
+
+      return
     },
     []
   )
 
+  const keyToValue = (dataDictionaryKey: string, key: string) => {
+    let obj = dataDictionaryObj
+    if (!obj[dataDictionaryKey]) return
+    const targetObj: any = obj[dataDictionaryKey].find((item: any) => item.key === key) || {}
+    return targetObj[`value_${locale.substring(0, 2)}`]
+  }
+
   return {
+    keyToValue,
+    formatOptions,
     dataDictionaryObj,
     getDataDictionary,
     setDataDictionary: formatDataDictionaryList

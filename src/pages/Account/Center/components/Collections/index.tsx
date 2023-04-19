@@ -4,7 +4,7 @@ import useFormatTime from '@/hooks/useFormatTime'
 import usePaginationItem from '@/hooks/usePaginationItem'
 import { EyeOutlined, UserOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { connect, Dispatch, FormattedMessage, NavLink } from '@umijs/max'
+import { connect, Dispatch, FormattedMessage, NavLink, useModel } from '@umijs/max'
 import { Divider, Pagination, Space, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { BlogCollectionPage } from '../../service'
@@ -21,6 +21,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
   const [firstEnter, setFirstEnter] = useState(true)
   const formatTime = useFormatTime()
   const itemRender = usePaginationItem()
+  const { keyToValue, getDataDictionary } = useModel('useDataDictionary')
   const [collectionData, setCollectionData] = useState<{
     list: any[]
     pagination: { current: number; total: number }
@@ -64,6 +65,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
   }
 
   useEffect(() => {
+    getDataDictionary(['ARTICLE_SORT'])
     // 每次id不一样，都要发请求
     initList()
   }, [userId])
@@ -158,12 +160,9 @@ const Articles: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
                   <div className='content-list-item-userInfo'>
                     {formatTime(item.approvedDate)}
 
-                    {!!item.tags.length && (
-                      <>
-                        <Divider type='vertical' />
-                        {item.tags.join('・')}
-                      </>
-                    )}
+                    <Divider type='vertical' />
+                    {keyToValue('ARTICLE_SORT', item.sort) + '・'}
+                    {!!item.tags.length && item.tags.join('・')}
                   </div>
 
                   <div className='content-list-item-title text-ellipsis'>
@@ -172,11 +171,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
                     </NavLink>
                   </div>
 
-                  {item.content && (
-                    <div className='content-list-item-body text-ellipsis'>
-                      {item.content.replace(/<[^>]+>/g, '')}
-                    </div>
-                  )}
+                  <div className='content-list-item-body text-ellipsis'>{item.summary}</div>
 
                   <div className='content-list-item-actions'>
                     <Space size='middle'>

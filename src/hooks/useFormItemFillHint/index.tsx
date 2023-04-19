@@ -3,23 +3,29 @@
  * @Date: 2021-12-25 13:34:04
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-03-31 21:23:36
+ * @LastEditTime: 2023-04-18 22:47:21
  * @Description:
  */
 
-import { FormattedMessage, useIntl } from '@umijs/max'
+import { useIntl } from '@umijs/max'
 import { useCallback } from 'react'
 
 const useFormItemFillHint = () => {
   const intl = useIntl()
 
   const fillHint = useCallback(
-    (labelId: string) => {
+    (labelId: string, hintId?: string) => {
+      if (intl.locale === 'ja-JP') {
+        return (
+          intl.formatMessage({ id: `pages.${labelId}` }) +
+          'を' +
+          intl.formatMessage({ id: `pages.form.${hintId || 'hintSuffix'}` })
+        )
+      }
+
       return (
-        <>
-          <FormattedMessage id={`pages.${labelId}`} />
-          <FormattedMessage id='pages.form.hintSuffix' />
-        </>
+        intl.formatMessage({ id: `pages.form.${hintId || 'hintSuffix'}` }) +
+        intl.formatMessage({ id: `pages.${labelId}` })
       )
     },
     [intl.locale]

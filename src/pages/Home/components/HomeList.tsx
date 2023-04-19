@@ -18,7 +18,7 @@ import {
   StarOutlined
 } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { NavLink, useIntl } from '@umijs/max'
+import { NavLink, useIntl, useModel } from '@umijs/max'
 import { Divider, Skeleton, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -26,8 +26,9 @@ import { BlogSortKey, OperationItem } from '../data'
 
 const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo(
   ({ sortKey, userId }) => {
-    const formatTime = useFormatTime()
     const intl = useIntl()
+    const formatTime = useFormatTime()
+    const { keyToValue, getDataDictionary } = useModel('useDataDictionary')
     const [firstEnter, setFirstEnter] = useState(true)
     const [loading, setLoading] = useState(false)
     const [blogData, setBlogData] = useState<{
@@ -89,7 +90,7 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
               textOverflow: 'ellipsis',
               wordBreak: 'break-word',
               WebkitBoxOrient: 'vertical', // 设置或检索伸缩盒子对象的子元素的排列方式
-              WebkitLineClamp: '3' // 在第几行上加 ...
+              WebkitLineClamp: '2' // 在第几行上加 ...
             },
 
             '&-actions-active': {
@@ -102,8 +103,8 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
             borderRadius: token.borderRadius,
             overflow: 'hidden',
             position: 'relative',
-            width: '220px',
-            minHeight: '155px',
+            width: '200px',
+            minHeight: '133px',
             cursor: 'pointer',
             marginInlineStart: token.marginXS,
 
@@ -214,6 +215,7 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
     }
 
     useEffect(() => {
+      getDataDictionary(['ARTICLE_SORT'])
       initList()
     }, [sortKey])
 
@@ -243,12 +245,9 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
                       <NavLink target='_blank' to={`/account/center/${item.createdId}`}>
                         {item.createdName}
                       </NavLink>
-                      {!!item.tags.length && (
-                        <>
-                          <Divider type='vertical' />
-                          {item.tags.join('・')}
-                        </>
-                      )}
+                      <Divider type='vertical' />
+                      {keyToValue('ARTICLE_SORT', item.sort) + '・'}
+                      {!!item.tags.length && item.tags.join('・')}
                     </div>
                     <div className='content-list-item-left-title text-ellipsis'>
                       <NavLink target='_blank' to={`/article/${item.id}`}>
@@ -256,11 +255,7 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
                       </NavLink>
                     </div>
 
-                    {item.content && (
-                      <div className='content-list-item-left-body'>
-                        {item.content.replace(/<[^>]+>/g, '')}
-                      </div>
-                    )}
+                    <div className='content-list-item-left-body'>{item.summary}</div>
 
                     <Space size='large' className='content-list-item-left-actions'>
                       <IconText icon={EyeOutlined} text={item.reads} />

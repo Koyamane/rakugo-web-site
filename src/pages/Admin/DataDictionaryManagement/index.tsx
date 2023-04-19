@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 16:55:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 18:47:47
+ * @LastEditTime: 2023-04-18 21:25:45
  * @Description:
  */
 import { DATA_DICTIONARY_STATUS, toObj } from '@/locales/dataDictionary'
@@ -268,9 +268,9 @@ const DataDictionaryManagement: React.FC = () => {
                         rules={[{ required: true }]}
                       />
                       <ProFormText {...restField} placeholder='默认值' name={[name, 'value']} />
-                      <ProFormText {...restField} placeholder='中文值' name={[name, 'valueZh']} />
-                      <ProFormText {...restField} placeholder='英文值' name={[name, 'valueEn']} />
-                      <ProFormText {...restField} placeholder='日文值' name={[name, 'valueJa']} />
+                      <ProFormText {...restField} placeholder='中文值' name={[name, 'value_zh']} />
+                      <ProFormText {...restField} placeholder='英文值' name={[name, 'value_en']} />
+                      <ProFormText {...restField} placeholder='日文值' name={[name, 'value_ja']} />
                       <Button
                         type='text'
                         onClick={() => remove(name)}

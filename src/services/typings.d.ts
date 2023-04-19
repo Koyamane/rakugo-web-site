@@ -73,7 +73,7 @@ declare namespace API {
     editor: DataDictionary.EDITOR
     status: DataDictionary.BLOG_STATUS
     sort: string
-    description: string
+    summary: string
     title: string
     content: string
     mdData: string
@@ -92,9 +92,9 @@ declare namespace API {
     order: number
     key: string | number
     value: string | number | boolean
-    valueZh: string | number | boolean
-    valueEn: string | number | boolean
-    valueJa: string | number | boolean
+    value_zh: string | number | boolean
+    value_en: string | number | boolean
+    value_ja: string | number | boolean
   }
 
   type DataDictionaryInfo = {

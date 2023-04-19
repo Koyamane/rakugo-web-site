@@ -13,7 +13,7 @@ import {
   StarOutlined
 } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { connect, Dispatch, NavLink, useIntl } from '@umijs/max'
+import { connect, Dispatch, NavLink, useIntl, useModel } from '@umijs/max'
 import { Divider, Pagination, Popover, Space, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { SomebodyBlogPage } from '../../service'
@@ -30,6 +30,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
   const intl = useIntl()
   const [listLoading, setListLoading] = useState(true)
   const [firstEnter, setFirstEnter] = useState(true)
+  const { keyToValue, getDataDictionary } = useModel('useDataDictionary')
   const formatTime = useFormatTime()
   const itemRender = usePaginationItem()
   const [blogData, setBlogData] = useState<{
@@ -118,6 +119,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
   }
 
   useEffect(() => {
+    getDataDictionary(['ARTICLE_SORT'])
     // 每次id不一样，都要发请求
     initList()
   }, [userId])
@@ -171,7 +173,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
           textOverflow: 'ellipsis',
           wordBreak: 'break-word',
           WebkitBoxOrient: 'vertical', // 设置或检索伸缩盒子对象的子元素的排列方式
-          WebkitLineClamp: '3' // 在第几行上加 ...
+          WebkitLineClamp: '2' // 在第几行上加 ...
         },
 
         '&-actions': {
@@ -189,8 +191,8 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
         borderRadius: token.borderRadius,
         overflow: 'hidden',
         position: 'relative',
-        width: '220px',
-        minHeight: '155px',
+        width: '180px',
+        minHeight: '134px',
         cursor: 'pointer',
         marginInlineStart: token.marginXS,
 
@@ -232,12 +234,9 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
               <div className='content-list-item-left'>
                 <div className='content-list-item-left-userInfo'>
                   {formatTime(item.approvedDate)}
-                  {!!item.tags.length && (
-                    <>
-                      <Divider type='vertical' />
-                      {item.tags.join('・')}
-                    </>
-                  )}
+                  <Divider type='vertical' />
+                  {keyToValue('ARTICLE_SORT', item.sort) + '・'}
+                  {!!item.tags.length && item.tags.join('・')}
                 </div>
                 <div className='content-list-item-left-title text-ellipsis'>
                   <NavLink target='_blank' to={`/article/${item.id}`}>
@@ -245,11 +244,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
                   </NavLink>
                 </div>
 
-                {item.content && (
-                  <div className='content-list-item-left-body'>
-                    {item.content.replace(/<[^>]+>/g, '')}
-                  </div>
-                )}
+                <div className='content-list-item-left-body'>{item.summary}</div>
 
                 <div className='content-list-item-left-actions'>
                   <Space size='middle'>

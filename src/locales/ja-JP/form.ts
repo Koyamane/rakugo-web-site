@@ -16,6 +16,8 @@ export default {
   'pages.form.inputMsg': '入力してください',
   'pages.form.selectMsg': '選択してください',
   'pages.form.textareaMsg': '記入してください',
+  'pages.form.sort': '分類',
+  'pages.form.summary': 'サマリー',
   'pages.form.itemTitle': 'タイトル',
   'pages.form.itemTag': 'タグ',
   'pages.form.itemEditor': 'エディタ',

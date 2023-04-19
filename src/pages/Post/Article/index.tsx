@@ -13,7 +13,7 @@ import { EyeOutlined, TagsOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, NavLink, useModel, useParams } from '@umijs/max'
 import { Avatar, Space, Spin } from 'antd'
-import React, { useLayoutEffect, useMemo, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import ArticleFooterUser from './components/ArticleFooterUser'
 import ArticleOperationBtn from './components/ArticleOperationBtn'
 import MarkdownItem from './components/MarkdownItem'
@@ -28,6 +28,7 @@ export default (): React.ReactNode => {
   const { initialState } = useModel('@@initialState')
   const userId = initialState?.currentUser?.userId
   const { setTo404 } = useModel('use404Model')
+  const { keyToValue, getDataDictionary } = useModel('useDataDictionary')
   const { followed, setFollowed, directoryList } = useModel('useArticle')
   const [blogInfo, setBlogInfo] = useState<API.BlogInfo>()
   const [userBlogList, setUserBlogList] = useState<API.BlogInfo[]>([])
@@ -229,11 +230,8 @@ export default (): React.ReactNode => {
     setLoading(false)
   }
 
-  const articleDetail = useMemo(() => {
-    return blogInfo && (blogInfo.mdData || blogInfo.content)
-  }, [blogInfo])
-
   useLayoutEffect(() => {
+    getDataDictionary(['ARTICLE_SORT'])
     getBlogInfo()
   }, [id])
 
@@ -274,11 +272,15 @@ export default (): React.ReactNode => {
                         text={blogInfo.reads}
                         className='article-layout-content-header-middle-right-data-reads'
                       />
-                      {blogInfo.tags && !!blogInfo.tags.length && (
+                      {!!blogInfo.tags.length && (
                         <IconText
                           align='start'
                           icon={TagsOutlined}
-                          text={blogInfo.tags.join('・')}
+                          text={
+                            keyToValue('ARTICLE_SORT', blogInfo.sort) +
+                            '・' +
+                            blogInfo.tags.join('・')
+                          }
                           className='article-layout-content-header-middle-right-data-tags'
                         />
                       )}
@@ -295,9 +297,9 @@ export default (): React.ReactNode => {
                 )}
               </div>
 
-              {articleDetail && (
+              {blogInfo.content && (
                 <div id='article-layout-content-detail' className='article-layout-content-detail'>
-                  <ReaderValue editor={blogInfo.editor} value={articleDetail} />
+                  <ReaderValue editor={blogInfo.editor} value={blogInfo.content} />
                 </div>
               )}
 
