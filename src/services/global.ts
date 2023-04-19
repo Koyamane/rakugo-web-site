@@ -63,3 +63,23 @@ export const UploadFile = (params: { filePrefix: string; file: File }) => {
 export const DeleteFile = (params: string[]) => {
   return request('/file/api/delete', { method: 'delete', data: params })
 }
+
+/**
+ * @description 上传多个文件
+ * @returns Promise
+ */
+export const FileUploadApi = (files: File[], filePrefixs?: string[] | string) => {
+  //声明一个formdata对象，用于存储file文件以及其他需要传递给服务器的参数
+  const formData = new FormData()
+
+  filePrefixs && formData.append('filePrefixs', JSON.stringify(filePrefixs))
+
+  for (const key in files) {
+    if (Object.prototype.hasOwnProperty.call(files, key)) {
+      const element = files[key]
+      formData.append(key, element)
+    }
+  }
+
+  return request('/file/api/uploadMultiple', { method: 'post', data: formData })
+}
