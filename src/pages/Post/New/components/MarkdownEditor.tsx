@@ -26,11 +26,6 @@ import 'highlight.js/styles/monokai-sublime.css' // 代码高亮的主题样式(
 import 'juejin-markdown-themes/dist/juejin.min.css' // 掘金同款样式
 import React, { useMemo } from 'react'
 
-interface MarkdownEditorProps {
-  value: string
-  onChange: (value: string) => void
-}
-
 const gfmJa = {
   strike: '取り消し線',
   strikeText: 'テキスト',
@@ -38,6 +33,11 @@ const gfmJa = {
   taskText: '未処理事項',
   table: 'テーブル',
   tableHeading: 'タイトル'
+}
+
+interface MarkdownEditorProps {
+  value: string
+  onChange: (value: string) => void
 }
 
 const MarkdownEditor: React.FC<MarkdownEditorProps> = React.memo(({ value, onChange }) => {

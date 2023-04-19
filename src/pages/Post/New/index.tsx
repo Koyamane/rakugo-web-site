@@ -166,7 +166,7 @@ export default (): React.ReactNode => {
           {editor === 'MARKDOWN' ? (
             <MarkdownEditor value={mainText} onChange={setMainText} />
           ) : (
-            <RichtextEditor />
+            <RichtextEditor value={mainText} onChange={setMainText} />
           )}
         </div>
       </div>

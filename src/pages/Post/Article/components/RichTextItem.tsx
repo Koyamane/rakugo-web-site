@@ -8,7 +8,6 @@
  */
 import { useModel } from '@umijs/max'
 import React, { useLayoutEffect } from 'react'
-import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.bubble.css'
 
 interface MarkdownItemProps {
@@ -22,7 +21,13 @@ const RichTextItem: React.FC<MarkdownItemProps> = React.memo(({ value }) => {
     getDirectoryList('#article-layout-content-detail')
   }, [])
 
-  return <ReactQuill theme='bubble' readOnly value={value} />
+  return (
+    <div className='quill'>
+      <div className='ql-container ql-bubble'>
+        <div className='ql-editor' dangerouslySetInnerHTML={{ __html: value }} />
+      </div>
+    </div>
+  )
 })
 
 export default RichTextItem
