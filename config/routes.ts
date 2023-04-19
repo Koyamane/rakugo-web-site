@@ -34,8 +34,15 @@ export default [
   {
     path: '/post',
     name: 'post',
+    layout: false,
     hideInMenu: true,
     routes: [
+      {
+        name: 'article',
+        path: '/post/:id',
+        wrappers: ['@/wrappers/auth'],
+        component: './Post/New'
+      },
       {
         name: 'article',
         path: '/post/article',

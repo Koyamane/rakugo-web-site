@@ -22,7 +22,7 @@ import { useIntl } from '@umijs/max'
 import 'bytemd/dist/index.min.css' // bytemd基础样式必须引入！！！
 import ja from 'bytemd/locales/ja.json' // 中文插件
 import zh_Hans from 'bytemd/locales/zh_Hans.json' // 中文插件
-import 'highlight.js/styles/monokai-sublime.css' // 代码高亮的主题样式(可自选)
+import 'highlight.js/styles/routeros.css' // 代码高亮的主题样式(可自选)
 import 'juejin-markdown-themes/dist/juejin.min.css' // 掘金同款样式
 import React, { useMemo } from 'react'
 

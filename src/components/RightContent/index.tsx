@@ -81,7 +81,7 @@ export const PostArticle: React.FC = () => {
 
   return (
     <Popover content={<FormattedMessage id='menu.post.article' />}>
-      <NavLink target='_blank' to='/post/article' className={postArticleClassName}>
+      <NavLink to='/post/article' className={postArticleClassName}>
         <FormOutlined />
       </NavLink>
     </Popover>

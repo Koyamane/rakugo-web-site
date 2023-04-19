@@ -29,7 +29,3 @@ export const BlogAddApi = (params: AddBlogType) => {
 export const BlogUpdateApi = (params: AddBlogType) => {
   return request('/blog/api/update', { method: 'put', data: formatParams(params) })
 }
-
-export const BlogInfoApi = (id: number | string) => {
-  return request('/blog/api/info', { method: 'get', params: { id } })
-}
