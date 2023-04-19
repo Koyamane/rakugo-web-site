@@ -6,6 +6,7 @@
  * @LastEditTime: 2023-04-17 23:23:24
  * @Description:
  */
+import { UploadFile } from '@/services/global'
 import { useIntl } from '@umijs/max'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
@@ -29,27 +30,74 @@ const ReactQuillEditor: React.FC<ReactQuillEditorProps> = React.memo(({ value, o
   const intl = useIntl()
   const quillRef = useRef<ReactQuill>()
 
+  const imageHandler = async () => {
+    const input = document.createElement('input')
+    input.setAttribute('type', 'file')
+    input.setAttribute('accept', 'image/*')
+    input.click()
+    input.onchange = async () => {
+      if (!input.files) return
+
+      Array.from(input.files).forEach(async item => {
+        try {
+          const url = await UploadFile(item, 'blog/content/')
+          const quill = quillRef?.current?.getEditor() // 获取到编辑器本身
+          const cursorPosition = quill?.getSelection()?.index || 0 // 获取当前光标位置
+          const link = url
+          quill?.insertEmbed(cursorPosition, 'image', link) // 插入图片
+          quill?.setSelection((cursorPosition + 1) as any) // 光标位置加 1
+        } catch (error) {
+          console.log(error)
+        }
+      })
+    }
+  }
+
+  // 禁止粘贴图片
+  const handleCustomMatcher = (node: Element, delta: any) => {
+    let ops: any[] = []
+    delta.ops.forEach((op: any) => {
+      if (op.insert && typeof op.insert === 'string') {
+        // 如果粘贴了图片，这里会是一个对象，所以可以这样处理
+        ops.push({
+          insert: op.insert
+        })
+      }
+    })
+    delta.ops = ops
+    return delta
+  }
+
   const modules = useMemo(() => {
     return {
       syntax: {
         highlight: (text: string) => hljs.highlightAuto(text).value
       },
-      toolbar: [
-        ['bold'],
-        ['italic'],
-        ['underline'],
-        ['strike'],
-        [{ header: 1 }],
-        [{ header: 2 }],
-        [{ header: 3 }],
-        ['blockquote'],
-        ['code-block'],
-        ['code'],
-        [{ list: 'ordered' }],
-        [{ list: 'bullet' }],
-        ['link'],
-        ['image']
-      ]
+      toolbar: {
+        container: [
+          ['bold'],
+          ['italic'],
+          ['underline'],
+          ['strike'],
+          [{ header: 1 }],
+          [{ header: 2 }],
+          [{ header: 3 }],
+          ['blockquote'],
+          ['code-block'],
+          ['code'],
+          [{ list: 'ordered' }],
+          [{ list: 'bullet' }],
+          ['link'],
+          ['image']
+        ],
+
+        handlers: {
+          image: imageHandler
+        }
+      },
+      clipboard: {
+        matchers: [[Node.ELEMENT_NODE, handleCustomMatcher]]
+      }
     }
   }, [])
 

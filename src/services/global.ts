@@ -44,14 +44,10 @@ export const LogOutApi = () => {
  * @description 上传图片
  * @returns Promise
  */
-export const UploadFile = (params: { filePrefix: string; file: File }) => {
+export const UploadFile = (file: File, filePrefix?: string) => {
   const formData = new FormData()
-
-  for (const key in params) {
-    if (Object.prototype.hasOwnProperty.call(params, key)) {
-      formData.append(key, params[key])
-    }
-  }
+  filePrefix && formData.append('filePrefix', filePrefix)
+  formData.append('file', file)
 
   return request('/file/api/upload', { method: 'post', data: formData })
 }

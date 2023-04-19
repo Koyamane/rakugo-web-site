@@ -77,7 +77,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = React.memo(({ value, onCha
     let arr: { title: string; url: string; alt: string }[] = []
 
     try {
-      const urlArr: string[] = await FileUploadApi(files, ['blog/content/'])
+      const urlArr: string[] = await FileUploadApi(files, 'blog/content/')
       arr = urlArr.map(item => ({
         title: item.replace(/.*\//g, ''),
         url: item,
