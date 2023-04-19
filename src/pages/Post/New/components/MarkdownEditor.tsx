@@ -38,67 +38,71 @@ const gfmJa = {
 interface MarkdownEditorProps {
   value: string
   onChange: (value: string) => void
+  onFileChange: (value: string[]) => void
 }
 
-const MarkdownEditor: React.FC<MarkdownEditorProps> = React.memo(({ value, onChange }) => {
-  const intl = useIntl()
+const MarkdownEditor: React.FC<MarkdownEditorProps> = React.memo(
+  ({ value, onChange, onFileChange }) => {
+    const intl = useIntl()
 
-  const locale = useMemo(() => {
-    const obj: any = {
-      'zh-CN': zh_Hans,
-      'ja-JP': ja
-    }
-    return obj[intl.locale]
-  }, [intl.locale])
+    const locale = useMemo(() => {
+      const obj: any = {
+        'zh-CN': zh_Hans,
+        'ja-JP': ja
+      }
+      return obj[intl.locale]
+    }, [intl.locale])
 
-  const plugins = useMemo(() => {
-    const mermaidLocale: any = {
-      'zh-CN': mermaidZh
-    }
-    const gfmLocale: any = {
-      'zh-CN': gfmZh,
-      'ja-JP': gfmJa
-    }
-    const mathLocale: any = {
-      'zh-CN': mathZh,
-      'ja-JP': mathJa
-    }
-    return [
-      gfm({ locale: gfmLocale[intl.locale] }), // GFM
-      highlight(), // 代码高亮
-      frontmatter(), // 解析前题
-      gemoji(), // Gemoji短代码
-      math({ locale: mathLocale[intl.locale] }),
-      mermaid({ locale: mermaidLocale[intl.locale] })
-    ]
-  }, [intl.locale])
+    const plugins = useMemo(() => {
+      const mermaidLocale: any = {
+        'zh-CN': mermaidZh
+      }
+      const gfmLocale: any = {
+        'zh-CN': gfmZh,
+        'ja-JP': gfmJa
+      }
+      const mathLocale: any = {
+        'zh-CN': mathZh,
+        'ja-JP': mathJa
+      }
+      return [
+        gfm({ locale: gfmLocale[intl.locale] }), // GFM
+        highlight(), // 代码高亮
+        frontmatter(), // 解析前题
+        gemoji(), // Gemoji短代码
+        math({ locale: mathLocale[intl.locale] }),
+        mermaid({ locale: mermaidLocale[intl.locale] })
+      ]
+    }, [intl.locale])
 
-  const onUpload = async (files: File[]) => {
-    let arr: { title: string; url: string; alt: string }[] = []
+    const onUpload = async (files: File[]) => {
+      let arr: { title: string; url: string; alt: string }[] = []
 
-    try {
-      const urlArr: string[] = await FileUploadApi(files, 'blog/content/')
-      arr = urlArr.map(item => ({
-        title: item.replace(/.*\//g, ''),
-        url: item,
-        alt: item.replace(/.*\//g, '')
-      }))
-    } catch (error) {
-      console.log(error)
+      try {
+        const urlArr: string[] = await FileUploadApi(files, 'blog/content/')
+        arr = urlArr.map(item => ({
+          title: item.replace(/.*\//g, ''),
+          url: item,
+          alt: item.replace(/.*\//g, '')
+        }))
+        onFileChange(urlArr)
+      } catch (error) {
+        console.log(error)
+      }
+
+      return arr
     }
 
-    return arr
+    return (
+      <Editor
+        value={value}
+        uploadImages={onUpload}
+        locale={locale}
+        plugins={plugins}
+        onChange={onChange}
+      />
+    )
   }
-
-  return (
-    <Editor
-      value={value}
-      uploadImages={onUpload}
-      locale={locale}
-      plugins={plugins}
-      onChange={onChange}
-    />
-  )
-})
+)
 
 export default MarkdownEditor

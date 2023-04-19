@@ -8,11 +8,13 @@
  */
 
 import { AvatarDropdown } from '@/components'
+import { DeleteFile } from '@/services/global'
+import { debounce } from '@/utils/tools'
 import { SwapOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl, useModel, useParams } from '@umijs/max'
 import { Avatar, Input, Modal, Popover } from 'antd'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { BlogInfoApi } from '../Article/services'
 import MarkdownEditor from './components/MarkdownEditor'
 import PostDrawer from './components/PostDrawer'
@@ -21,13 +23,13 @@ import { AddBlogType } from './data'
 
 // 这些数据不需要及时刷新组件，所以写外面
 // 已有的文件对象，比如编辑时的
-// let existingFileList: string[] = []
-// // 新增的文件对象
-// let newFileList: string[] = []
-// // 富文本内的文件
-// let contentFileArr: string[] = []
-// // 是否全删除图片，没发布直接退出需要全删
-// let isAllDelete = true
+let existingFileList: string[] = []
+// 新增的文件对象
+let newFileList: string[] = []
+// 现存的文件
+let contentFileArr: string[] = []
+// 是否全删除图片，没发布直接退出需要全删
+let isAllDelete = true
 
 export default (): React.ReactNode => {
   const intl = useIntl()
@@ -46,14 +48,52 @@ export default (): React.ReactNode => {
     return intl.formatMessage({ id: 'pages.post.switchToMarkdown' })
   }, [editor, intl.locale])
 
+  const setIsAllDelete = (flag: boolean) => {
+    isAllDelete = flag
+  }
+
   /**
    * @description 存储上传的文件地址
-   * @param fileUrl 新增的文件地址
+   * @param fileUrl 新增的文件地址数组
    */
-  // const addFileList = (fileUrl: string) => {
-  //   existingFileList = [...existingFileList, fileUrl]
-  //   newFileList = [...newFileList, fileUrl]
-  // }
+  const addFileList = (fileUrl: string[]) => {
+    existingFileList = [...existingFileList, ...fileUrl]
+    newFileList = [...newFileList, ...fileUrl]
+  }
+
+  /**
+   * @description 重置图片相关数据
+   */
+  const resetImgData = () => {
+    newFileList = []
+    isAllDelete = true
+    contentFileArr = []
+    existingFileList = []
+  }
+
+  // 关闭、刷新页面时要做的事
+  const leavePage = () => {
+    // 没传不用处理
+    if (!existingFileList.length) return
+
+    // 没发布直接退出页面时
+    if (isAllDelete) {
+      // 如果传了，需要删除新上传的
+      newFileList.length && DeleteFile(newFileList)
+      resetImgData()
+      return
+    }
+
+    if (existingFileList.length !== contentFileArr.length) {
+      const deleteImgArr = existingFileList.filter(item => {
+        return !contentFileArr.find(item2 => item === item2)
+      })
+
+      deleteImgArr.length && DeleteFile(deleteImgArr)
+    }
+
+    resetImgData()
+  }
 
   const titleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitleValue(e.target.value)
@@ -66,6 +106,8 @@ export default (): React.ReactNode => {
       onOk() {
         setEditor(editor === 'RICH_TEXT' ? 'MARKDOWN' : 'RICH_TEXT')
         setMainText('')
+        // 清空已有文件地址
+        contentFileArr = []
       }
     })
   }
@@ -89,20 +131,20 @@ export default (): React.ReactNode => {
       setBlogInfo(undefined)
       console.log(error)
     }
+  }
 
-    // 获取博文内容后，要初始化 uploadImgList、contentImgArr
-    // const fileNodeArr = document.querySelectorAll('.bf-content img, .bf-content .bf-url')
-    // const urlArr: string[] = []
-    // fileNodeArr.length &&
-    //   fileNodeArr.forEach((item: any) => {
-    //     if (item.tagName.toLowerCase() === 'img') {
-    //       urlArr.push(item.getAttribute('src') || '')
-    //     } else {
-    //       urlArr.push(item.innerText || '')
-    //     }
-    //   })
-    // existingFileList = [...urlArr]
-    // contentFileArr = [...urlArr]
+  const onMainTextChange = (value: string) => {
+    setMainText(value)
+    debounce(() => {
+      const fileNodeArr = document.querySelectorAll('.post-article-editor img')
+      const urlArr: string[] = []
+      fileNodeArr.length &&
+        fileNodeArr.forEach((item: any) => {
+          urlArr.push(item.getAttribute('src') || '')
+        })
+      // 赋值已有文件地址
+      contentFileArr = [...urlArr]
+    }, 400)()
   }
 
   useEffect(() => {
@@ -113,15 +155,29 @@ export default (): React.ReactNode => {
   useEffect(() => {
     getDataDictionary(['ARTICLE_SORT'])
 
-    // window.onbeforeunload= () => {
-    //   console.log(11111111)
+    // 关闭、刷新页面前执行
+    window.addEventListener('beforeunload', leavePage)
 
-    //   return 'aaaaaaaaaaa'
-    // }
-    // window.addEventListener('unload', () => {
-    //   console.log(222222222222222)
-    // })
+    // 离开路由时执行
+    return () => {
+      leavePage()
+      window.removeEventListener('beforeunload', leavePage)
+    }
   }, [])
+
+  useLayoutEffect(() => {
+    if (blogInfo) {
+      const fileNodeArr = document.querySelectorAll('.post-article-editor img')
+      const urlArr: string[] = []
+      fileNodeArr.length &&
+        fileNodeArr.forEach((item: any) => {
+          urlArr.push(item.getAttribute('src') || '')
+        })
+      // 初始化已有文件地址
+      existingFileList = [...urlArr]
+      contentFileArr = [...urlArr]
+    }
+  }, [blogInfo])
 
   // 因为路由 layout false 会导致用不了 token，所以只能采取覆盖的方式
   const postArticleClassName = useEmotionCss(({ token }) => ({
@@ -223,10 +279,11 @@ export default (): React.ReactNode => {
 
           <>
             <PostDrawer
-              titleValue={titleValue}
-              mainText={mainText}
               editor={editor}
+              mainText={mainText}
               blogInfo={blogInfo}
+              titleValue={titleValue}
+              setIsAllDelete={setIsAllDelete}
             />
             <Popover content={switchTo}>
               <SwapOutlined onClick={changeEditor} className='post-article-header-change-editor' />
@@ -241,8 +298,20 @@ export default (): React.ReactNode => {
         </header>
 
         <div className='post-article-editor'>
-          {editor === 'MARKDOWN' && <MarkdownEditor value={mainText} onChange={setMainText} />}
-          {editor === 'RICH_TEXT' && <RichtextEditor value={mainText} onChange={setMainText} />}
+          {editor === 'MARKDOWN' && (
+            <MarkdownEditor
+              value={mainText}
+              onChange={onMainTextChange}
+              onFileChange={addFileList}
+            />
+          )}
+          {editor === 'RICH_TEXT' && (
+            <RichtextEditor
+              value={mainText}
+              onChange={onMainTextChange}
+              onFileChange={addFileList}
+            />
+          )}
         </div>
       </div>
     </main>

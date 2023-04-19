@@ -25,84 +25,92 @@ Icons.header['3'] =
 interface ReactQuillEditorProps {
   value: string
   onChange: (value: string) => void
+  onFileChange: (value: string[]) => void
 }
 
-const ReactQuillEditor: React.FC<ReactQuillEditorProps> = React.memo(({ value, onChange }) => {
-  const intl = useIntl()
-  const quillRef = useRef<ReactQuill>()
+const ReactQuillEditor: React.FC<ReactQuillEditorProps> = React.memo(
+  ({ value, onChange, onFileChange }) => {
+    const intl = useIntl()
+    const quillRef = useRef<ReactQuill>()
 
-  const imageHandler = async () => {
-    const input = document.createElement('input')
-    input.setAttribute('type', 'file')
-    input.setAttribute('accept', 'image/*')
-    input.click()
-    input.onchange = async () => {
-      if (!input.files) return
+    const imageHandler = async () => {
+      const input = document.createElement('input')
+      input.setAttribute('type', 'file')
+      input.setAttribute('accept', 'image/*')
+      input.click()
+      input.onchange = async () => {
+        if (!input.files) return
 
-      Array.from(input.files).forEach(async item => {
-        try {
-          const url = await UploadFile(item, 'blog/content/')
-          const quill = quillRef?.current?.getEditor() // 获取到编辑器本身
-          const cursorPosition = quill?.getSelection()?.index || 0 // 获取当前光标位置
-          const link = url
-          quill?.insertEmbed(cursorPosition, 'image', link) // 插入图片
-          quill?.setSelection((cursorPosition + 1) as any) // 光标位置加 1
-        } catch (error) {
-          console.log(error)
-        }
-      })
-    }
-  }
-
-  // 禁止粘贴图片
-  const handleImgMatcher = (node: Element, delta: any) => {
-    delta.ops = []
-    return delta
-  }
-
-  const modules = useMemo(() => {
-    return {
-      syntax: {
-        highlight: (text: string) => hljs.highlightAuto(text).value
-      },
-      toolbar: {
-        container: [
-          ['bold'],
-          ['italic'],
-          ['underline'],
-          ['strike'],
-          [{ header: 1 }],
-          [{ header: 2 }],
-          [{ header: 3 }],
-          ['blockquote'],
-          ['code-block'],
-          ['code'],
-          [{ list: 'ordered' }],
-          [{ list: 'bullet' }],
-          ['link'],
-          ['image']
-        ],
-
-        handlers: {
-          image: imageHandler
-        }
-      },
-      clipboard: {
-        matchers: [['IMG', handleImgMatcher]]
+        Array.from(input.files).forEach(async item => {
+          try {
+            const url = await UploadFile(item, 'blog/content/')
+            onFileChange([url])
+            const quill = quillRef?.current?.getEditor() // 获取到编辑器本身
+            const cursorPosition = quill?.getSelection()?.index || 0 // 获取当前光标位置
+            quill?.insertEmbed(cursorPosition, 'image', url) // 插入图片
+            quill?.setSelection((cursorPosition + 1) as any) // 光标位置加 1
+          } catch (error) {
+            console.log(error)
+          }
+        })
       }
     }
-  }, [])
 
-  return (
-    <ReactQuill
-      ref={quillRef as any}
-      theme='snow'
-      value={value}
-      modules={modules}
-      onChange={onChange}
-      placeholder={intl.formatMessage({ id: 'pages.post.textPlaceholder' })}
-    />
-  )
-})
+    // 禁止粘贴图片
+    const handleImgMatcher = (node: Element, delta: any) => {
+      const quill = quillRef?.current?.getEditor() // 获取到编辑器本身
+      if (quill?.getSelection() === undefined) {
+        // 为 undefined 时，是第一次进入，就是编辑时赋值，其它时候为 null
+        return delta
+      }
+      delta.ops = []
+      return delta
+    }
+
+    const modules = useMemo(() => {
+      return {
+        syntax: {
+          highlight: (text: string) => hljs.highlightAuto(text).value
+        },
+        toolbar: {
+          container: [
+            ['bold'],
+            ['italic'],
+            ['underline'],
+            ['strike'],
+            [{ header: 1 }],
+            [{ header: 2 }],
+            [{ header: 3 }],
+            ['blockquote'],
+            ['code-block'],
+            ['code'],
+            [{ list: 'ordered' }],
+            [{ list: 'bullet' }],
+            ['link'],
+            ['image']
+          ],
+
+          handlers: {
+            image: imageHandler
+          }
+        },
+        clipboard: {
+          matchers: [['IMG', handleImgMatcher]]
+        }
+      }
+    }, [])
+
+    return (
+      <ReactQuill
+        ref={quillRef as any}
+        theme='snow'
+        value={value}
+        modules={modules}
+        onChange={onChange}
+        placeholder={intl.formatMessage({ id: 'pages.post.textPlaceholder' })}
+      />
+    )
+  }
+)
 
 export default ReactQuillEditor

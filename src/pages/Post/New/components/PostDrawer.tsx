@@ -22,10 +22,11 @@ interface PostModalProps {
   blogInfo?: API.BlogInfo
   mainText?: string
   editor?: AddBlogType['editor']
+  setIsAllDelete: (flag: boolean) => void
 }
 
 const PostModal: React.FC<PostModalProps> = React.memo(
-  ({ titleValue, blogInfo, mainText, editor }) => {
+  ({ titleValue, blogInfo, mainText, editor, setIsAllDelete }) => {
     const intl = useIntl()
     const { message } = App.useApp()
     const [form] = Form.useForm()
@@ -72,14 +73,14 @@ const PostModal: React.FC<PostModalProps> = React.memo(
 
     const addBlog = async (params: AddBlogType) => {
       const res = await BlogAddApi(params)
-      // isAllDelete = false
+      setIsAllDelete(false)
       history.replace(`/article/${res.id}`)
       message.success(intl.formatMessage({ id: 'pages.blog.blogAdd.success' }))
     }
 
     const editBlog = async (params: AddBlogType) => {
       await BlogUpdateApi(params)
-      // isAllDelete = false
+      setIsAllDelete(false)
       history.replace('/account/center')
       message.success(intl.formatMessage({ id: 'pages.blog.blogEdit.success' }))
     }
