@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 23:08:04
+ * @LastEditTime: 2023-04-20 16:13:47
  * @Description:
  */
 
@@ -214,6 +214,7 @@ export default (): React.ReactNode => {
         '&-title': {
           padding: 0,
           flex: '1',
+          marginInlineEnd: token.marginSM,
           fontSize: token.fontSizeHeading3
         },
 

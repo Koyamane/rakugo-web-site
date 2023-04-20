@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 18:56:16
+ * @LastEditTime: 2023-04-20 16:18:43
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -96,14 +96,6 @@ export default (): React.ReactNode => {
               '&-data': {
                 fontSize: token.fontSizeSM
               }
-
-              // '&-data-reads': {
-              //   marginInline: token.marginSM
-              // },
-
-              // '&-data-tags': {
-              //   wordBreak: 'break-all'
-              // }
             }
           },
 
@@ -121,6 +113,10 @@ export default (): React.ReactNode => {
           '.ql-editor': {
             padding: '0'
           }
+        },
+
+        '&-bottom': {
+          overflow: 'hidden'
         }
       },
 
@@ -294,7 +290,7 @@ export default (): React.ReactNode => {
 
               <Divider />
 
-              <Space size='large'>
+              <Space size='large' className='article-layout-content-bottom'>
                 <Space>
                   <FormattedMessage id='pages.form.sort' />
                   <Tag color='magenta'>{keyToValue('ARTICLE_SORT', blogInfo.sort)}</Tag>
