@@ -3,9 +3,10 @@
  * @Date: 2023-04-17 17:50:04
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-17 23:23:24
+ * @LastEditTime: 2023-04-20 12:27:22
  * @Description:
  */
+import { useVerifyFileSize } from '@/hooks'
 import { UploadFile } from '@/services/global'
 import { useIntl } from '@umijs/max'
 import hljs from 'highlight.js'
@@ -32,6 +33,7 @@ const ReactQuillEditor: React.FC<ReactQuillEditorProps> = React.memo(
   ({ value, onChange, onFileChange }) => {
     const intl = useIntl()
     const quillRef = useRef<ReactQuill>()
+    const { verifyOneFileSize } = useVerifyFileSize('one', 10)
 
     const imageHandler = async () => {
       const input = document.createElement('input')
@@ -39,20 +41,21 @@ const ReactQuillEditor: React.FC<ReactQuillEditorProps> = React.memo(
       input.setAttribute('accept', 'image/*')
       input.click()
       input.onchange = async () => {
-        if (!input.files) return
+        const { files } = input
+        if (!files) return
+        if (!files.length) return
+        if (!verifyOneFileSize(files[0])) return
 
-        Array.from(input.files).forEach(async item => {
-          try {
-            const url = await UploadFile(item, 'blog/content/')
-            onFileChange([url])
-            const quill = quillRef?.current?.getEditor() // 获取到编辑器本身
-            const cursorPosition = quill?.getSelection()?.index || 0 // 获取当前光标位置
-            quill?.insertEmbed(cursorPosition, 'image', url) // 插入图片
-            quill?.setSelection((cursorPosition + 1) as any) // 光标位置加 1
-          } catch (error) {
-            console.log(error)
-          }
-        })
+        try {
+          const url = await UploadFile(files[0], 'blog/content/')
+          onFileChange([url])
+          const quill = quillRef?.current?.getEditor() // 获取到编辑器本身
+          const cursorPosition = quill?.getSelection()?.index || 0 // 获取当前光标位置
+          quill?.insertEmbed(cursorPosition, 'image', url) // 插入图片
+          quill?.setSelection((cursorPosition + 1) as any) // 光标位置加 1
+        } catch (error) {
+          console.log(error)
+        }
       }
     }
 

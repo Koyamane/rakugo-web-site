@@ -78,7 +78,7 @@ export default {
   'pages.blog.blogEdit.success': 'Successfully posted',
   'pages.blog.blogAdd.topNotice':
     'Post your blog here. After leaving the page, the data will not be saved',
-  'pages.blog.blogAdd.success': 'Successfully posted, please wait patiently for review',
+  'pages.blog.blogAdd.success': 'Successfully posted',
   'pages.blog.blogAdd.error': 'Posting failed. Please try again',
   'pages.searchTable.createForm.newRule': 'New Rule',
   'pages.searchTable.updateForm.ruleConfig': 'Rule configuration',

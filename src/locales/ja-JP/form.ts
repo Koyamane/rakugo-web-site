@@ -1,4 +1,9 @@
 export default {
+  'pages.form.atMost': '最大',
+  'pages.form.image': '画像',
+  'pages.form.audio': 'オーディオ',
+  'pages.form.video': 'ビデオ',
+  'pages.form.file': 'ファイル',
   'pages.form.upload': 'アップロード',
   'pages.form.clickToUpload': 'クリックしてアップロードを開始',
   'pages.form.submit': '提出',

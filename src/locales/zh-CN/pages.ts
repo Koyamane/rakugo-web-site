@@ -74,7 +74,7 @@ export default {
   'pages.blog.sort.comments': '最多评论',
   'pages.blog.blogEdit.success': '发布成功',
   'pages.blog.blogAdd.topNotice': '在这里发布您的博客。离开页面后，数据不会保存',
-  'pages.blog.blogAdd.success': '发布成功，请耐心等待审核',
+  'pages.blog.blogAdd.success': '发布成功',
   'pages.blog.blogAdd.error': '发布失败，请重试',
   'pages.searchTable.createForm.newRule': '新建规则',
   'pages.searchTable.updateForm.ruleConfig': '规则配置',

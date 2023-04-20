@@ -3,7 +3,7 @@
  * @Date: 2023-04-18 20:15:06
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 23:39:42
+ * @LastEditTime: 2023-04-20 13:37:07
  * @Description:
  */
 
@@ -33,11 +33,19 @@ const PostModal: React.FC<PostModalProps> = React.memo(
     const formItemFillHint = useFormItemFillHint()
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [firstOpen, setFirstOpen] = useState(true)
+    const [tags, setTags] = useState<string[]>([]) // 用来控制 tags 数量的
     const { formatOptions, dataDictionaryObj } = useModel('useDataDictionary')
     const { id } = useParams<{ id: string }>()
     const sortOptions = useMemo(() => {
       return formatOptions(dataDictionaryObj['ARTICLE_SORT'])
     }, [dataDictionaryObj['ARTICLE_SORT']])
+
+    const onTagsChange = (values: string[]) => {
+      if (values.length > 3) return
+
+      setTags(values)
+    }
 
     const handleOpen = () => {
       if (!titleValue) {
@@ -45,24 +53,30 @@ const PostModal: React.FC<PostModalProps> = React.memo(
         return
       }
 
-      if (!mainText || form.getFieldValue('summary')) {
-        setDrawerOpen(true)
-        return
+      // 第一次打开设置默认值
+      if (firstOpen) {
+        if (blogInfo) {
+          setTags(blogInfo.tags)
+        }
+
+        if (mainText) {
+          let summaryValue = ''
+
+          if (editor === 'MARKDOWN') {
+            const converter = new showdown.Converter()
+            summaryValue = converter
+              .makeHtml(mainText)
+              .replace(/(<[^>]+>)|(\n+)/g, '')
+              .substring(0, 100)
+          } else {
+            summaryValue = mainText.replace(/(<[^>]+>)|(\n+)/g, '').substring(0, 100)
+          }
+
+          form.setFieldValue('summary', summaryValue)
+        }
+
+        setFirstOpen(false)
       }
-
-      let summaryValue = ''
-
-      if (editor === 'MARKDOWN') {
-        const converter = new showdown.Converter()
-        summaryValue = converter
-          .makeHtml(mainText)
-          .replace(/(<[^>]+>)|(\n+)/g, '')
-          .substring(0, 100)
-      } else {
-        summaryValue = mainText.replace(/(<[^>]+>)|(\n+)/g, '').substring(0, 100)
-      }
-
-      form.setFieldValue('summary', summaryValue)
 
       setDrawerOpen(true)
     }
@@ -90,6 +104,7 @@ const PostModal: React.FC<PostModalProps> = React.memo(
 
       const params: AddBlogType = {
         ...values,
+        tags,
         editor,
         title: titleValue,
         content: mainText,
@@ -135,12 +150,16 @@ const PostModal: React.FC<PostModalProps> = React.memo(
               name='tags'
               mode='tags'
               options={[]}
-              label={intl.formatMessage({ id: 'pages.form.itemTag' })}
               placeholder={intl.formatMessage({ id: 'pages.form.selectMsg' })}
               rules={[{ required: true, message: formItemFillHint('form.itemTag', 'selectMsg') }]}
+              label={`
+                ${intl.formatMessage({ id: 'pages.form.itemTag' })}
+                (${intl.formatMessage({ id: 'pages.form.atMost' })} 3)
+              `}
               fieldProps={{
-                maxTagCount: 1,
+                value: tags,
                 maxTagTextLength: 16,
+                onChange: onTagsChange,
                 tokenSeparators: [',', '\t', '\n', '\r']
               }}
             />

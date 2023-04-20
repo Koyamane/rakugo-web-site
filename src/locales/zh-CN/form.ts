@@ -1,4 +1,9 @@
 export default {
+  'pages.form.atMost': '最多',
+  'pages.form.image': '图片',
+  'pages.form.audio': '音频',
+  'pages.form.video': '视频',
+  'pages.form.file': '文件',
   'pages.form.upload': '上传',
   'pages.form.clickToUpload': '点击上传',
   'pages.form.submit': '提交',

@@ -1,4 +1,9 @@
 export default {
+  'pages.form.atMost': 'At most',
+  'pages.form.image': 'picture',
+  'pages.form.audio': 'audio',
+  'pages.form.video': 'video',
+  'pages.form.file': 'file',
   'pages.form.upload': 'Upload',
   'pages.form.clickToUpload': 'Click to upload',
   'pages.form.submit': 'Submit',

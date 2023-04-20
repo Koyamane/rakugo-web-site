@@ -3,9 +3,10 @@
  * @Date: 2023-04-16 23:42:11
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-17 14:21:45
+ * @LastEditTime: 2023-04-20 14:08:06
  * @Description:
  */
+import { useVerifyFileSize } from '@/hooks'
 import { FileUploadApi } from '@/services/global'
 import frontmatter from '@bytemd/plugin-frontmatter' // 解析前题
 import gemoji from '@bytemd/plugin-gemoji' // emoji
@@ -22,7 +23,7 @@ import { useIntl } from '@umijs/max'
 import 'bytemd/dist/index.min.css' // bytemd基础样式必须引入！！！
 import ja from 'bytemd/locales/ja.json' // 中文插件
 import zh_Hans from 'bytemd/locales/zh_Hans.json' // 中文插件
-import 'highlight.js/styles/routeros.css' // 代码高亮的主题样式(可自选)
+import 'highlight.js/styles/atom-one-light.css' // 代码高亮的主题样式(可自选)
 import 'juejin-markdown-themes/dist/juejin.min.css' // 掘金同款样式
 import React, { useMemo } from 'react'
 
@@ -44,6 +45,7 @@ interface MarkdownEditorProps {
 const MarkdownEditor: React.FC<MarkdownEditorProps> = React.memo(
   ({ value, onChange, onFileChange }) => {
     const intl = useIntl()
+    const { verifySomeFileSize } = useVerifyFileSize('some', 10)
 
     const locale = useMemo(() => {
       const obj: any = {
@@ -77,9 +79,13 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = React.memo(
 
     const onUpload = async (files: File[]) => {
       let arr: { title: string; url: string; alt: string }[] = []
+      const fileArr = verifySomeFileSize(files, 'pages.form.image')
+
+      // 如果返回空数组，编辑器中会出现大的选中区；返回其他的数据，控制台会报错，但不影响
+      if (!fileArr.length) return '' as any
 
       try {
-        const urlArr: string[] = await FileUploadApi(files, 'blog/content/')
+        const urlArr: string[] = await FileUploadApi(fileArr, 'blog/content/')
         arr = urlArr.map(item => ({
           title: item.replace(/.*\//g, ''),
           url: item,
@@ -96,10 +102,11 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = React.memo(
     return (
       <Editor
         value={value}
-        uploadImages={onUpload}
         locale={locale}
         plugins={plugins}
         onChange={onChange}
+        uploadImages={onUpload}
+        placeholder={intl.formatMessage({ id: 'pages.post.textPlaceholder' })}
       />
     )
   }
