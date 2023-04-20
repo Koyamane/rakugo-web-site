@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-20 21:43:22
+ * @LastEditTime: 2023-04-20 21:53:16
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -253,7 +253,7 @@ export default (): React.ReactNode => {
                     to={`/account/center/${blogInfo.createdId}`}
                     className='article-layout-content-header-middle-avatar'
                   >
-                    <Avatar size={50} src={blogInfo.createdAvatar} />
+                    <Avatar size='large' src={blogInfo.createdAvatar} />
                   </NavLink>
                   <div className='article-layout-content-header-middle-right'>
                     <NavLink
