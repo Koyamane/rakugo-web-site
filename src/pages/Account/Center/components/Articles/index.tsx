@@ -13,25 +13,25 @@ import {
   StarOutlined
 } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { connect, Dispatch, NavLink, useIntl } from '@umijs/max'
+import { NavLink, useIntl, useModel } from '@umijs/max'
 import { Divider, Pagination, Popover, Space, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { SomebodyBlogPage } from '../../service'
 import OperateItem from './OperateItem'
 
 interface SelfProps {
-  dispatch: Dispatch
   isMe?: boolean
   loginUserId?: API.UserInfo['userId']
   userId?: API.UserInfo['userId']
 }
 
-const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) => {
+const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
   const intl = useIntl()
   const [listLoading, setListLoading] = useState(true)
   const [firstEnter, setFirstEnter] = useState(true)
   const formatTime = useFormatTime()
   const itemRender = usePaginationItem()
+  const { setNums } = useModel('useAccount')
   const [blogData, setBlogData] = useState<{
     list: API.BlogInfo[]
     pagination: { current: number; pageSize: number; total: number }
@@ -67,10 +67,10 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
             total: res.total
           }
         })
-        dispatch({
-          type: 'AccountCenter/setArticlesNum',
+        setNums(values => ({
+          ...values,
           articlesNum: res.total
-        })
+        }))
       }
     } catch (error) {
       console.log('获取博客报错了', error)
@@ -298,4 +298,4 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
   )
 }
 
-export default connect()(Articles)
+export default Articles

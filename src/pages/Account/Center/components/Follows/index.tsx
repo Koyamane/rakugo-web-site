@@ -2,21 +2,21 @@ import { FollowButton } from '@/components'
 import BlogListSkeleton from '@/components/BlogListSkeleton'
 import usePaginationItem from '@/hooks/usePaginationItem'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { connect, Dispatch, NavLink } from '@umijs/max'
+import { NavLink, useModel } from '@umijs/max'
 import { Avatar, Pagination, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { UserFollowPage } from '../../service'
 
 interface SelfProps {
-  dispatch: Dispatch
   isMe?: boolean
   userId?: API.UserInfo['userId']
 }
 
-const Follows: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
+const Follows: React.FC<SelfProps> = ({ isMe, userId }) => {
   const [listLoading, setBistLoading] = useState(true)
   const [firstEnter, setFirstEnter] = useState(true)
   const itemRender = usePaginationItem()
+  const { setNums } = useModel('useAccount')
   const [followData, setFollowData] = useState<{
     list: API.UserInfo[]
     pagination: { current: number; total: number }
@@ -26,10 +26,10 @@ const Follows: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
   })
 
   const setFollowsNum = (followsNum?: number) => {
-    dispatch({
-      type: 'AccountCenter/setFollowsNum',
-      followsNum
-    })
+    setNums(values => ({
+      ...values,
+      followsNum: followsNum || 0
+    }))
   }
 
   const getFollowData = async (current: number = followData.pagination.current) => {
@@ -162,4 +162,4 @@ const Follows: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
   )
 }
 
-export default connect()(Follows)
+export default Follows

@@ -3,7 +3,7 @@
  * @Date: 2021-12-25 23:14:57
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-12 20:56:28
+ * @LastEditTime: 2023-04-20 14:28:30
  * @Description:
  */
 import { BackTop } from '@/components'
@@ -11,27 +11,25 @@ import IconText from '@/components/IconText'
 import { GetUserInfo } from '@/services/global'
 import { ContactsOutlined, HomeOutlined, SmileOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { connect, FormattedMessage, useModel, useParams } from '@umijs/max'
+import { FormattedMessage, useModel, useParams } from '@umijs/max'
 import { Card, Col, Divider, Row, Space, Spin, Tag } from 'antd'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import Articles from './components/Articles'
 import Collections from './components/Collections'
 import FollowButton from './components/FollowButton'
 import Follows from './components/Follows'
-import type { AccountCenterState, AccountProps, tabKeyType } from './data'
+import type { tabKeyType } from './data'
 
-const Center: React.FC<AccountProps> = ({
-  articlesNum,
-  collectionsNum,
-  followsNum,
-  followersNum,
-  dispatch
-}) => {
+const Center: React.FC = () => {
   const [tabKey, setTabKey] = useState<tabKeyType>('articles')
   const [loading, setLoading] = useState(false)
   const [currentUser, setCurrentUser] = useState<API.UserInfo>()
   const { initialState } = useModel('@@initialState')
   const { setTo404 } = useModel('use404Model')
+  const {
+    setNums,
+    nums: { articlesNum, collectionsNum, followsNum, followersNum }
+  } = useModel('useAccount')
   // 登录的用户
   const { currentUser: loginUser } = initialState || {}
   const { userId } = useParams<{ userId: string }>()
@@ -46,8 +44,7 @@ const Center: React.FC<AccountProps> = ({
     try {
       const res = await GetUserInfo(userId)
       setCurrentUser({ ...res })
-      dispatch({
-        type: 'AccountCenter/setAllNum',
+      setNums({
         articlesNum: res.blogs,
         collectionsNum: res.collections,
         followsNum: res.watchers,
@@ -293,9 +290,4 @@ const Center: React.FC<AccountProps> = ({
   )
 }
 
-export default connect(({ AccountCenter }: { AccountCenter: AccountCenterState }) => ({
-  articlesNum: AccountCenter.articlesNum,
-  collectionsNum: AccountCenter.collectionsNum,
-  followsNum: AccountCenter.followsNum,
-  followersNum: AccountCenter.followersNum
-}))(Center)
+export default Center

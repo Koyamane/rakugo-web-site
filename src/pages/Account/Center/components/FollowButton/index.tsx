@@ -2,24 +2,25 @@ import { FollowSomeBodyApi, IsFollowedApi } from '@/components/FollowButton/serv
 import useParamsRedirect from '@/hooks/useParamsRedirect'
 import { CheckOutlined, PlusOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { connect, Dispatch, useIntl } from '@umijs/max'
+import { useIntl, useModel } from '@umijs/max'
 import { App, Button, ButtonProps } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { AccountCenterState } from '../../data'
 
 interface FollowButtonProps {
   targetId: string
   userId?: string
-  dispatch: Dispatch
-  followersNum: number
 }
 
 const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props => {
-  const { targetId, userId, followersNum, dispatch, ...otherProps } = props
+  const { targetId, userId, ...otherProps } = props
   const intl = useIntl()
   const paramsRedirect = useParamsRedirect()
   const [isFollowed, setIsFollowed] = useState(false)
   const [loading, setLoading] = useState(false)
+  const {
+    setNums,
+    nums: { followersNum }
+  } = useModel('useAccount')
   const { message } = App.useApp()
 
   const getFollowed = async () => {
@@ -72,15 +73,15 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
             defaultMessage: '已取关'
           })
         )
-        dispatch({
-          type: 'AccountCenter/setFollowersNum',
+        setNums(values => ({
+          ...values,
           followersNum: followersNum - 1
-        })
+        }))
       } else {
-        dispatch({
-          type: 'AccountCenter/setFollowersNum',
-          followersNum: followersNum + 1
-        })
+        setNums(values => ({
+          ...values,
+          followersNum: followersNum - 1
+        }))
       }
     } catch (error) {
       console.log(error)
@@ -148,6 +149,4 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
   )
 })
 
-export default connect(({ AccountCenter }: { AccountCenter: AccountCenterState }) => ({
-  followersNum: AccountCenter.followersNum
-}))(FollowButton)
+export default FollowButton
