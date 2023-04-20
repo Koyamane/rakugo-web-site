@@ -78,7 +78,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
 
       history.push(`/account/${key}`)
     },
-    [setInitialState]
+    [currentUser]
   )
 
   const notLogin = (
