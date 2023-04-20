@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-20 16:18:43
+ * @LastEditTime: 2023-04-20 21:43:22
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -111,7 +111,8 @@ export default (): React.ReactNode => {
             color: token.colorText
           },
           '.ql-editor': {
-            padding: '0'
+            padding: '0',
+            fontSize: token.fontSizeLG
           }
         },
 
