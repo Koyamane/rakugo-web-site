@@ -3,10 +3,11 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-20 21:53:16
+ * @LastEditTime: 2023-04-21 22:20:48
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
+import { useGlobalHooks } from '@/hooks'
 import useFormatTime from '@/hooks/useFormatTime'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, NavLink, useModel, useParams } from '@umijs/max'
@@ -26,7 +27,8 @@ export default (): React.ReactNode => {
   const { initialState } = useModel('@@initialState')
   const userId = initialState?.currentUser?.userId
   const { setTo404 } = useModel('use404Model')
-  const { keyToValue, getDataDictionary } = useModel('useDataDictionary')
+  const { keyToValue } = useGlobalHooks()
+  const { getDataDictionary } = useModel('useDataDictionary')
   const { followed, setFollowed, directoryList } = useModel('useArticle')
   const [blogInfo, setBlogInfo] = useState<API.BlogInfo>()
   const [userBlogList, setUserBlogList] = useState<API.BlogInfo[]>([])

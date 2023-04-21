@@ -8,7 +8,7 @@
  */
 
 import { InputFileItem } from '@/components'
-import { useFormItemFillHint } from '@/hooks'
+import { useFormItemFillHint, useGlobalHooks } from '@/hooks'
 import { ProForm, ProFormSelect, ProFormTextArea } from '@ant-design/pro-components'
 import { history, useIntl, useModel, useParams } from '@umijs/max'
 import { App, Button, Drawer, Form } from 'antd'
@@ -35,7 +35,8 @@ const PostModal: React.FC<PostModalProps> = React.memo(
     const [loading, setLoading] = useState(false)
     const [firstOpen, setFirstOpen] = useState(true)
     const [tags, setTags] = useState<string[]>([]) // 用来控制 tags 数量的
-    const { formatOptions, dataDictionaryObj } = useModel('useDataDictionary')
+    const { formatOptions } = useGlobalHooks()
+    const { dataDictionaryObj } = useModel('useDataDictionary')
     const { id } = useParams<{ id: string }>()
     const sortOptions = useMemo(() => {
       return formatOptions(dataDictionaryObj['ARTICLE_SORT'])

@@ -4,6 +4,7 @@
  */
 import useFormatTime from './useFormatTime'
 import useFormItemFillHint from './useFormItemFillHint'
+import useGlobalHooks from './useGlobalHooks'
 import useGoRedirect from './useGoRedirect'
 import usePaginationItem from './usePaginationItem'
 import useParamsRedirect from './useParamsRedirect'
@@ -15,5 +16,6 @@ export {
   usePaginationItem,
   useParamsRedirect,
   useGoRedirect,
-  useVerifyFileSize
+  useVerifyFileSize,
+  useGlobalHooks
 }
