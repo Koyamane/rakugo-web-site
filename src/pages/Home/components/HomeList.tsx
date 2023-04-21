@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 22:45:02
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-21 21:58:40
+ * @LastEditTime: 2023-04-21 23:52:52
  * @Description:
  */
 import { BlogListSkeleton, IconText } from '@/components'
@@ -122,8 +122,9 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
         [`@media screen and (max-width: ${token.screenMD}px)`]: {
           '.content-list-item': {
             flexDirection: 'column-reverse',
-
             '&-right': {
+              width: '100%',
+              minHeight: '180px',
               marginInline: 'auto',
               marginBlockEnd: token.marginSM
             }
@@ -271,6 +272,7 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
                       <IconText text={item.comments} icon={MessageOutlined} />
                     </Space>
                   </div>
+
                   {item.cover && (
                     <NavLink
                       target='_blank'

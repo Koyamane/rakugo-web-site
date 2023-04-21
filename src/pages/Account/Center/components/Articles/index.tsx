@@ -216,6 +216,8 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
         flexDirection: 'column-reverse',
 
         '&-right': {
+          width: '100%',
+          minHeight: '180px',
           marginInline: 'auto',
           marginBlockEnd: token.marginSM
         }
