@@ -3,12 +3,13 @@
  * @Date: 2023-04-12 22:45:02
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 12:56:34
+ * @LastEditTime: 2023-04-21 21:58:40
  * @Description:
  */
 import { BlogListSkeleton, IconText } from '@/components'
 import useFormatTime from '@/hooks/useFormatTime'
 import { BlogPageApi } from '@/pages/Admin/BlogManagement/service'
+import { throttle } from '@/utils/tools'
 import {
   EyeOutlined,
   LikeFilled,
@@ -29,7 +30,6 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
     const intl = useIntl()
     const formatTime = useFormatTime()
     const [firstEnter, setFirstEnter] = useState(true)
-    const [loading, setLoading] = useState(false)
     const [blogData, setBlogData] = useState<{
       list: API.BlogInfo[]
       pagination: { current: number; total: number }
@@ -183,28 +183,24 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
     }
 
     const loadMoreData = async () => {
-      if (loading) return
-
-      setLoading(true)
-
-      try {
-        const res = await BlogPageApi({
-          dto: { status: 'APPROVED' },
-          sort: { [sortKey]: -1 },
-          current: blogData.pagination.current + 1
-        })
-        setBlogData({
-          list: [...blogData.list, ...res.list],
-          pagination: {
-            current: res.current,
-            total: res.total
-          }
-        })
-      } catch (error) {
-        console.log('获取博客失败了', error)
-      }
-
-      setLoading(false)
+      throttle(async () => {
+        try {
+          const res = await BlogPageApi({
+            dto: { status: 'APPROVED' },
+            sort: { [sortKey]: -1 },
+            current: blogData.pagination.current + 1
+          })
+          setBlogData({
+            list: [...blogData.list, ...res.list],
+            pagination: {
+              current: res.current,
+              total: res.total
+            }
+          })
+        } catch (error) {
+          console.log('获取博客失败了', error)
+        }
+      })()
     }
 
     const initList = async () => {

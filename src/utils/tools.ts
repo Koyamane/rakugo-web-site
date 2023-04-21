@@ -150,16 +150,16 @@ export const fileToBase64 = async (file: File) => {
   })
 }
 
-let lastTime = new Date().getTime()
-/**
- * @description: 节流
- */
-export function throttle(callback: () => void, delay: number = 500) {
-  return () => {
-    const nowTime = new Date().getTime()
-    if (nowTime - lastTime > delay) {
-      callback()
-      lastTime = nowTime
+export function throttle(fn: any, delay = 500) {
+  let flag = true
+
+  return (...args: any[]) => {
+    if (flag) {
+      flag = false
+      setTimeout(() => {
+        fn(...args)
+        flag = true
+      }, delay)
     }
   }
 }

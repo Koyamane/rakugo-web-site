@@ -3,10 +3,11 @@
  * @Date: 2023-03-06 13:41:39
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 18:06:29
+ * @LastEditTime: 2023-04-21 22:00:13
  * @Description:
  */
 import useParamsRedirect from '@/hooks/useParamsRedirect'
+import { throttle } from '@/utils/tools'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl, useModel } from '@umijs/max'
 import { Divider, Skeleton, Space, Spin } from 'antd'
@@ -23,7 +24,6 @@ const Comment: React.FC<CommentProps> = props => {
   const intl = useIntl()
   const [sortKey, setSortKey] = useState<SortKey>('likeArr')
   const paramsRedirect = useParamsRedirect()
-  const [loading, setLoading] = useState(false)
   const [initLoading, setInitLoading] = useState(false)
   const { initialState } = useModel('@@initialState')
   const { likeObj, setLikeObj, currentComment, setCurrentComment } = useModel('useComment')
@@ -63,30 +63,26 @@ const Comment: React.FC<CommentProps> = props => {
   }
 
   const loadMoreData = async () => {
-    if (loading) return
-
-    setLoading(true)
-
-    try {
-      const res = await CommentPageApi({
-        dto: { targetId, targetType: targetType! },
-        sort: { [sortKey]: -1 },
-        current: commentData.pagination.current + 1
-      })
-      setCommentData({
-        list: [...commentData.list, ...res.list],
-        pagination: {
-          current: res.current,
-          total: res.total,
-          targetTotal: res.targetTotal
-        }
-      })
-      setLikeObj(res.list, true)
-    } catch (error) {
-      console.log('获取评论失败了')
-    }
-
-    setLoading(false)
+    throttle(async () => {
+      try {
+        const res = await CommentPageApi({
+          dto: { targetId, targetType: targetType! },
+          sort: { [sortKey]: -1 },
+          current: commentData.pagination.current + 1
+        })
+        setCommentData({
+          list: [...commentData.list, ...res.list],
+          pagination: {
+            current: res.current,
+            total: res.total,
+            targetTotal: res.targetTotal
+          }
+        })
+        setLikeObj(res.list, true)
+      } catch (error) {
+        console.log('获取评论失败了')
+      }
+    })()
   }
 
   const handleSort = (key: SortKey) => {
