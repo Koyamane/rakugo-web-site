@@ -3,7 +3,7 @@
  * @Date: 2021-12-25 23:14:57
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-20 14:28:30
+ * @LastEditTime: 2023-04-22 23:42:36
  * @Description:
  */
 import { BackTop } from '@/components'
@@ -137,7 +137,7 @@ const Center: React.FC = () => {
     getCurrentUserInfo()
   }, [userId])
 
-  const leftClassName = useEmotionCss(({ token }) => ({
+  const centerClassName = useEmotionCss(({ token }) => ({
     '.account-center-left': {
       position: 'sticky',
       top: token.marginMD
@@ -221,6 +221,10 @@ const Center: React.FC = () => {
     },
 
     [`@media screen and (max-width: ${token.screenLG}px)`]: {
+      '&.ant-row': {
+        // margin: '0 !important'
+      },
+
       '.account-center-left': {
         position: 'relative',
         top: 'auto'
@@ -231,7 +235,7 @@ const Center: React.FC = () => {
   return (
     <Spin spinning={loading}>
       {currentUser && (
-        <Row gutter={20} align='top' className={leftClassName}>
+        <Row gutter={20} align='top' className={centerClassName}>
           <Col lg={8} md={24} sm={24} xs={24} className='account-center-left'>
             <div className='user-info-card'>
               <div className='user-info-card-top'>

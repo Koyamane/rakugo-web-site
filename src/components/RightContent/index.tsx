@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-16 22:35:09
+ * @LastEditTime: 2023-04-23 00:16:05
  * @Description:
  */
 import { FormOutlined } from '@ant-design/icons'
@@ -24,11 +24,16 @@ export const ThemeIcon = () => {
   const changeTheme = () => {
     const navTheme = initialState?.settings?.navTheme === 'light' ? 'realDark' : 'light'
     localStorage.setItem('navTheme', navTheme)
+
     setInitialState({
       ...initialState,
       settings: {
         ...initialState?.settings,
-        navTheme
+        navTheme,
+        token: {
+          ...initialState?.settings?.token,
+          bgLayout: navTheme === 'light' ? '#f5f5f5' : '#000000'
+        }
       }
     })
   }

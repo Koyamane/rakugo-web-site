@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 15:36:32
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-22 12:21:15
+ * @LastEditTime: 2023-04-23 00:20:49
  * @Description:
  */
 import { useEmotionCss } from '@ant-design/use-emotion-css'
@@ -24,7 +24,7 @@ export default function Layout() {
 
       [`@media screen and (max-width: ${token.screenMD}px)`]: {
         '&.page-layout': {
-          paddingInline: '0'
+          paddingInline: token.paddingSM
         }
       }
     }
