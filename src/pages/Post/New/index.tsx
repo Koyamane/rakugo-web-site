@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-20 16:13:47
+ * @LastEditTime: 2023-04-22 12:25:14
  * @Description:
  */
 
@@ -261,6 +261,12 @@ export default (): React.ReactNode => {
             width: '100%'
           }
         }
+      }
+    },
+
+    [`@media screen and (max-width: ${token.screenMD}px)`]: {
+      '.post-article-header': {
+        paddingInline: token.paddingMD
       }
     }
   }))

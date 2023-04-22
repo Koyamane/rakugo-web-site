@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 15:36:32
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-16 23:11:02
+ * @LastEditTime: 2023-04-22 12:21:15
  * @Description:
  */
 import { useEmotionCss } from '@ant-design/use-emotion-css'
@@ -20,7 +20,13 @@ export default function Layout() {
       width: '100%',
       marginInline: 'auto',
       padding: token.paddingMD,
-      maxWidth: (token as any).pageMaxWidth
+      maxWidth: (token as any).pageMaxWidth,
+
+      [`@media screen and (max-width: ${token.screenMD}px)`]: {
+        '&.page-layout': {
+          paddingInline: '0'
+        }
+      }
     }
   })
 
@@ -28,5 +34,5 @@ export default function Layout() {
     setTo404(false)
   }, [pathname])
 
-  return <div className={layoutClassName}>{to404 ? <Page404 /> : <Outlet />}</div>
+  return <div className={layoutClassName + ' page-layout'}>{to404 ? <Page404 /> : <Outlet />}</div>
 }
