@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-16 22:27:41
+ * @LastEditTime: 2023-04-22 21:41:51
  * @Description:
  */
 // import { history } from '@umijs/max';
@@ -66,6 +66,7 @@ export async function getInitialState(): Promise<{
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     actionsRender: () => [
+      // <HeaderSearch key='HeaderSearch' />,
       <PostArticle key='PostArticle' />,
       <ThemeIcon key='ThemeIcon' />,
       <SelectLang key='SelectLang' />

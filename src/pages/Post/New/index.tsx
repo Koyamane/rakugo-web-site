@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-22 12:25:14
+ * @LastEditTime: 2023-04-22 21:28:05
  * @Description:
  */
 
@@ -11,6 +11,7 @@ import { AvatarDropdown } from '@/components'
 import { DeleteFile } from '@/services/global'
 import { debounce } from '@/utils/tools'
 import { SwapOutlined } from '@ant-design/icons'
+import { PageLoading } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl, useModel, useParams } from '@umijs/max'
 import { Avatar, Input, Modal, Popover } from 'antd'
@@ -36,6 +37,7 @@ export default (): React.ReactNode => {
   const [mainText, setMainText] = useState('')
   const [modal, contextHolder] = Modal.useModal()
   const [titleValue, setTitleValue] = useState('')
+  const [loading, setLoading] = useState(true)
   const [blogInfo, setBlogInfo] = useState<API.BlogInfo>()
   const { initialState } = useModel('@@initialState')
   const { id } = useParams<{ id: string }>()
@@ -115,9 +117,10 @@ export default (): React.ReactNode => {
   const getBlogInfo = async () => {
     if (!id) {
       setEditor('MARKDOWN')
+      setLoading(false)
       return
     }
-
+    setLoading(true)
     try {
       const data: API.BlogInfo = await BlogInfoApi(id)
       setMainText(data.content)
@@ -131,6 +134,7 @@ export default (): React.ReactNode => {
       setBlogInfo(undefined)
       console.log(error)
     }
+    setLoading(false)
   }
 
   const onMainTextChange = (value: string) => {
@@ -183,11 +187,7 @@ export default (): React.ReactNode => {
   const postArticleClassName = useEmotionCss(({ token }) => ({
     width: '100%',
     height: '100%',
-    position: 'fixed',
-    top: '0',
-    left: '0',
     color: token.colorText,
-    zIndex: token.zIndexPopupBase,
     background: token.colorBgContainer,
 
     '.post-article-layout': {
@@ -271,7 +271,9 @@ export default (): React.ReactNode => {
     }
   }))
 
-  return (
+  return loading ? (
+    <PageLoading />
+  ) : (
     <main className={postArticleClassName + ' post-article'}>
       {contextHolder}
       <div className='post-article-layout'>

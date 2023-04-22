@@ -1,4 +1,6 @@
 export default {
+  'pages.form.search': '搜索',
+  'pages.form.search.history': '搜索历史',
   'pages.form.atMost': '最多',
   'pages.form.image': '图片',
   'pages.form.audio': '音频',

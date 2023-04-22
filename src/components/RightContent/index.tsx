@@ -33,9 +33,8 @@ export const ThemeIcon = () => {
     })
   }
 
-  const themeIconClassName = useEmotionCss(({ token }) => ({
-    display: 'inline-flex',
-    fontSize: token.fontSizeXL
+  const themeIconClassName = useEmotionCss(() => ({
+    display: 'inline-flex'
   }))
 
   return (
@@ -72,7 +71,6 @@ export const ThemeIcon = () => {
 export const PostArticle: React.FC = () => {
   const postArticleClassName = useEmotionCss(({ token }) => ({
     display: 'inline-flex',
-    fontSize: token.fontSizeXL,
     color: token.colorTextDescription,
     '&:hover': {
       color: token.colorTextDescription

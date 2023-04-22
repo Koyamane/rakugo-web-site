@@ -1,4 +1,6 @@
 export default {
+  'pages.form.search': 'Search',
+  'pages.form.search.history': 'Search History',
   'pages.form.atMost': 'At most',
   'pages.form.image': 'picture',
   'pages.form.audio': 'audio',

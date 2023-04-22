@@ -1,3 +1,25 @@
+function objSort(obj: Record<string, string>) {
+  const newObj: Record<string, string> = {}
+  // 遍历对象，并将key进行排序
+  Object.keys(obj)
+    .sort()
+    .forEach(key => (newObj[key] = obj[key]))
+  // 将排序好的数组转成字符串
+  return JSON.stringify(newObj)
+}
+
+export function unique(arr: any[]) {
+  const set = new Set()
+  for (let i = 0; i < arr.length; i++) {
+    const str = objSort(arr[i])
+    set.add(str)
+  }
+
+  // 将数组中的字符串转回对象
+  arr = [...set].map(item => JSON.parse(item as string))
+  return arr
+}
+
 /**
  * @description: 获取文章目录，务必放在 userLayoutEffect 中使用
  * @param {String} target: 目标节点下面的标题

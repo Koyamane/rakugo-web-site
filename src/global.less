@@ -32,6 +32,9 @@ body,
   }
 
   .ant-pro-global-header-right-content {
+    // 这个逼版本，min-width 只增不减的，很坑，所以要设置为 auto。但是设置后，它又正常增减了，删了又不能，太鸡儿坑了
+    min-width: auto !important;
+
     .ant-pro-global-header-header-actions-item {
       padding: 0;
     }
@@ -40,6 +43,10 @@ body,
       margin-right: -@margin-xs;
       padding: 0;
     }
+  }
+
+  .ant-pro-global-header-header-actions-item {
+    font-size: 20px;
   }
 
   .ant-avatar {

@@ -12,12 +12,14 @@ import DirectoryAnchor from './DirectoryAnchor'
 import FollowButton from './FollowButton'
 import Footer from './Footer'
 import FooterBar from './FooterBar'
+import HeaderSearch from './HeaderSearch'
 import IconText from './IconText'
 import InputFileItem from './InputFileItem'
 import { PostArticle, SelectLang, ThemeIcon } from './RightContent'
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown'
 
 export {
+  HeaderSearch,
   InputFileItem,
   PostArticle,
   Comment,
