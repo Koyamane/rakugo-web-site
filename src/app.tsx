@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 00:16:08
+ * @LastEditTime: 2023-04-23 12:13:48
  * @Description:
  */
 import { AvatarDropdown, Footer, PostArticle, SelectLang, ThemeIcon } from '@/components'
@@ -75,6 +75,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       <ThemeIcon key='ThemeIcon' />,
       <SelectLang key='SelectLang' />
     ],
+    onCollapse: collapsed => {
+      if (!collapsed) {
+        document.body.setAttribute('style', 'overflow: hidden')
+        document.documentElement.setAttribute('style', 'overflow: hidden')
+      } else {
+        document.body.setAttribute('style', 'overflow: initial')
+        document.documentElement.setAttribute('style', 'overflow: initial')
+      }
+    },
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       render: (_, avatarChildren) => {
