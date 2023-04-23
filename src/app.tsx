@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 17:18:25
+ * @LastEditTime: 2023-04-23 20:20:36
  * @Description:
  */
 import { AvatarDropdown, Footer, PostArticle, SelectLang, ThemeIcon } from '@/components'
@@ -73,8 +73,18 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         location: { pathname }
       } = props
 
-      if (pathname === '/home') return title
+      if (pathname === '/home') {
+        setTimeout(() => {
+          // 这里延迟是因为，登录界面返回时，会覆盖页面标题，所以延迟设置
+          document.title = title || '落語'
+        })
+        return title
+      }
 
+      setTimeout(() => {
+        // 这里延迟是因为，登录界面返回时，会覆盖页面标题，所以延迟设置
+        document.title = defaultPageTitle || '落語'
+      })
       return defaultPageTitle
     },
     // bgLayoutImgList: [],  // 在这里设置 layout 图片背景
