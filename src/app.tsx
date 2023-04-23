@@ -78,10 +78,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     onCollapse: collapsed => {
       if (!collapsed) {
         document.body.setAttribute('style', 'overflow: hidden')
-        document.documentElement.setAttribute('style', 'overflow: hidden')
       } else {
         document.body.setAttribute('style', 'overflow: initial')
-        document.documentElement.setAttribute('style', 'overflow: initial')
       }
     },
     avatarProps: {
