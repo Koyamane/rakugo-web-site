@@ -3,7 +3,7 @@
  * @Date: 2023-04-16 23:42:11
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-20 14:08:06
+ * @LastEditTime: 2023-04-23 23:59:35
  * @Description:
  */
 import { useVerifyFileSize } from '@/hooks'
@@ -16,6 +16,7 @@ import highlight from '@bytemd/plugin-highlight' // 代码高亮
 import math from '@bytemd/plugin-math' // 数学公式
 import mathJa from '@bytemd/plugin-math/locales/ja.json'
 import mathZh from '@bytemd/plugin-math/locales/zh_Hans.json'
+import mediumZoom from '@bytemd/plugin-medium-zoom' // 图片放大显示
 import mermaid from '@bytemd/plugin-mermaid' // 流程图等
 import mermaidZh from '@bytemd/plugin-mermaid/locales/zh_Hans.json'
 import { Editor } from '@bytemd/react'
@@ -25,6 +26,7 @@ import ja from 'bytemd/locales/ja.json' // 中文插件
 import zh_Hans from 'bytemd/locales/zh_Hans.json' // 中文插件
 import 'highlight.js/styles/atom-one-light.css' // 代码高亮的主题样式(可自选)
 import 'juejin-markdown-themes/dist/juejin.min.css' // 掘金同款样式
+import 'katex/dist/katex.css'
 import React, { useMemo } from 'react'
 
 const gfmJa = {
@@ -72,6 +74,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = React.memo(
         highlight(), // 代码高亮
         frontmatter(), // 解析前题
         gemoji(), // Gemoji短代码
+        mediumZoom(),
         math({ locale: mathLocale[intl.locale] }),
         mermaid({ locale: mermaidLocale[intl.locale] })
       ]
