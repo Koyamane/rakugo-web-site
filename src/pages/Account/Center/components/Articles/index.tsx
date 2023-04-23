@@ -1,8 +1,8 @@
 import BlogListSkeleton from '@/components/BlogListSkeleton'
 import IconText from '@/components/IconText'
+import { useGlobalHooks } from '@/hooks'
 import useFormatTime from '@/hooks/useFormatTime'
 import usePaginationItem from '@/hooks/usePaginationItem'
-import { BLOG_STATUS, toObj } from '@/locales/dataDictionary'
 import { OperationItem } from '@/pages/Post/Article/data'
 import {
   EyeOutlined,
@@ -27,6 +27,8 @@ interface SelfProps {
 
 const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
   const intl = useIntl()
+  const { keyToValue } = useGlobalHooks()
+  const { getDataDictionary } = useModel('useDataDictionary')
   const [listLoading, setListLoading] = useState(true)
   const [firstEnter, setFirstEnter] = useState(true)
   const formatTime = useFormatTime()
@@ -104,10 +106,10 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
         content={item.rejectReason || '无'}
         title={intl.formatMessage({ id: 'pages.form.rejectReason' })}
       >
-        <a>{toObj(BLOG_STATUS)[item.status]}</a>
+        <a>{keyToValue('BLOG_STATUS', item.status)}</a>
       </Popover>
     ) : (
-      toObj(BLOG_STATUS)[item.status]
+      keyToValue('BLOG_STATUS', item.status)
     )
   }
 
@@ -118,6 +120,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
   }
 
   useEffect(() => {
+    getDataDictionary(['BLOG_STATUS'])
     // 每次id不一样，都要发请求
     initList()
   }, [userId])
