@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 16:55:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 21:25:45
+ * @LastEditTime: 2023-04-23 14:16:01
  * @Description:
  */
 import { DATA_DICTIONARY_STATUS, toObj } from '@/locales/dataDictionary'
@@ -73,7 +73,6 @@ const DataDictionaryManagement: React.FC = () => {
       handleModalVisible(false)
     } catch (error) {
       console.log(error)
-      message.error('新增失败，请重试')
     }
     hide()
   }
@@ -88,7 +87,6 @@ const DataDictionaryManagement: React.FC = () => {
       handleModalVisible(false)
     } catch (error) {
       console.log(error)
-      message.error('修改失败，请重试')
     }
     hide()
   }
@@ -101,7 +99,7 @@ const DataDictionaryManagement: React.FC = () => {
       message.success('删除成功，即将刷新')
       actionRef.current?.reloadAndRest?.()
     } catch (error) {
-      message.error('删除失败，请重试')
+      console.log(error)
     }
     hide()
   }

@@ -65,12 +65,7 @@ const AvatarCrop: React.FC = () => {
           }
         }))
       } catch (error) {
-        message.error(
-          intl.formatMessage({
-            id: 'pages.account.basic.avatar.error',
-            defaultMessage: '更换失败，请重试！'
-          })
-        )
+        console.log(error)
       }
       setBtnLoading(false)
     })

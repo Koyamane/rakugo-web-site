@@ -233,12 +233,6 @@ const Register: FC = () => {
 
       history.replace('/user/register/result')
     } catch (error) {
-      message.error(
-        intl.formatMessage({
-          id: 'pages.register.failure',
-          defaultMessage: '注册失败，请重试！'
-        })
-      )
       setBtnLoading(false)
     }
   }

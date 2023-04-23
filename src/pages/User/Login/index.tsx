@@ -48,12 +48,6 @@ const Login: React.FC = () => {
       goRedirect()
     } catch (error) {
       console.log(error)
-      message.error(
-        intl.formatMessage({
-          id: 'pages.login.failure',
-          defaultMessage: '登录失败，请重试！'
-        })
-      )
       setBtnLoading(false)
     }
   }

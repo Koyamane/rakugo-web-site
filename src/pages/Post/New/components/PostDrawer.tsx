@@ -3,7 +3,7 @@
  * @Date: 2023-04-18 20:15:06
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-20 13:37:07
+ * @LastEditTime: 2023-04-23 14:14:36
  * @Description:
  */
 
@@ -124,7 +124,6 @@ const PostModal: React.FC<PostModalProps> = React.memo(
         }
       } catch (error) {
         setLoading(false)
-        message.error(intl.formatMessage({ id: 'pages.blog.blogAdd.error' }))
       }
     }
 
