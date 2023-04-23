@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-21 22:20:48
+ * @LastEditTime: 2023-04-23 13:23:42
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -72,6 +72,7 @@ export default (): React.ReactNode => {
           paddingBlockEnd: token.paddingMD,
 
           '&-title': {
+            marginBlock: token.marginMD,
             color: token.colorTextHeading,
             fontSize: token.fontSizeHeading2
           },
