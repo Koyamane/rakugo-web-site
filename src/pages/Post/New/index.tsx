@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-22 21:28:05
+ * @LastEditTime: 2023-04-23 16:50:50
  * @Description:
  */
 
@@ -13,9 +13,10 @@ import { debounce } from '@/utils/tools'
 import { SwapOutlined } from '@ant-design/icons'
 import { PageLoading } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { useIntl, useModel, useParams } from '@umijs/max'
+import { Helmet, useIntl, useModel, useParams } from '@umijs/max'
 import { Avatar, Input, Modal, Popover } from 'antd'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import Settings from '../../../../config/defaultSettings'
 import { BlogInfoApi } from '../Article/services'
 import MarkdownEditor from './components/MarkdownEditor'
 import PostDrawer from './components/PostDrawer'
@@ -271,58 +272,71 @@ export default (): React.ReactNode => {
     }
   }))
 
-  return loading ? (
-    <PageLoading />
-  ) : (
-    <main className={postArticleClassName + ' post-article'}>
-      {contextHolder}
-      <div className='post-article-layout'>
-        <header className='post-article-header'>
-          <Input
-            bordered={false}
-            value={titleValue}
-            onChange={titleChange}
-            className='post-article-header-title'
-            placeholder={intl.formatMessage({ id: 'pages.post.titlePlaceholder' })}
-          />
+  return (
+    <>
+      <Helmet>
+        <title>
+          {intl.formatMessage({ id: 'menu.post.article' })} - {Settings.title}
+        </title>
+      </Helmet>
 
-          <>
-            <PostDrawer
-              editor={editor}
-              mainText={mainText}
-              blogInfo={blogInfo}
-              titleValue={titleValue}
-              setIsAllDelete={setIsAllDelete}
-            />
-            <Popover content={switchTo}>
-              <SwapOutlined onClick={changeEditor} className='post-article-header-change-editor' />
-            </Popover>
-            <AvatarDropdown menu>
-              <Avatar
-                src={initialState?.currentUser?.avatar}
-                className='post-article-header-avatar'
+      {loading ? (
+        <PageLoading />
+      ) : (
+        <main className={postArticleClassName + ' post-article'}>
+          {contextHolder}
+          <div className='post-article-layout'>
+            <header className='post-article-header'>
+              <Input
+                bordered={false}
+                value={titleValue}
+                onChange={titleChange}
+                className='post-article-header-title'
+                placeholder={intl.formatMessage({ id: 'pages.post.titlePlaceholder' })}
               />
-            </AvatarDropdown>
-          </>
-        </header>
 
-        <div className='post-article-editor'>
-          {editor === 'MARKDOWN' && (
-            <MarkdownEditor
-              value={mainText}
-              onChange={onMainTextChange}
-              onFileChange={addFileList}
-            />
-          )}
-          {editor === 'RICH_TEXT' && (
-            <RichtextEditor
-              value={mainText}
-              onChange={onMainTextChange}
-              onFileChange={addFileList}
-            />
-          )}
-        </div>
-      </div>
-    </main>
+              <>
+                <PostDrawer
+                  editor={editor}
+                  mainText={mainText}
+                  blogInfo={blogInfo}
+                  titleValue={titleValue}
+                  setIsAllDelete={setIsAllDelete}
+                />
+                <Popover content={switchTo}>
+                  <SwapOutlined
+                    onClick={changeEditor}
+                    className='post-article-header-change-editor'
+                  />
+                </Popover>
+                <AvatarDropdown menu>
+                  <Avatar
+                    src={initialState?.currentUser?.avatar}
+                    className='post-article-header-avatar'
+                  />
+                </AvatarDropdown>
+              </>
+            </header>
+
+            <div className='post-article-editor'>
+              {editor === 'MARKDOWN' && (
+                <MarkdownEditor
+                  value={mainText}
+                  onChange={onMainTextChange}
+                  onFileChange={addFileList}
+                />
+              )}
+              {editor === 'RICH_TEXT' && (
+                <RichtextEditor
+                  value={mainText}
+                  onChange={onMainTextChange}
+                  onFileChange={addFileList}
+                />
+              )}
+            </div>
+          </div>
+        </main>
+      )}
+    </>
   )
 }

@@ -3,13 +3,14 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 00:16:05
+ * @LastEditTime: 2023-04-23 14:40:27
  * @Description:
  */
+import { useParamsRedirect } from '@/hooks'
 import { FormOutlined } from '@ant-design/icons'
 import { useToken } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { FormattedMessage, NavLink, SelectLang as UmiSelectLang, useModel } from '@umijs/max'
+import { FormattedMessage, history, SelectLang as UmiSelectLang, useModel } from '@umijs/max'
 import { Popover } from 'antd'
 import { useMemo } from 'react'
 
@@ -74,19 +75,26 @@ export const ThemeIcon = () => {
 }
 
 export const PostArticle: React.FC = () => {
-  const postArticleClassName = useEmotionCss(({ token }) => ({
-    display: 'inline-flex',
-    color: token.colorTextDescription,
-    '&:hover': {
-      color: token.colorTextDescription
-    }
+  const paramsRedirect = useParamsRedirect()
+
+  const postArticleClassName = useEmotionCss(() => ({
+    display: 'inline-flex'
   }))
+
+  const goPost = () => {
+    if (!localStorage.getItem('token')) {
+      paramsRedirect({ params: { redirect: '/post/article' } })
+      return
+    }
+
+    history.push('/post/article')
+  }
 
   return (
     <Popover content={<FormattedMessage id='menu.post.article' />}>
-      <NavLink to='/post/article' className={postArticleClassName}>
+      <span className={postArticleClassName} onClick={goPost}>
         <FormOutlined />
-      </NavLink>
+      </span>
     </Popover>
   )
 }

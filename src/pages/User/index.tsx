@@ -3,15 +3,15 @@
  * @Date: 2023-04-12 15:26:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-12 15:52:26
+ * @LastEditTime: 2023-04-23 17:19:53
  * @Description:
  */
 import loginBg from '@/assets/login-bg.jpg'
 import { SelectLang } from '@/components'
 import Footer from '@/components/Footer'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { Helmet, Outlet, useIntl } from '@umijs/max'
-import React from 'react'
+import { Helmet, Outlet, useIntl, useLocation } from '@umijs/max'
+import React, { useMemo } from 'react'
 import Settings from '../../../config/defaultSettings'
 
 const Lang = () => {
@@ -46,6 +46,25 @@ const Lang = () => {
 
 const User: React.FC = () => {
   const intl = useIntl()
+  const location = useLocation()
+
+  const pageTitle = useMemo(() => {
+    let strId = 'menu.login'
+
+    switch (location.pathname) {
+      case '/user/register':
+        strId = 'menu.register'
+        break
+      case '/user/register/result':
+        strId = 'menu.register-result'
+        break
+      default:
+        strId = 'menu.login'
+        break
+    }
+
+    return `${intl.formatMessage({ id: strId })}- ${Settings.title}`
+  }, [intl.locale, location.pathname])
 
   const containerClassName = useEmotionCss(({ token }) => {
     return {
@@ -84,13 +103,7 @@ const User: React.FC = () => {
   return (
     <div className={containerClassName}>
       <Helmet>
-        <title>
-          {intl.formatMessage({
-            id: 'menu.login',
-            defaultMessage: '登录页'
-          })}
-          - {Settings.title}
-        </title>
+        <title>{pageTitle}</title>
       </Helmet>
 
       <Lang />

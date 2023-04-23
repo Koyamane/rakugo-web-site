@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 12:13:48
+ * @LastEditTime: 2023-04-23 17:18:25
  * @Description:
  */
 import { AvatarDropdown, Footer, PostArticle, SelectLang, ThemeIcon } from '@/components'
@@ -67,6 +67,16 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
+    pageTitleRender(props, defaultPageTitle) {
+      const {
+        title,
+        location: { pathname }
+      } = props
+
+      if (pathname === '/home') return title
+
+      return defaultPageTitle
+    },
     // bgLayoutImgList: [],  // 在这里设置 layout 图片背景
     style: { background: initialState?.settings?.token?.bgLayout },
     actionsRender: () => [

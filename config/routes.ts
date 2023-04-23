@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-22 21:20:21
+ * @LastEditTime: 2023-04-23 17:16:23
  * @Description:
  */
 /**
@@ -38,14 +38,14 @@ export default [
     hideInMenu: true,
     routes: [
       {
-        name: 'article',
-        path: ':id',
+        path: '/post/:id',
+        name: 'edit',
         wrappers: ['@/wrappers/auth'],
         component: './Post/New'
       },
       {
+        path: '/post/article',
         name: 'article',
-        path: 'article',
         wrappers: ['@/wrappers/auth'],
         component: './Post/New'
       }
@@ -58,22 +58,22 @@ export default [
     access: 'canAdmin',
     routes: [
       {
-        path: 'announcement',
+        path: '/admin/announcement',
         name: 'announcement',
         component: './Admin/AnnouncementManagement'
       },
       {
-        path: 'blog',
+        path: '/admin/blog',
         name: 'blog',
         component: './Admin/BlogManagement'
       },
       {
-        path: 'user',
+        path: '/admin/user',
         name: 'user',
         component: './Admin/UserManagement'
       },
       {
-        path: 'data-dictionary',
+        path: '/admin/data-dictionary',
         name: 'dataDictionary',
         component: './Admin/DataDictionaryManagement'
       }
@@ -82,21 +82,22 @@ export default [
   {
     path: '/user',
     layout: false,
+    hideInMenu: true,
     component: './User',
     routes: [
       {
+        path: '/user/login',
         name: 'login',
-        path: 'login',
         component: './User/Login'
       },
       {
+        path: '/user/register',
         name: 'register',
-        path: 'register',
         component: './User/Register'
       },
       {
+        path: '/user/register/result',
         name: 'register-result',
-        path: 'register/result',
         component: './User/RegisterResult'
       }
     ]
@@ -107,19 +108,19 @@ export default [
     hideInMenu: true,
     routes: [
       {
-        path: 'center',
+        path: '/account/center',
         name: 'center',
         wrappers: ['@/wrappers/auth'],
         component: './Account/Center/redirect'
       },
       {
-        path: 'center/:userId',
+        path: '/account/center/:userId',
         name: 'center',
         wrappers: ['@/wrappers/auth'],
         component: './Account/Center'
       },
       {
-        path: 'settings',
+        path: '/account/settings',
         name: 'settings',
         wrappers: ['@/wrappers/auth'],
         component: './Account/Settings'

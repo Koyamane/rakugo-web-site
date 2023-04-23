@@ -333,7 +333,7 @@ const Register: FC = () => {
           />
         </Col>
 
-        <Col>
+        <Col span={8}>
           <Captcha ref={captchaRef} charNum={4} onChange={setCaptcha} />
         </Col>
       </Row>
