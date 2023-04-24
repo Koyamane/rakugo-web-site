@@ -116,15 +116,6 @@ export default (): React.ReactNode => {
       // 初始化已有文件地址
       initFileList([...urlArr])
     }
-
-    if (!curZoom) {
-      blogInfo &&
-        debounce(() => {
-          curZoom = mediumZoom('.article-layout-content img')
-        }, 200)()
-    } else {
-      curZoom.attach('.article-layout-content img')
-    }
   }, [blogInfo])
 
   useLayoutEffect(() => {
