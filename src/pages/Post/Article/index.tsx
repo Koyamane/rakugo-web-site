@@ -9,11 +9,11 @@
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
 import { useGlobalHooks } from '@/hooks'
 import useFormatTime from '@/hooks/useFormatTime'
-import { debounce } from '@/utils/tools'
+import { useToken } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, NavLink, useModel, useParams } from '@umijs/max'
 import { Avatar, Divider, Space, Spin, Tag } from 'antd'
-import mediumZoom from 'medium-zoom'
+import mediumZoom, { Zoom } from 'medium-zoom'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import ArticleFooterUser from './components/ArticleFooterUser'
 import ArticleOperationBtn from './components/ArticleOperationBtn'
@@ -21,10 +21,13 @@ import MarkdownItem from './components/MarkdownItem'
 import RichTextItem from './components/RichTextItem'
 import { BlogInfoApi, BlogSimplePageApi } from './services'
 
+let curZoom: Zoom
+
 const ReaderValue = ({ editor, value }: { editor: API.BlogInfo['editor']; value: string }) =>
   editor === 'RICH_TEXT' ? <RichTextItem value={value} /> : <MarkdownItem value={value} />
 
 export default (): React.ReactNode => {
+  const { token } = useToken()
   const { id } = useParams<{ id: string }>()
   const { initialState } = useModel('@@initialState')
   const userId = initialState?.currentUser?.userId
@@ -240,11 +243,16 @@ export default (): React.ReactNode => {
   }, [id])
 
   useLayoutEffect(() => {
-    blogInfo &&
-      debounce(() => {
-        mediumZoom('.article-layout-content img')
-      }, 200)()
-  }, [blogInfo])
+    if (!curZoom) {
+      curZoom = mediumZoom('.article-layout-content img', {
+        background: token.colorBgBase
+      })
+    } else {
+      curZoom.attach('.article-layout-content img').update({
+        background: token.colorBgBase
+      })
+    }
+  }, [blogInfo, token])
 
   return (
     <Spin spinning={loading}>

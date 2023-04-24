@@ -8,16 +8,20 @@
  */
 
 import { AvatarDropdown } from '@/components'
+import { debounce } from '@/utils/tools'
 import { SwapOutlined } from '@ant-design/icons'
 import { PageLoading } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { Helmet, history, Outlet, useIntl, useModel, useParams } from '@umijs/max'
 import { Avatar, Input, Modal, Popover } from 'antd'
+import mediumZoom, { Zoom } from 'medium-zoom'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import Settings from '../../../../config/defaultSettings'
 import { BlogInfoApi } from '../Article/services'
 import PostDrawer from './components/PostDrawer'
 import { AddBlogType } from './data'
+
+let curZoom: Zoom
 
 export default (): React.ReactNode => {
   const intl = useIntl()
@@ -41,7 +45,8 @@ export default (): React.ReactNode => {
     return intl.formatMessage({ id: 'pages.post.switchToMarkdown' })
   }, [editor, intl.locale])
 
-  const { leavePage, setMainText, initFileList, setContentFileArr } = useModel('useArticle')
+  const { leavePage, mainText, setMainText, initFileList, setContentFileArr } =
+    useModel('useArticle')
 
   const titleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitleValue(e.target.value)
@@ -109,7 +114,26 @@ export default (): React.ReactNode => {
       // 初始化已有文件地址
       initFileList([...urlArr])
     }
+
+    if (!curZoom) {
+      blogInfo &&
+        debounce(() => {
+          curZoom = mediumZoom('.article-layout-content img')
+        }, 200)()
+    } else {
+      curZoom.attach('.article-layout-content img')
+    }
   }, [blogInfo])
+
+  useLayoutEffect(() => {
+    debounce(() => {
+      if (!curZoom) {
+        curZoom = mediumZoom('.post-article-editor img')
+      } else {
+        curZoom.attach('.post-article-editor img')
+      }
+    }, 200)()
+  }, [mainText])
 
   // 因为路由 layout false 会导致用不了 token，所以只能采取覆盖的方式
   const postArticleClassName = useEmotionCss(({ token }) => ({
