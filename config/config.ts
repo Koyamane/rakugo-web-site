@@ -80,7 +80,7 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  title: '落語',
+  // title: '落語',
   favicons: ['/favicon.svg'],
   layout: {
     locale: true,

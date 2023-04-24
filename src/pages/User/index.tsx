@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 15:26:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 17:19:53
+ * @LastEditTime: 2023-04-24 20:07:53
  * @Description:
  */
 import loginBg from '@/assets/login-bg.jpg'
@@ -12,7 +12,6 @@ import Footer from '@/components/Footer'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { Helmet, Outlet, useIntl, useLocation } from '@umijs/max'
 import React, { useMemo } from 'react'
-import Settings from '../../../config/defaultSettings'
 
 const Lang = () => {
   const langBoxClassName = useEmotionCss(({ token }) => {
@@ -63,7 +62,9 @@ const User: React.FC = () => {
         break
     }
 
-    return `${intl.formatMessage({ id: strId })}- ${Settings.title}`
+    return `${intl.formatMessage({ id: strId })} - ${intl.formatMessage({
+      id: 'pages.layouts.site.title'
+    })}`
   }, [intl.locale, location.pathname])
 
   const containerClassName = useEmotionCss(({ token }) => {

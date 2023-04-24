@@ -134,12 +134,11 @@ export default [
     routes: [
       {
         path: '/account',
-        redirect: '/account/center'
+        component: './Exception/404'
       },
       {
         path: '/account/center',
-        name: 'center',
-        component: './Account/Center/redirect'
+        wrappers: ['@/wrappers/redirectAccount']
       },
       {
         path: '/account/center/:userId',

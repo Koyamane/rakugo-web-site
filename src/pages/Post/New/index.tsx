@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 16:26:03
+ * @LastEditTime: 2023-04-24 20:09:32
  * @Description:
  */
 
@@ -16,7 +16,6 @@ import { Helmet, history, Outlet, useIntl, useModel, useParams } from '@umijs/ma
 import { Avatar, Input, Modal, Popover } from 'antd'
 import mediumZoom, { Zoom } from 'medium-zoom'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
-import Settings from '../../../../config/defaultSettings'
 import Page404 from '../../Exception/404'
 import { BlogInfoApi } from '../Article/services'
 import PostDrawer from './components/PostDrawer'
@@ -231,7 +230,8 @@ export default (): React.ReactNode => {
     <>
       <Helmet>
         <title>
-          {intl.formatMessage({ id: 'menu.post.article' })} - {Settings.title}
+          {intl.formatMessage({ id: 'menu.post.article' })} -{' '}
+          {intl.formatMessage({ id: 'pages.layouts.site.title' })}
         </title>
       </Helmet>
 

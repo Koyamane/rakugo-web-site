@@ -3,12 +3,12 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 16:50:02
+ * @LastEditTime: 2023-04-24 20:28:13
  * @Description:
  */
 import { AvatarDropdown, Footer, PostArticle, SelectLang, ThemeIcon } from '@/components'
 import { ProLayoutProps } from '@ant-design/pro-components'
-import type { RunTimeLayoutConfig } from '@umijs/max'
+import { RunTimeLayoutConfig } from '@umijs/max'
 import { ReactNode } from 'react'
 import defaultSettings from '../config/defaultSettings'
 import RenderApp from './RenderApp'
@@ -67,25 +67,35 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
-    pageTitleRender(props, defaultPageTitle) {
-      const {
-        title,
-        location: { pathname }
-      } = props
+    pageTitleRender(props, defaultPageTitle, info) {
+      switch (info?.id) {
+        case '':
+        case 'menu.article':
+        case 'menu.account':
+        case 'menu.account.center':
+          return ''
+        default:
+          break
+      }
 
-      if (pathname === '/home') {
+      const { title, formatMessage } = props
+
+      const titleSuffix =
+        (formatMessage && formatMessage({ id: 'pages.layouts.site.title' })) || title || '落語'
+
+      if (info?.id === 'menu.home') {
         setTimeout(() => {
           // 这里延迟是因为，登录界面返回时，会覆盖页面标题，所以延迟设置
-          document.title = title || '落語'
+          document.title = titleSuffix
         })
-        return title
+        return titleSuffix
       }
 
       setTimeout(() => {
         // 这里延迟是因为，登录界面返回时，会覆盖页面标题，所以延迟设置
-        document.title = defaultPageTitle || '落語'
+        document.title = info?.pageName + ' - ' + titleSuffix
       })
-      return defaultPageTitle
+      return info?.pageName + ' - ' + titleSuffix
     },
     // 在这里设置 layout 图片背景
     // bgLayoutImgList: [

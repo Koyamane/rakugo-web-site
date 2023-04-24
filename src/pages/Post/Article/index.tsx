@@ -11,7 +11,7 @@ import { useGlobalHooks } from '@/hooks'
 import useFormatTime from '@/hooks/useFormatTime'
 import { useToken } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { FormattedMessage, NavLink, useModel, useParams } from '@umijs/max'
+import { FormattedMessage, Helmet, NavLink, useIntl, useModel, useParams } from '@umijs/max'
 import { Avatar, Divider, Space, Spin, Tag } from 'antd'
 import mediumZoom, { Zoom } from 'medium-zoom'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
@@ -29,6 +29,7 @@ const ReaderValue = ({ editor, value }: { editor: API.BlogInfo['editor']; value:
 export default (): React.ReactNode => {
   const { token } = useToken()
   const { id } = useParams<{ id: string }>()
+  const intl = useIntl()
   const { initialState } = useModel('@@initialState')
   const userId = initialState?.currentUser?.userId
   const { setTo404 } = useModel('use404Model')
@@ -258,6 +259,12 @@ export default (): React.ReactNode => {
     <Spin spinning={loading}>
       {blogInfo && (
         <>
+          <Helmet>
+            <title>
+              {blogInfo.title} - {intl.formatMessage({ id: 'pages.layouts.site.title' })}
+            </title>
+          </Helmet>
+
           <div className={articleLayoutClassName}>
             <div className='article-layout-left'>
               <ArticleOperationBtn blogInfo={blogInfo} userId={userId} />
