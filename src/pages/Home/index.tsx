@@ -1,4 +1,4 @@
-import sakuraBg from '@/assets/sakura.jpg'
+import umiBg from '@/assets/umi.jpg'
 import { BackTop } from '@/components'
 import { AnnouncementInfo } from '@/pages/Admin/AnnouncementManagement/data'
 import { AnnouncementPageApi } from '@/pages/Admin/AnnouncementManagement/service'
@@ -46,7 +46,7 @@ export default (): React.ReactNode => {
           fontSize: token.fontSizeHeading3,
           marginInline: token.marginMD,
           padding: `${token.paddingSM}px 0`,
-          backgroundImage: `url(${sakuraBg})`,
+          backgroundImage: `url(${umiBg})`,
           backgroundPosition: 'bottom',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',

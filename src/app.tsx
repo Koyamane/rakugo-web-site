@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 20:20:36
+ * @LastEditTime: 2023-04-24 16:50:02
  * @Description:
  */
 import { AvatarDropdown, Footer, PostArticle, SelectLang, ThemeIcon } from '@/components'
@@ -87,7 +87,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       })
       return defaultPageTitle
     },
-    // bgLayoutImgList: [],  // 在这里设置 layout 图片背景
+    // 在这里设置 layout 图片背景
+    // bgLayoutImgList: [
+    //   {
+    //     src: require('@/assets/kumononakanoressya.jpg'),
+    //     width: '100%',
+    //     height: '100%',
+    //     'object-fit': 'cover'
+    //   }
+    // ],
     style: { background: initialState?.settings?.token?.bgLayout },
     actionsRender: () => [
       // <HeaderSearch key='HeaderSearch' />,

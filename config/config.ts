@@ -115,6 +115,7 @@ export default defineConfig({
     theme: {
       token: {
         pageMaxWidth: 1152,
+        colorBgLayoutHeader: 'rgba(255, 255, 255, 0.6)',
         colorPrimary: '#de8972',
         colorInfo: '#de8972' // 可以改到 a 标签的颜色，和 massage 的标签颜色
       }

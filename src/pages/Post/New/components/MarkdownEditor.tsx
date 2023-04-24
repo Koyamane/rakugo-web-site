@@ -3,7 +3,7 @@
  * @Date: 2023-04-16 23:42:11
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 14:53:18
+ * @LastEditTime: 2023-04-24 15:36:33
  * @Description:
  */
 import { useVerifyFileSize } from '@/hooks'
@@ -16,7 +16,6 @@ import highlight from '@bytemd/plugin-highlight' // 代码高亮
 import math from '@bytemd/plugin-math' // 数学公式
 import mathJa from '@bytemd/plugin-math/locales/ja.json'
 import mathZh from '@bytemd/plugin-math/locales/zh_Hans.json'
-import mediumZoom from '@bytemd/plugin-medium-zoom' // 图片放大显示
 import mermaid from '@bytemd/plugin-mermaid' // 流程图等
 import mermaidZh from '@bytemd/plugin-mermaid/locales/zh_Hans.json'
 import { Editor } from '@bytemd/react'
@@ -69,7 +68,7 @@ const MarkdownEditor: React.FC = () => {
       highlight(), // 代码高亮
       frontmatter(), // 解析前题
       gemoji(), // Gemoji短代码
-      mediumZoom(),
+      // mediumZoom(),
       math({ locale: mathLocale[intl.locale] }),
       mermaid({ locale: mermaidLocale[intl.locale] })
     ]

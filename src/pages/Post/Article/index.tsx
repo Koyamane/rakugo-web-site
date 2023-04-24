@@ -3,16 +3,18 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 13:23:42
+ * @LastEditTime: 2023-04-24 16:28:34
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
 import { useGlobalHooks } from '@/hooks'
 import useFormatTime from '@/hooks/useFormatTime'
+import { debounce } from '@/utils/tools'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, NavLink, useModel, useParams } from '@umijs/max'
 import { Avatar, Divider, Space, Spin, Tag } from 'antd'
-import React, { useLayoutEffect, useState } from 'react'
+import mediumZoom from 'medium-zoom'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import ArticleFooterUser from './components/ArticleFooterUser'
 import ArticleOperationBtn from './components/ArticleOperationBtn'
 import MarkdownItem from './components/MarkdownItem'
@@ -232,10 +234,17 @@ export default (): React.ReactNode => {
     setLoading(false)
   }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getDataDictionary(['ARTICLE_SORT'])
     getBlogInfo()
   }, [id])
+
+  useLayoutEffect(() => {
+    blogInfo &&
+      debounce(() => {
+        mediumZoom('.article-layout-content img')
+      }, 200)()
+  }, [blogInfo])
 
   return (
     <Spin spinning={loading}>

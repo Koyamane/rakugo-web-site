@@ -3,7 +3,7 @@
  * @Date: 2023-04-17 17:50:04
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 15:01:39
+ * @LastEditTime: 2023-04-24 16:29:33
  * @Description:
  */
 import { useVerifyFileSize } from '@/hooks'
@@ -11,7 +11,7 @@ import { UploadFile } from '@/services/global'
 import { useIntl, useModel } from '@umijs/max'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import ReactQuill, { Quill } from 'react-quill'
 import 'react-quill/dist/quill.bubble.css'
 import 'react-quill/dist/quill.snow.css'
@@ -25,6 +25,7 @@ Icons.header['3'] =
 
 const ReactQuillEditor: React.FC = () => {
   const intl = useIntl()
+  const [isShow, setIsShow] = useState(false)
   const [value, setValue] = useState('')
   const quillRef = useRef<ReactQuill>()
   const { verifyOneFileSize } = useVerifyFileSize('one', 10)
@@ -98,20 +99,35 @@ const ReactQuillEditor: React.FC = () => {
     }
   }, [])
 
-  const onChange = (value: string) => {
-    setValue(value)
-    onMainTextChange(value)
+  const onChange = (value2: string) => {
+    setValue(value2)
+    onMainTextChange(value2)
   }
 
+  useEffect(() => {
+    // 这西巴 ReactQuill 会有缓存的，必须先注销再渲染
+    setTimeout(() => {
+      setIsShow(true)
+    })
+
+    return () => {
+      setIsShow(false)
+    }
+  }, [])
+
   return (
-    <ReactQuill
-      ref={quillRef as any}
-      theme='snow'
-      value={value || mainText}
-      modules={modules}
-      onChange={onChange}
-      placeholder={intl.formatMessage({ id: 'pages.post.textPlaceholder' })}
-    />
+    <>
+      {isShow && (
+        <ReactQuill
+          theme='snow'
+          modules={modules}
+          onChange={onChange}
+          ref={quillRef as any}
+          value={value || mainText}
+          placeholder={intl.formatMessage({ id: 'pages.post.textPlaceholder' })}
+        />
+      )}
+    </>
   )
 }
 

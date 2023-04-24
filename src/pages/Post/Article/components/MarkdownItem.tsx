@@ -3,14 +3,13 @@
  * @Date: 2023-04-14 17:17:48
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 23:57:50
+ * @LastEditTime: 2023-04-24 15:26:52
  * @Description:
  */
 import frontmatter from '@bytemd/plugin-frontmatter' // 解析前题
 import gemoji from '@bytemd/plugin-gemoji' // emoji
 import highlight from '@bytemd/plugin-highlight' // 代码高亮
 import math from '@bytemd/plugin-math' // 数学公式
-import mediumZoom from '@bytemd/plugin-medium-zoom' // 图片放大显示
 import mermaid from '@bytemd/plugin-mermaid' // 流程图等
 import { Viewer } from '@bytemd/react'
 import { useModel } from '@umijs/max'
@@ -23,7 +22,6 @@ import React, { useLayoutEffect } from 'react'
 const plugins = [
   gemoji(), // Gemoji短代码
   mermaid(),
-  mediumZoom(),
   frontmatter(), // 解析前题
   highlight(), // 代码高亮
   math()
