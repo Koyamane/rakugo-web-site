@@ -11,7 +11,7 @@ import { SelectLang } from '@/components'
 import Footer from '@/components/Footer'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { Helmet, Outlet, useIntl, useLocation } from '@umijs/max'
-import React, { useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Lang = () => {
   const langBoxClassName = useEmotionCss(({ token }) => {
@@ -24,7 +24,6 @@ const Lang = () => {
 
   const langClassName = useEmotionCss(({ token }) => {
     return {
-      display: 'inline-block',
       borderRadius: token.borderRadius,
       ':hover': {
         backgroundColor: token.colorBgTextHover
@@ -34,11 +33,7 @@ const Lang = () => {
 
   return (
     <div className={langBoxClassName} data-lang>
-      {SelectLang && (
-        <div className={langClassName}>
-          <SelectLang />
-        </div>
-      )}
+      {SelectLang && <SelectLang className={langClassName} />}
     </div>
   )
 }
@@ -46,8 +41,10 @@ const Lang = () => {
 const User: React.FC = () => {
   const intl = useIntl()
   const location = useLocation()
+  const [pageTitle, setPageTitle] = useState('')
 
-  const pageTitle = useMemo(() => {
+  useEffect(() => {
+    // 千万不要用 useMemo 来赋值，不然登录完成跳转后，页面标题依旧为“登录”
     let strId = 'menu.login'
 
     switch (location.pathname) {
@@ -62,9 +59,11 @@ const User: React.FC = () => {
         break
     }
 
-    return `${intl.formatMessage({ id: strId })} - ${intl.formatMessage({
-      id: 'pages.layouts.site.title'
-    })}`
+    setPageTitle(
+      `${intl.formatMessage({ id: strId })} - ${intl.formatMessage({
+        id: 'pages.layouts.site.title'
+      })}`
+    )
   }, [intl.locale, location.pathname])
 
   const containerClassName = useEmotionCss(({ token }) => {

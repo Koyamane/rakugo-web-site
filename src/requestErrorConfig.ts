@@ -79,7 +79,7 @@ export const errorConfig: RequestConfig = {
           description: errorMessage
         })
 
-        localStorage.clear()
+        localStorage.removeItem('token')
 
         if (pathname !== '/user/login') {
           history.replace({

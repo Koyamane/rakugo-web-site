@@ -84,17 +84,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         (formatMessage && formatMessage({ id: 'pages.layouts.site.title' })) || title || '落語'
 
       if (info?.id === 'menu.home') {
-        setTimeout(() => {
-          // 这里延迟是因为，登录界面返回时，会覆盖页面标题，所以延迟设置
-          document.title = titleSuffix
-        })
         return titleSuffix
       }
 
-      setTimeout(() => {
-        // 这里延迟是因为，登录界面返回时，会覆盖页面标题，所以延迟设置
-        document.title = info?.pageName + ' - ' + titleSuffix
-      })
       return info?.pageName + ' - ' + titleSuffix
     },
     // 在这里设置 layout 图片背景
