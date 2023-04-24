@@ -3,7 +3,7 @@
  * @Date: 2023-04-18 19:48:24
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 11:30:51
+ * @LastEditTime: 2023-04-24 11:38:51
  * @Description:
  */
 import { GithubOutlined } from '@ant-design/icons'
@@ -21,9 +21,11 @@ const Footer: React.FC = () => {
       '& .ant-pro-global-footer-list *:hover': {
         color: token.colorText
       },
-      a: {
-        color: token.colorText,
-        marginInlineStart: token.marginMD
+      '& .ant-pro-global-footer-copyright': {
+        a: {
+          color: token.colorText,
+          marginInlineStart: token.marginMD
+        }
       }
     }
   })

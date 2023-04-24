@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 17:16:23
+ * @LastEditTime: 2023-04-24 13:33:02
  * @Description:
  */
 /**
@@ -36,18 +36,31 @@ export default [
     name: 'post',
     layout: false,
     hideInMenu: true,
+    component: './Post/New',
     routes: [
       {
-        path: '/post/:id',
-        name: 'edit',
+        path: '/post/md',
+        name: 'markdown',
         wrappers: ['@/wrappers/auth'],
-        component: './Post/New'
+        component: './Post/New/components/MarkdownEditor'
       },
       {
-        path: '/post/article',
-        name: 'article',
+        path: '/post/md/:id',
+        name: 'markdown',
         wrappers: ['@/wrappers/auth'],
-        component: './Post/New'
+        component: './Post/New/components/MarkdownEditor'
+      },
+      {
+        path: '/post/rt',
+        name: 'richtext',
+        wrappers: ['@/wrappers/auth'],
+        component: './Post/New/components/RichtextEditor'
+      },
+      {
+        path: '/post/rt/:id',
+        name: 'rich_text',
+        wrappers: ['@/wrappers/auth'],
+        component: './Post/New/components/RichtextEditor'
       }
     ]
   },

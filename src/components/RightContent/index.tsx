@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 14:40:27
+ * @LastEditTime: 2023-04-24 12:44:03
  * @Description:
  */
 import { useParamsRedirect } from '@/hooks'
@@ -83,11 +83,11 @@ export const PostArticle: React.FC = () => {
 
   const goPost = () => {
     if (!localStorage.getItem('token')) {
-      paramsRedirect({ params: { redirect: '/post/article' } })
+      paramsRedirect({ params: { redirect: '/post/md' } })
       return
     }
 
-    history.push('/post/article')
+    history.push('/post/md')
   }
 
   return (
