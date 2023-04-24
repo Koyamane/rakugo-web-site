@@ -1,16 +1,18 @@
+/*
+ * @Author: dingyun
+ * @Date: 2023-04-18 19:48:24
+ * @LastEditors: dingyun
+ * @Email: dingyun@zhuosoft.com
+ * @LastEditTime: 2023-04-24 11:30:51
+ * @Description:
+ */
 import { GithubOutlined } from '@ant-design/icons'
 import { DefaultFooter } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { useIntl } from '@umijs/max'
+import { FormattedMessage } from '@umijs/max'
 import React from 'react'
 
 const Footer: React.FC = () => {
-  const intl = useIntl()
-  const defaultMessage = intl.formatMessage({
-    id: 'app.copyright.produced',
-    defaultMessage: '小山音出品'
-  })
-
   const containerClassName = useEmotionCss(({ token }) => {
     return {
       '& .ant-pro-global-footer': {
@@ -18,6 +20,10 @@ const Footer: React.FC = () => {
       },
       '& .ant-pro-global-footer-list *:hover': {
         color: token.colorText
+      },
+      a: {
+        color: token.colorText,
+        marginInlineStart: token.marginMD
       }
     }
   })
@@ -28,7 +34,14 @@ const Footer: React.FC = () => {
         background: 'none'
       }}
       className={containerClassName}
-      copyright={`2023 ${defaultMessage}`}
+      copyright={
+        <>
+          2023 <FormattedMessage id='app.copyright.produced' />
+          <a target='_blank' href='https://beian.miit.gov.cn/' rel='noopener noreferrer'>
+            赣ICP备2021009462号-1
+          </a>
+        </>
+      }
       links={[
         {
           key: '小山音的Github主页',

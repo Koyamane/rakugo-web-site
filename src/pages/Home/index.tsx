@@ -2,9 +2,9 @@ import sakuraBg from '@/assets/sakura.jpg'
 import { BackTop } from '@/components'
 import { AnnouncementInfo } from '@/pages/Admin/AnnouncementManagement/data'
 import { AnnouncementPageApi } from '@/pages/Admin/AnnouncementManagement/service'
-import { SoundOutlined } from '@ant-design/icons'
+import { CopyrightOutlined, SoundOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { useModel } from '@umijs/max'
+import { FormattedMessage, useModel } from '@umijs/max'
 import { Alert } from 'antd'
 import React, { useEffect, useState } from 'react'
 import Marquee from 'react-fast-marquee'
@@ -44,7 +44,7 @@ export default (): React.ReactNode => {
           fontFamily: ['Segoe UI'],
           writingMode: 'vertical-rl',
           fontSize: token.fontSizeHeading3,
-          marginTop: token.marginMD,
+          marginInline: token.marginMD,
           padding: `${token.paddingSM}px 0`,
           backgroundImage: `url(${sakuraBg})`,
           backgroundPosition: 'bottom',
@@ -56,6 +56,13 @@ export default (): React.ReactNode => {
 
           rt: {
             fontSize: token.fontSizeLG
+          }
+        },
+
+        '&-copyright': {
+          textAlign: 'center',
+          a: {
+            color: token.colorText
           }
         }
       },
@@ -136,6 +143,17 @@ export default (): React.ReactNode => {
               </ruby>
               <span>だ</span>
             </ruby>
+          </div>
+
+          <div className='home-layout-side-bar-copyright'>
+            <div>
+              <CopyrightOutlined /> 2023 <FormattedMessage id='app.copyright.produced' />
+            </div>
+            <div>
+              <a target='_blank' href='https://beian.miit.gov.cn/' rel='noopener noreferrer'>
+                赣ICP备2021009462号-1
+              </a>
+            </div>
           </div>
         </div>
 
