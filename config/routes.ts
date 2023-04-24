@@ -75,6 +75,10 @@ export default [
     access: 'canAdmin',
     routes: [
       {
+        path: '/admin',
+        component: './Exception/404'
+      },
+      {
         path: '/admin/announcement',
         name: 'announcement',
         component: './Admin/AnnouncementManagement'
@@ -129,9 +133,12 @@ export default [
     hideInMenu: true,
     routes: [
       {
+        path: '/account',
+        redirect: '/account/center'
+      },
+      {
         path: '/account/center',
         name: 'center',
-        wrappers: ['@/wrappers/auth'],
         component: './Account/Center/redirect'
       },
       {

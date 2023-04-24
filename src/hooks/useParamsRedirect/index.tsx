@@ -19,6 +19,7 @@ const useParamsRedirect = () => {
   const redirect = useCallback(
     (
       props: {
+        type?: 'push' | 'replace'
         isNotHint?: boolean
         url?: string
         params?: Record<string, string>
@@ -27,7 +28,7 @@ const useParamsRedirect = () => {
       } = {}
     ) => {
       const { search, pathname } = location
-      const { isNotHint, url, params, hintId, hintStr } = props
+      const { isNotHint, url, params, hintId, hintStr, type = 'push' } = props
 
       !isNotHint &&
         message.info(
@@ -37,7 +38,7 @@ const useParamsRedirect = () => {
           })
         )
 
-      history.push({
+      history[type]({
         pathname: url || '/user/login',
         search: stringify(
           params || {
