@@ -39,6 +39,10 @@ export default [
     component: './Post/New',
     routes: [
       {
+        path: '/post',
+        redirect: '/post/md'
+      },
+      {
         path: '/post/md',
         name: 'markdown',
         wrappers: ['@/wrappers/auth'],
@@ -98,6 +102,10 @@ export default [
     hideInMenu: true,
     component: './User',
     routes: [
+      {
+        path: '/user',
+        redirect: '/user/login'
+      },
       {
         path: '/user/login',
         name: 'login',

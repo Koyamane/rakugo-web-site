@@ -17,6 +17,7 @@ import { Avatar, Input, Modal, Popover } from 'antd'
 import mediumZoom, { Zoom } from 'medium-zoom'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import Settings from '../../../../config/defaultSettings'
+import Page404 from '../../Exception/404'
 import { BlogInfoApi } from '../Article/services'
 import PostDrawer from './components/PostDrawer'
 import { AddBlogType } from './data'
@@ -25,6 +26,7 @@ let curZoom: Zoom
 
 export default (): React.ReactNode => {
   const intl = useIntl()
+  const [is404, setIs404] = useState(false)
   const [modal, contextHolder] = Modal.useModal()
   const [titleValue, setTitleValue] = useState('')
   const [loading, setLoading] = useState(true)
@@ -77,10 +79,11 @@ export default (): React.ReactNode => {
       setMainText(data.content)
       setTitleValue(data.title)
       setBlogInfo(data)
-    } catch (error) {
+    } catch (error: any) {
       setTitleValue('')
       setBlogInfo(undefined)
       console.log(error)
+      if (error?.info?.errorCode === 404) setIs404(true)
     }
     setLoading(false)
   }
@@ -147,6 +150,7 @@ export default (): React.ReactNode => {
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
+      justifyContent: is404 ? 'center' : 'initial',
       marginInline: editor === 'RICH_TEXT' ? 'auto' : '0',
       maxWidth: editor === 'RICH_TEXT' ? (token as any).pageMaxWidth : 'auto'
     },
@@ -237,35 +241,41 @@ export default (): React.ReactNode => {
         <main className={postArticleClassName + ' post-article'}>
           {contextHolder}
           <div className='post-article-layout'>
-            <header className='post-article-header'>
-              <Input
-                bordered={false}
-                value={titleValue}
-                onChange={titleChange}
-                className='post-article-header-title'
-                placeholder={intl.formatMessage({ id: 'pages.post.titlePlaceholder' })}
-              />
-
+            {is404 ? (
+              <Page404 />
+            ) : (
               <>
-                <PostDrawer editor={editor} blogInfo={blogInfo} titleValue={titleValue} />
-                <Popover content={switchTo}>
-                  <SwapOutlined
-                    onClick={changeEditor}
-                    className='post-article-header-change-editor'
+                <header className='post-article-header'>
+                  <Input
+                    bordered={false}
+                    value={titleValue}
+                    onChange={titleChange}
+                    className='post-article-header-title'
+                    placeholder={intl.formatMessage({ id: 'pages.post.titlePlaceholder' })}
                   />
-                </Popover>
-                <AvatarDropdown menu>
-                  <Avatar
-                    src={initialState?.currentUser?.avatar}
-                    className='post-article-header-avatar'
-                  />
-                </AvatarDropdown>
-              </>
-            </header>
 
-            <div className='post-article-editor'>
-              <Outlet />
-            </div>
+                  <>
+                    <PostDrawer editor={editor} blogInfo={blogInfo} titleValue={titleValue} />
+                    <Popover content={switchTo}>
+                      <SwapOutlined
+                        onClick={changeEditor}
+                        className='post-article-header-change-editor'
+                      />
+                    </Popover>
+                    <AvatarDropdown menu>
+                      <Avatar
+                        src={initialState?.currentUser?.avatar}
+                        className='post-article-header-avatar'
+                      />
+                    </AvatarDropdown>
+                  </>
+                </header>
+
+                <div className='post-article-editor'>
+                  <Outlet />
+                </div>
+              </>
+            )}
           </div>
         </main>
       )}
