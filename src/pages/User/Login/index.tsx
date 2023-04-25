@@ -4,17 +4,21 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, NavLink, useIntl, useModel } from '@umijs/max'
-import { App, Row } from 'antd'
-import React, { useState } from 'react'
+import { App, Col, Form, Row } from 'antd'
+import React, { useRef, useState } from 'react'
+import Captcha from 'react-captcha-code'
 import { LoginParams } from '../data'
 import { LoginApi } from '../services'
 
 const Login: React.FC = () => {
-  const { setInitialState } = useModel('@@initialState')
+  const intl = useIntl()
+  const captchaRef = useRef<any>()
+  const [form] = Form.useForm()
   const { message } = App.useApp()
   const goRedirect = useGoRedirect()
-  const intl = useIntl()
+  const [captcha, setCaptcha] = useState('')
   const [btnLoading, setBtnLoading] = useState(false)
+  const { setInitialState } = useModel('@@initialState')
 
   const moreBtnBarClassName = useEmotionCss(({ token }) => {
     return {
@@ -23,6 +27,22 @@ const Login: React.FC = () => {
   })
 
   const handleSubmit = async (formData: LoginParams) => {
+    if (formData.captcha !== captcha) {
+      message.error(intl.formatMessage({ id: 'pages.register.captcha.errorMessage' }))
+      form.resetFields(['captcha'])
+      form.setFields([
+        {
+          name: ['captcha'],
+          validating: true,
+          errors: [
+            (<FormattedMessage key='captcha' id='pages.register.captcha.errorMessage' />) as any
+          ]
+        }
+      ])
+      captchaRef.current.refresh()
+      return
+    }
+
     try {
       setBtnLoading(true)
       // 登录
@@ -49,16 +69,19 @@ const Login: React.FC = () => {
     } catch (error) {
       console.log(error)
       setBtnLoading(false)
+      form.resetFields(['captcha'])
+      captchaRef.current.refresh()
     }
   }
 
   return (
     <LoginForm
+      form={form}
       loading={btnLoading}
+      onFinish={handleSubmit}
       logo={<img alt='logo' src='/logo.svg' />}
       title={intl.formatMessage({ id: 'pages.layouts.site.title' })}
       subTitle={intl.formatMessage({ id: 'pages.layouts.site.description' })}
-      onFinish={handleSubmit}
     >
       <>
         <ProFormText
@@ -68,19 +91,11 @@ const Login: React.FC = () => {
             size: 'large',
             prefix: <UserOutlined />
           }}
-          placeholder={intl.formatMessage({
-            id: 'pages.login.username',
-            defaultMessage: '用户名'
-          })}
+          placeholder={intl.formatMessage({ id: 'pages.login.username' })}
           rules={[
             {
               required: true,
-              message: (
-                <FormattedMessage
-                  id='pages.login.username.required'
-                  defaultMessage='请输入用户名！'
-                />
-              )
+              message: <FormattedMessage id='pages.register.username.noValue' />
             }
           ]}
         />
@@ -92,22 +107,38 @@ const Login: React.FC = () => {
             size: 'large',
             prefix: <LockOutlined />
           }}
-          placeholder={intl.formatMessage({
-            id: 'pages.login.password',
-            defaultMessage: '密码'
-          })}
+          placeholder={intl.formatMessage({ id: 'pages.login.password' })}
           rules={[
             {
               required: true,
-              message: (
-                <FormattedMessage
-                  id='pages.login.password.required'
-                  defaultMessage='请输入密码！'
-                />
-              )
+              message: <FormattedMessage id='pages.register.password.noValue' />
             }
           ]}
         />
+
+        <Row gutter={8} justify='space-between'>
+          <Col span={16}>
+            <ProFormText
+              name='captcha'
+              disabled={btnLoading}
+              fieldProps={{ size: 'large' }}
+              placeholder={intl.formatMessage({
+                id: 'pages.register.captcha',
+                defaultMessage: '验证码'
+              })}
+              rules={[
+                {
+                  required: true,
+                  message: <FormattedMessage id='pages.register.captcha.noValue' />
+                }
+              ]}
+            />
+          </Col>
+
+          <Col span={8}>
+            <Captcha ref={captchaRef} charNum={4} onChange={setCaptcha} />
+          </Col>
+        </Row>
 
         <Row className={moreBtnBarClassName} justify='space-between'>
           <ProFormCheckbox noStyle name='rememberMe' disabled={btnLoading}>
