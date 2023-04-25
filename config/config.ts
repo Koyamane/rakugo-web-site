@@ -81,7 +81,20 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/layout-menu
    */
   // title: '落語',
-  favicons: ['/favicon.svg'],
+  favicons: ['/favicon.ico'],
+  metas: [
+    { name: 'keywords', content: 'rakugo,koyamane,落語,小山音' },
+    { name: 'description', content: '小山音倾力打造' },
+    { name: 'description', content: '你轻轻地来，诉说着往事，留下一段佳话' },
+    { name: 'apple-mobile-web-app-title', content: '落語' }
+  ],
+  links: [
+    { rel: 'bookmark', href: '/logo.svg' },
+    { href: '/favicon.ico', rel: 'apple-touch-icon' },
+    { href: '/favicon.ico', rel: 'icon', type: 'image/x-icon' },
+    { rel: 'rel="shortcut icon"', href: '/favicon.ico', type: 'image/x-icon' },
+    { rel: 'apple-touch-icon-precomposed', href: '/logo.svg', type: 'image/x-icon' }
+  ],
   layout: {
     locale: true,
     ...defaultSettings
