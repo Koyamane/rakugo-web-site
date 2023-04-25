@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-25 21:57:15
+ * @LastEditTime: 2023-04-25 23:57:13
  * @Description:
  */
 import { AvatarDropdown, Footer, PostArticle, SelectLang, ThemeIcon } from '@/components'
@@ -93,7 +93,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     bgLayoutImgList: [
       {
         src: require('@/assets/humikiri.jpg'),
-        width: '100%',
+        width: '101%',
         height: '100%',
         objectFit: 'cover',
         top: '50%',
