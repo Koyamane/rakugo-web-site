@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-25 20:04:39
+ * @LastEditTime: 2023-04-25 21:57:15
  * @Description:
  */
 import { AvatarDropdown, Footer, PostArticle, SelectLang, ThemeIcon } from '@/components'
@@ -92,7 +92,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     // 在这里设置 layout 图片背景
     bgLayoutImgList: [
       {
-        src: require('@/assets/踏切.jpg'),
+        src: require('@/assets/humikiri.jpg'),
         width: '100%',
         height: '100%',
         objectFit: 'cover',

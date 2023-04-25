@@ -1,4 +1,4 @@
-import sideBg from '@/assets/木に寄りかかる女の子.jpg'
+import sideBg from '@/assets/kiniyorikakaruonnnanoko.jpg'
 import { BackTop } from '@/components'
 import { AnnouncementInfo } from '@/pages/Admin/AnnouncementManagement/data'
 import { AnnouncementPageApi } from '@/pages/Admin/AnnouncementManagement/service'

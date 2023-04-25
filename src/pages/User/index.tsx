@@ -3,10 +3,10 @@
  * @Date: 2023-04-12 15:26:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 20:07:53
+ * @LastEditTime: 2023-04-25 21:51:25
  * @Description:
  */
-import loginBg from '@/assets/踏切.jpg'
+import loginBg from '@/assets/humikiri.jpg'
 import { SelectLang } from '@/components'
 import Footer from '@/components/Footer'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
