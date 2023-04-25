@@ -71,11 +71,6 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
         return
       }
 
-      if (key === 'center') {
-        history.push(`/account/center/${currentUser?.userId}`)
-        return
-      }
-
       history.push(`/account/${key}`)
     },
     [currentUser]

@@ -37,7 +37,7 @@ const Center: React.FC = () => {
   const { userId } = useParams<{ userId: string }>()
 
   const isMe = useMemo(() => {
-    return loginUser?.userId === userId
+    return loginUser?.userId === userId || !userId
   }, [userId])
 
   //  获取页面的用户信息，默认不发请求

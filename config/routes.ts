@@ -138,12 +138,12 @@ export default [
       },
       {
         path: '/account/center',
-        wrappers: ['@/wrappers/redirectAccount']
+        wrappers: ['@/wrappers/auth'],
+        component: './Account/Center'
       },
       {
         path: '/account/center/:userId',
         name: 'center',
-        wrappers: ['@/wrappers/auth'],
         component: './Account/Center'
       },
       {
