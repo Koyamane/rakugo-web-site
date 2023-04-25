@@ -81,7 +81,7 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/layout-menu
    */
   // title: '落語',
-  favicons: ['/favicon.ico'],
+  favicons: ['/logo.svg'],
   metas: [
     { name: 'keywords', content: 'rakugo,koyamane,落語,小山音' },
     { name: 'description', content: '小山音倾力打造' },
@@ -89,11 +89,10 @@ export default defineConfig({
     { name: 'apple-mobile-web-app-title', content: '落語' }
   ],
   links: [
-    { rel: 'bookmark', href: '/logo.svg' },
-    { href: '/favicon.ico', rel: 'apple-touch-icon' },
-    { href: '/favicon.ico', rel: 'icon', type: 'image/x-icon' },
-    { rel: 'rel="shortcut icon"', href: '/favicon.ico', type: 'image/x-icon' },
-    { rel: 'apple-touch-icon-precomposed', href: '/logo.svg', type: 'image/x-icon' }
+    // 苹果相关的
+    { rel: 'bookmark', href: '/favicon.png' },
+    { rel: 'apple-touch-icon', href: '/favicon.png' },
+    { rel: 'apple-touch-icon-precomposed', href: '/favicon.png', sizes: '180x180' }
   ],
   layout: {
     locale: true,
