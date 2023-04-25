@@ -18,63 +18,73 @@ export default (): React.ReactNode => {
   const { currentUser } = initialState || {}
   const [sortKey, setSortKey] = useState<BlogSortKey>('createdDate')
 
-  const homeLayoutClassName = useEmotionCss(({ token }) => {
-    return {
-      display: 'flex',
-      alignItems: 'flex-start',
-      marginBlockStart: token.marginMD,
+  const announcementClassName = useEmotionCss(({ token }) => ({
+    marginBlockEnd: token.marginMD
+  }))
 
-      '.home-layout-side-bar': {
-        flexShrink: '0',
-        position: 'sticky',
-        minWidth: '180px',
-        top: token.marginMD,
-        marginInlineEnd: token.marginMD,
+  const homeLayoutClassName = useEmotionCss(({ token }) => ({
+    display: 'flex',
+    alignItems: 'flex-start',
 
-        '&-menu': {
-          borderRadius: token.borderRadius,
-          border: 'none !important'
-        },
+    '.home-layout-side-bar': {
+      flexShrink: '0',
+      position: 'sticky',
+      minWidth: '180px',
+      top: token.marginMD,
+      marginInlineEnd: token.marginMD,
 
-        '&-title': {
-          width: '100%',
-          display: 'flex',
-          color: '#fedfe1',
-          alignItems: 'center',
-          fontFamily: ['Segoe UI'],
-          writingMode: 'vertical-rl',
-          fontSize: token.fontSizeHeading3,
-          marginInline: token.marginMD,
-          padding: `${token.paddingSM}px 0`,
-          backgroundImage: `url(${umiBg})`,
-          backgroundPosition: 'bottom',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          textShadow: '0.5px #00000066',
-          WebkitTextStroke: '0.5px #2a2828b3',
-          borderRadius: token.borderRadius,
+      '&-menu': {
+        borderRadius: token.borderRadius,
+        border: 'none !important'
+      },
 
-          rt: {
-            fontSize: token.fontSizeLG
-          }
-        },
+      '&-title': {
+        width: '100%',
+        display: 'flex',
+        color: '#fedfe1',
+        alignItems: 'center',
+        fontFamily: ['Segoe UI'],
+        writingMode: 'vertical-rl',
+        fontSize: token.fontSizeHeading3,
+        marginInline: token.marginMD,
+        padding: `${token.paddingSM}px 0`,
+        backgroundImage: `url(${umiBg})`,
+        backgroundPosition: 'bottom',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        textShadow: '0.5px #00000066',
+        WebkitTextStroke: '0.5px #2a2828b3',
+        borderRadius: token.borderRadius,
 
-        '&-copyright': {
-          textAlign: 'center',
-          a: {
-            color: token.colorText
-          }
+        rt: {
+          fontSize: token.fontSizeLG
         }
       },
 
-      // 放后面权重高，所以媒体查询要放后面来
-      [`@media screen and (max-width: ${token.screenLG}px)`]: {
-        '.home-layout-side-bar': {
-          display: 'none'
+      '&-copyright': {
+        textAlign: 'center',
+        color: token.colorText,
+        paddingBlock: token.paddingSM,
+        paddingInline: token.paddingMD,
+        borderRadius: token.borderRadius,
+        background: token.colorBgContainer,
+        a: {
+          color: token.colorText,
+          '&:hover': {
+            color: token.colorText,
+            textDecoration: 'underline'
+          }
         }
       }
+    },
+
+    // 放后面权重高，所以媒体查询要放后面来
+    [`@media screen and (max-width: ${token.screenLG}px)`]: {
+      '.home-layout-side-bar': {
+        display: 'none'
+      }
     }
-  })
+  }))
 
   const announcementItemClassName = useEmotionCss(({ token }) => {
     return {
@@ -110,6 +120,7 @@ export default (): React.ReactNode => {
           banner
           showIcon
           icon={<SoundOutlined />}
+          className={announcementClassName}
           message={
             <Marquee pauseOnHover gradient={false}>
               {announcementList.map(item => (

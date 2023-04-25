@@ -3,7 +3,7 @@
  * @Date: 2023-04-18 19:48:24
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 11:38:51
+ * @LastEditTime: 2023-04-25 12:34:19
  * @Description:
  */
 import { GithubOutlined } from '@ant-design/icons'
@@ -13,22 +13,23 @@ import { FormattedMessage } from '@umijs/max'
 import React from 'react'
 
 const Footer: React.FC = () => {
-  const containerClassName = useEmotionCss(({ token }) => {
-    return {
-      '& .ant-pro-global-footer': {
-        marginBlock: token.marginLG
-      },
-      '& .ant-pro-global-footer-list *:hover': {
-        color: token.colorText
-      },
-      '& .ant-pro-global-footer-copyright': {
-        a: {
-          color: token.colorText,
-          marginInlineStart: token.marginMD
-        }
+  const containerClassName = useEmotionCss(({ token }) => ({
+    '& .ant-pro-global-footer': {
+      marginBlock: token.marginLG
+    },
+    '& .ant-pro-global-footer-copyright': {
+      a: {
+        color: token.colorText,
+        marginInlineStart: token.marginMD
+      }
+    },
+    a: {
+      '&:hover': {
+        color: token.colorText,
+        textDecoration: 'underline'
       }
     }
-  })
+  }))
 
   return (
     <DefaultFooter
