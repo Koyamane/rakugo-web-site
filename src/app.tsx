@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 20:28:13
+ * @LastEditTime: 2023-04-25 20:04:39
  * @Description:
  */
 import { AvatarDropdown, Footer, PostArticle, SelectLang, ThemeIcon } from '@/components'
@@ -90,14 +90,24 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       return info?.pageName + ' - ' + titleSuffix
     },
     // 在这里设置 layout 图片背景
-    // bgLayoutImgList: [
-    //   {
-    //     src: require('@/assets/kumononakanoressya.jpg'),
-    //     width: '100%',
-    //     height: '100%',
-    //     'object-fit': 'cover'
-    //   }
-    // ],
+    bgLayoutImgList: [
+      {
+        src: require('@/assets/踏切.jpg'),
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }
+    ],
+    headerRender({ token, navTheme }, defaultDom) {
+      const style = {
+        height: '100%',
+        background: navTheme === 'realDark' ? '#141414' : token.bgLayout
+      }
+      return <div style={style}>{defaultDom}</div>
+    },
     style: { background: initialState?.settings?.token?.bgLayout },
     actionsRender: () => [
       // <HeaderSearch key='HeaderSearch' />,

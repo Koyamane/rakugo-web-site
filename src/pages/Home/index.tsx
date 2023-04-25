@@ -1,4 +1,4 @@
-import umiBg from '@/assets/umi.jpg'
+import sideBg from '@/assets/木に寄りかかる女の子.jpg'
 import { BackTop } from '@/components'
 import { AnnouncementInfo } from '@/pages/Admin/AnnouncementManagement/data'
 import { AnnouncementPageApi } from '@/pages/Admin/AnnouncementManagement/service'
@@ -48,7 +48,7 @@ export default (): React.ReactNode => {
         fontSize: token.fontSizeHeading3,
         marginInline: token.marginMD,
         padding: `${token.paddingSM}px 0`,
-        backgroundImage: `url(${umiBg})`,
+        backgroundImage: `url(${sideBg})`,
         backgroundPosition: 'bottom',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',

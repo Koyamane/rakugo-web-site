@@ -24,7 +24,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
   const paramsRedirect = useParamsRedirect()
   const intl = useIntl()
   const { message } = App.useApp()
-  const goLogin = () => paramsRedirect({ type: 'replace', isNotHint: true })
+  const goLogin = () => paramsRedirect({ isNotHint: true })
   const { initialState, setInitialState } = useModel('@@initialState')
   const currentUser = initialState?.currentUser
 

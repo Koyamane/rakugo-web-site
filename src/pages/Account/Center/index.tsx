@@ -3,7 +3,7 @@
  * @Date: 2021-12-25 23:14:57
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-22 23:42:36
+ * @LastEditTime: 2023-04-25 19:56:45
  * @Description:
  */
 import { BackTop } from '@/components'
@@ -234,71 +234,73 @@ const Center: React.FC = () => {
     }
   }))
 
-  return currentUser && !loading ? (
-    <>
-      <Helmet>
-        <title>
-          {currentUser.nickname} - {intl.formatMessage({ id: 'pages.layouts.site.title' })}
-        </title>
-      </Helmet>
+  if (loading) return <PageLoading />
 
-      <Row gutter={20} align='top' className={centerClassName}>
-        <Col lg={8} md={24} sm={24} xs={24} className='account-center-left'>
-          <div className='user-info-card'>
-            <div className='user-info-card-top'>
-              <img src={currentUser.avatar} alt='avatar' />
-              <div className='user-info-card-top-name'>{currentUser.nickname}</div>
-              <div>{currentUser?.signature}</div>
-              <Space size='large' className='user-info-card-top-follow'>
-                <div className='user-info-card-top-follow-item'>
-                  <span className='user-info-card-top-follow-item-num'>{followsNum}</span>
-                  <span className='user-info-card-top-follow-item-title'>
-                    <FormattedMessage id='pages.account.watchers' defaultMessage='关注数' />
-                  </span>
-                </div>
-                <div className='user-info-card-top-follow-item'>
-                  <span className='user-info-card-top-follow-item-num'>{followersNum}</span>
-                  <span className='user-info-card-top-follow-item-title'>
-                    <FormattedMessage id='pages.account.followers' defaultMessage='粉丝数' />
-                  </span>
-                </div>
-                {!isMe && (
-                  <FollowButton userId={loginUser?.userId} targetId={currentUser.userId!} />
-                )}
-              </Space>
-            </div>
+  return (
+    currentUser && (
+      <>
+        <Helmet>
+          <title>
+            {currentUser.nickname} - {intl.formatMessage({ id: 'pages.layouts.site.title' })}
+          </title>
+        </Helmet>
 
-            {renderUserInfo(currentUser)}
-
-            <Divider dashed />
-
-            <div className='user-info-card-tags'>
-              <div className='user-info-card-tags-title'>
-                <FormattedMessage id='pages.account.basic.tags' defaultMessage='标签' />
+        <Row gutter={20} align='top' className={centerClassName}>
+          <Col lg={8} md={24} sm={24} xs={24} className='account-center-left'>
+            <div className='user-info-card'>
+              <div className='user-info-card-top'>
+                <img src={currentUser.avatar} alt='avatar' />
+                <div className='user-info-card-top-name'>{currentUser.nickname}</div>
+                <div>{currentUser?.signature}</div>
+                <Space size='large' className='user-info-card-top-follow'>
+                  <div className='user-info-card-top-follow-item'>
+                    <span className='user-info-card-top-follow-item-num'>{followsNum}</span>
+                    <span className='user-info-card-top-follow-item-title'>
+                      <FormattedMessage id='pages.account.watchers' defaultMessage='关注数' />
+                    </span>
+                  </div>
+                  <div className='user-info-card-top-follow-item'>
+                    <span className='user-info-card-top-follow-item-num'>{followersNum}</span>
+                    <span className='user-info-card-top-follow-item-title'>
+                      <FormattedMessage id='pages.account.followers' defaultMessage='粉丝数' />
+                    </span>
+                  </div>
+                  {!isMe && (
+                    <FollowButton userId={loginUser?.userId} targetId={currentUser.userId!} />
+                  )}
+                </Space>
               </div>
-              {currentUser.tags && currentUser.tags.map(item => <Tag key={item}>{item}</Tag>)}
+
+              {renderUserInfo(currentUser)}
+
+              <Divider dashed />
+
+              <div className='user-info-card-tags'>
+                <div className='user-info-card-tags-title'>
+                  <FormattedMessage id='pages.account.basic.tags' defaultMessage='标签' />
+                </div>
+                {currentUser.tags && currentUser.tags.map(item => <Tag key={item}>{item}</Tag>)}
+              </div>
             </div>
-          </div>
-        </Col>
+          </Col>
 
-        <Col lg={16} md={24} sm={24} xs={24} className='account-center-right'>
-          <Card
-            bordered={false}
-            activeTabKey={tabKey}
-            tabList={operationTabList}
-            onTabChange={(_tabKey: string) => {
-              setTabKey(_tabKey as tabKeyType)
-            }}
-          >
-            {renderChildrenByTabKey(tabKey)}
-          </Card>
-        </Col>
-      </Row>
+          <Col lg={16} md={24} sm={24} xs={24} className='account-center-right'>
+            <Card
+              bordered={false}
+              activeTabKey={tabKey}
+              tabList={operationTabList}
+              onTabChange={(_tabKey: string) => {
+                setTabKey(_tabKey as tabKeyType)
+              }}
+            >
+              {renderChildrenByTabKey(tabKey)}
+            </Card>
+          </Col>
+        </Row>
 
-      <BackTop />
-    </>
-  ) : (
-    <PageLoading />
+        <BackTop />
+      </>
+    )
   )
 }
 

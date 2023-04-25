@@ -6,7 +6,7 @@
  * @LastEditTime: 2023-04-24 20:07:53
  * @Description:
  */
-import loginBg from '@/assets/login-bg.jpg'
+import loginBg from '@/assets/踏切.jpg'
 import { SelectLang } from '@/components'
 import Footer from '@/components/Footer'
 import { useEmotionCss } from '@ant-design/use-emotion-css'

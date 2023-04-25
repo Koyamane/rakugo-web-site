@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 20:09:32
+ * @LastEditTime: 2023-04-25 19:58:48
  * @Description:
  */
 
@@ -217,6 +217,8 @@ export default (): React.ReactNode => {
     }
   }))
 
+  if (loading) return <PageLoading />
+
   return (
     <>
       <Helmet>
@@ -226,50 +228,46 @@ export default (): React.ReactNode => {
         </title>
       </Helmet>
 
-      {loading ? (
-        <PageLoading />
-      ) : (
-        <main className={postArticleClassName + ' post-article'}>
-          {contextHolder}
-          <div className='post-article-layout'>
-            {is404 ? (
-              <Page404 />
-            ) : (
-              <>
-                <header className='post-article-header'>
-                  <Input
-                    bordered={false}
-                    value={titleValue}
-                    onChange={titleChange}
-                    className='post-article-header-title'
-                    placeholder={intl.formatMessage({ id: 'pages.post.titlePlaceholder' })}
-                  />
+      <main className={postArticleClassName + ' post-article'}>
+        {contextHolder}
+        <div className='post-article-layout'>
+          {is404 ? (
+            <Page404 />
+          ) : (
+            <>
+              <header className='post-article-header'>
+                <Input
+                  bordered={false}
+                  value={titleValue}
+                  onChange={titleChange}
+                  className='post-article-header-title'
+                  placeholder={intl.formatMessage({ id: 'pages.post.titlePlaceholder' })}
+                />
 
-                  <>
-                    <PostDrawer editor={editor} blogInfo={blogInfo} titleValue={titleValue} />
-                    <Popover content={switchTo}>
-                      <SwapOutlined
-                        onClick={changeEditor}
-                        className='post-article-header-change-editor'
-                      />
-                    </Popover>
-                    <AvatarDropdown menu>
-                      <Avatar
-                        src={initialState?.currentUser?.avatar}
-                        className='post-article-header-avatar'
-                      />
-                    </AvatarDropdown>
-                  </>
-                </header>
+                <>
+                  <PostDrawer editor={editor} blogInfo={blogInfo} titleValue={titleValue} />
+                  <Popover content={switchTo}>
+                    <SwapOutlined
+                      onClick={changeEditor}
+                      className='post-article-header-change-editor'
+                    />
+                  </Popover>
+                  <AvatarDropdown menu>
+                    <Avatar
+                      src={initialState?.currentUser?.avatar}
+                      className='post-article-header-avatar'
+                    />
+                  </AvatarDropdown>
+                </>
+              </header>
 
-                <div className='post-article-editor'>
-                  <Outlet />
-                </div>
-              </>
-            )}
-          </div>
-        </main>
-      )}
+              <div className='post-article-editor'>
+                <Outlet />
+              </div>
+            </>
+          )}
+        </div>
+      </main>
     </>
   )
 }
