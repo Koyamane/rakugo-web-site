@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-25 19:57:44
+ * @LastEditTime: 2023-04-26 10:49:09
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -202,35 +202,36 @@ export default (): React.ReactNode => {
   }))
 
   const getBlogInfo = async () => {
+    if (!id) {
+      setLoading(false)
+      return
+    }
+
     setLoading(true)
 
-    if (id) {
-      try {
-        const res = await BlogInfoApi(id, userId)
+    try {
+      const res = await BlogInfoApi(id, userId)
 
-        setBlogInfo(res)
+      setBlogInfo(res)
 
-        if (res?.createdId) {
-          const data = await BlogSimplePageApi({
-            dto: { createdId: res.createdId },
-            pageSize: 5,
-            searchMap: {
-              id: {
-                opt: 'NOT_IN',
-                value: id
-              }
+      if (res?.createdId) {
+        const data = await BlogSimplePageApi({
+          dto: { createdId: res.createdId },
+          pageSize: 5,
+          searchMap: {
+            id: {
+              opt: 'NOT_IN',
+              value: id
             }
-          })
+          }
+        })
 
-          setUserBlogList(data.list)
-        } else {
-          setUserBlogList([])
-        }
-      } catch (error: any) {
-        if (error?.info?.errorCode === 404) setTo404(true)
+        setUserBlogList(data.list)
+      } else {
+        setUserBlogList([])
       }
-    } else {
-      setBlogInfo(undefined)
+    } catch (error: any) {
+      if (error?.info?.errorCode === 404) setTo404(true)
     }
 
     setLoading(false)

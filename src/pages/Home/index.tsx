@@ -1,5 +1,6 @@
 import sideBg from '@/assets/kiniyorikakaruonnnanoko.jpg'
 import { BackTop } from '@/components'
+import { useGlobalHooks } from '@/hooks'
 import { AnnouncementInfo } from '@/pages/Admin/AnnouncementManagement/data'
 import { AnnouncementPageApi } from '@/pages/Admin/AnnouncementManagement/service'
 import { CopyrightOutlined, SoundOutlined } from '@ant-design/icons'
@@ -13,10 +14,11 @@ import SortSideBar from './components/SortSideBar'
 import { BlogSortKey } from './data'
 
 export default (): React.ReactNode => {
-  const [announcementList, setAnnouncementList] = useState<AnnouncementInfo[]>([])
+  const { formatValue } = useGlobalHooks()
   const { initialState } = useModel('@@initialState')
   const { currentUser } = initialState || {}
   const [sortKey, setSortKey] = useState<BlogSortKey>('createdDate')
+  const [announcementList, setAnnouncementList] = useState<AnnouncementInfo[]>([])
 
   const announcementClassName = useEmotionCss(({ token }) => ({
     marginBlockEnd: token.marginMD
@@ -125,7 +127,7 @@ export default (): React.ReactNode => {
             <Marquee pauseOnHover gradient={false}>
               {announcementList.map(item => (
                 <div key={item.id} className={announcementItemClassName}>
-                  {item.title}
+                  {formatValue(item, 'title')}
                 </div>
               ))}
             </Marquee>

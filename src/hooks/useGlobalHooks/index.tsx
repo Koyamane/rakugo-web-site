@@ -3,7 +3,7 @@
  * @Date: 2023-04-21 22:16:16
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-21 22:20:11
+ * @LastEditTime: 2023-04-26 11:17:18
  * @Description:
  */
 
@@ -13,10 +13,14 @@ const useGlobalHooks = () => {
   const intl = useIntl()
   const { dataDictionaryObj } = useModel('useDataDictionary')
 
+  const formatValue = (obj: Record<string, any>, key: string = 'value') => {
+    return obj[`${key}_${intl.locale.substring(0, 2)}`] || obj[key]
+  }
+
   const formatOptions = (list: any[] = [], value: string = 'key', label: string = 'value') => {
     return list.map(item => ({
       value: item[value],
-      label: item[`${label}_${intl.locale.substring(0, 2)}`]
+      label: formatValue(item, label)
     }))
   }
 
@@ -29,6 +33,7 @@ const useGlobalHooks = () => {
 
   return {
     keyToValue,
+    formatValue,
     formatOptions
   }
 }

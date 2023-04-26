@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 16:55:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 14:16:21
+ * @LastEditTime: 2023-04-26 11:21:25
  * @Description:
  */
 import { ACCESS_RIGHTS, NOTIFICATION_STATUS, toObj } from '@/locales/dataDictionary'
@@ -13,7 +13,7 @@ import { ModalForm, ProFormSelect, ProFormText } from '@ant-design/pro-form'
 import type { ActionType, ProColumns } from '@ant-design/pro-table'
 import ProTable from '@ant-design/pro-table'
 import { NavLink } from '@umijs/max'
-import { App, Button, Form, InputNumber, Popconfirm } from 'antd'
+import { App, Button, Col, Form, InputNumber, Popconfirm, Row } from 'antd'
 import React, { useRef, useState } from 'react'
 import { AnnouncementInfo } from './data'
 import {
@@ -196,35 +196,53 @@ const AnnouncementManagement: React.FC = () => {
         <ProFormText
           name='title'
           label='公告内容'
-          rules={[
-            {
-              required: true,
-              message: '公告内容为必填项'
-            }
-          ]}
+          rules={[{ required: true, message: '公告内容为必填项' }]}
         />
-        <Form.Item label='公告顺序' name='order' initialValue={1}>
-          <InputNumber
-            min={1}
-            style={{ width: '100%' }}
-            parser={(value: any) => value.replace(/\D/g, '')}
-            formatter={(value: any) => value.replace(/\D/g, '')}
-          />
-        </Form.Item>
-        <ProFormSelect
-          name='status'
-          label='状态'
-          allowClear={false}
-          initialValue='NOT_EXPIRED'
-          options={NOTIFICATION_STATUS}
+        <ProFormText
+          name='title_zh'
+          label='中文公告内容'
+          rules={[{ required: true, message: '中文公告内容为必填项' }]}
         />
-        <ProFormSelect
-          name='access'
-          label='观看权限'
-          allowClear={false}
-          initialValue='all'
-          options={ACCESS_RIGHTS}
+        <ProFormText
+          name='title_en'
+          label='英文公告内容'
+          rules={[{ required: true, message: '英文公告内容为必填项' }]}
         />
+        <ProFormText
+          name='title_ja'
+          label='日文公告内容'
+          rules={[{ required: true, message: '日文公告内容为必填项' }]}
+        />
+        <Row gutter={12}>
+          <Col span={8}>
+            <Form.Item label='公告顺序' name='order' initialValue={1}>
+              <InputNumber
+                min={1}
+                style={{ width: '100%' }}
+                parser={(value: any) => value.replace(/\D/g, '')}
+                formatter={(value: any) => value.replace(/\D/g, '')}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <ProFormSelect
+              name='status'
+              label='状态'
+              allowClear={false}
+              initialValue='NOT_EXPIRED'
+              options={NOTIFICATION_STATUS}
+            />
+          </Col>
+          <Col span={8}>
+            <ProFormSelect
+              name='access'
+              label='观看权限'
+              allowClear={false}
+              initialValue='all'
+              options={ACCESS_RIGHTS}
+            />
+          </Col>
+        </Row>
       </ModalForm>
     </>
   )

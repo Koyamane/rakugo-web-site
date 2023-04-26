@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-25 19:58:48
+ * @LastEditTime: 2023-04-26 10:53:54
  * @Description:
  */
 
@@ -72,9 +72,17 @@ export default (): React.ReactNode => {
       setLoading(false)
       return
     }
+
     setLoading(true)
     try {
       const data: API.BlogInfo = await BlogInfoApi(id)
+      if (data.createdId !== initialState?.currentUser?.userId) {
+        // 不是自己的单，不能进入编辑页面
+        const error: any = new Error()
+        error.info = { errorCode: 404 }
+        throw error
+      }
+
       setMainText(data.content)
       setTitleValue(data.title)
       setBlogInfo(data)
@@ -88,12 +96,8 @@ export default (): React.ReactNode => {
   }
 
   useEffect(() => {
-    // 因为存在博文调博文的情况
-    getBlogInfo()
-  }, [id])
-
-  useEffect(() => {
     getDataDictionary(['ARTICLE_SORT'])
+    getBlogInfo()
 
     // 关闭、刷新页面前执行
     window.addEventListener('beforeunload', leavePage)
