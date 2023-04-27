@@ -52,12 +52,19 @@ const PostModal: React.FC<PostModalProps> = React.memo(({ titleValue, blogInfo, 
       return
     }
 
-    // 第一次打开设置默认值
-    if (firstOpen) {
-      if (blogInfo) {
-        setTags(blogInfo.tags)
-      }
+    // 防止苹果乱滑动
+    document.body.setAttribute('style', 'overflow: hidden')
 
+    if (!firstOpen) {
+      setDrawerOpen(true)
+      return
+    }
+
+    // 第一次打开设置默认值
+    if (blogInfo) {
+      setTags(blogInfo.tags)
+      form.setFieldValue('summary', blogInfo.summary)
+    } else {
       if (mainText) {
         let summaryValue = ''
 
@@ -73,14 +80,15 @@ const PostModal: React.FC<PostModalProps> = React.memo(({ titleValue, blogInfo, 
 
         form.setFieldValue('summary', summaryValue)
       }
-
-      setFirstOpen(false)
     }
 
+    setFirstOpen(false)
     setDrawerOpen(true)
   }
 
   const handleClose = () => {
+    // 解除禁止
+    document.body.setAttribute('style', 'overflow: initial')
     setDrawerOpen(false)
   }
 

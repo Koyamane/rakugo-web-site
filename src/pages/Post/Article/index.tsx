@@ -248,9 +248,11 @@ export default (): React.ReactNode => {
         background: token.colorBgBase
       })
     } else {
-      curZoom.attach('.article-layout-content img').update({
-        background: token.colorBgBase
-      })
+      setTimeout(() => {
+        curZoom.attach('.article-layout-content img').update({
+          background: token.colorBgBase
+        })
+      }, 200)
     }
   }, [blogInfo, token])
 
@@ -403,6 +405,7 @@ export default (): React.ReactNode => {
         <FooterBar mobileMode extra={<ArticleFooterUser blogInfo={blogInfo} />}>
           <ArticleOperationBtn mobileMode blogInfo={blogInfo} userId={userId} />
         </FooterBar>
+
         <BackTop />
       </>
     )
