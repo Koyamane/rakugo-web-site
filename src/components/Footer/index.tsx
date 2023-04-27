@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
         {
           key: '落語项目地址',
           title: <GithubOutlined />,
-          href: 'https://github.com/Koyamane/blog-web-site',
+          href: 'https://github.com/Koyamane/rakugo-web-site',
           blankTarget: true
         },
         {
