@@ -1,7 +1,9 @@
 export default {
+  'pages.form.comprehensive': '综合',
   'pages.form.search': '搜索',
   'pages.form.search.history': '搜索历史',
   'pages.form.atMost': '最多',
+  'pages.form.date': '日期',
   'pages.form.image': '图片',
   'pages.form.audio': '音频',
   'pages.form.video': '视频',

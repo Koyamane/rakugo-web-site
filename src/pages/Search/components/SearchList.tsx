@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 22:45:02
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 18:16:13
+ * @LastEditTime: 2023-04-28 20:53:36
  * @Description:
  */
 import { BlogListSkeleton, IconText } from '@/components'
@@ -19,19 +19,19 @@ import {
   StarFilled,
   StarOutlined
 } from '@ant-design/icons'
-import { NavLink, useIntl } from '@umijs/max'
+import { NavLink, useIntl, useSearchParams } from '@umijs/max'
 import { Divider, Skeleton, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { BlogSortKey } from '../data'
 
-const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo(
-  ({ sortKey, userId }) => {
+const SearchList: React.FC<{ searchParams: API.PageParams; userId?: string }> = React.memo(
+  ({ searchParams, userId }) => {
     const intl = useIntl()
     const formatTime = useFormatTime()
+    const [urlSearch] = useSearchParams()
     const { isIncludeMe } = useGlobalHooks()
-    const [firstEnter, setFirstEnter] = useState(true)
     const { contentListClassName, noMoreClassName } = useGlobalClassName()
+    const [firstEnter, setFirstEnter] = useState(false)
     const [blogData, setBlogData] = useState<{
       list: API.BlogInfo[]
       pagination: { current: number; total: number }
@@ -40,16 +40,33 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
       pagination: { current: 1, total: 0 }
     })
 
-    const getBlogList = async (current: number = 1) => {
+    const someStrAddClass = (str: string, value: string) => {
+      return str?.replace(
+        new RegExp(value, 'g'),
+        `<span class="search-highlight-text">${value}</span>`
+      )
+    }
+
+    const initList = async (current: number = 1) => {
+      if (firstEnter) return
+
+      setFirstEnter(true)
+
+      const value = urlSearch.get('query') || ''
+
       try {
         const res = await BlogPageApi({
-          dto: { status: 'APPROVED' },
-          sort: { [sortKey]: -1 },
-          current
+          ...searchParams,
+          current,
+          searchMap: value ? { title: { opt: 'LIKE', value } } : undefined
         })
         res &&
           setBlogData({
-            list: res.list,
+            list: res.list.map((item: { title: string; summary: string }) => ({
+              ...item,
+              title: someStrAddClass(item.title, value),
+              summary: someStrAddClass(item.summary, value)
+            })),
             pagination: {
               current: res.current,
               total: res.total
@@ -58,18 +75,28 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
       } catch (error) {
         console.log('获取首页博客报错了', error)
       }
+
+      setFirstEnter(false)
     }
 
     const loadMoreData = async () => {
       throttle(async () => {
+        const value = urlSearch.get('query') || ''
         try {
           const res = await BlogPageApi({
-            dto: { status: 'APPROVED' },
-            sort: { [sortKey]: -1 },
-            current: blogData.pagination.current + 1
+            ...searchParams,
+            current: blogData.pagination.current + 1,
+            searchMap: value ? { title: { opt: 'LIKE', value } } : undefined
           })
           setBlogData({
-            list: [...blogData.list, ...res.list],
+            list: [
+              ...blogData.list,
+              ...res.list.map((item: { title: string; summary: string }) => ({
+                ...item,
+                title: someStrAddClass(item.title, value),
+                summary: someStrAddClass(item.summary, value)
+              }))
+            ],
             pagination: {
               current: res.current,
               total: res.total
@@ -81,15 +108,9 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
       })()
     }
 
-    const initList = async () => {
-      setFirstEnter(true)
-      await getBlogList()
-      setFirstEnter(false)
-    }
-
     useEffect(() => {
       initList()
-    }, [sortKey])
+    }, [searchParams, location.search])
 
     return (
       <BlogListSkeleton num={2} className='home-layout-blog-list' loading={firstEnter}>
@@ -120,12 +141,17 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
                       {item.tags.join('・')}
                     </div>
                     <div className='content-list-item-left-title text-ellipsis'>
-                      <NavLink target='_blank' to={`/article/${item.id}`}>
-                        {item.title}
-                      </NavLink>
+                      <NavLink
+                        target='_blank'
+                        to={`/article/${item.id}`}
+                        dangerouslySetInnerHTML={{ __html: item.title }}
+                      />
                     </div>
 
-                    <div className='content-list-item-left-body'>{item.summary}</div>
+                    <div
+                      className='content-list-item-left-body'
+                      dangerouslySetInnerHTML={{ __html: item.summary }}
+                    />
 
                     <Space size='large' className='content-list-item-left-actions'>
                       <IconText icon={EyeOutlined} text={item.reads} />
@@ -178,4 +204,4 @@ const HomeList: React.FC<{ sortKey: BlogSortKey; userId?: string }> = React.memo
   }
 )
 
-export default HomeList
+export default SearchList

@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 13:33:02
+ * @LastEditTime: 2023-04-28 11:10:37
  * @Description:
  */
 /**
@@ -24,6 +24,12 @@ export default [
     name: 'home',
     icon: 'home',
     component: './Home'
+  },
+  {
+    path: '/search',
+    name: 'search',
+    hideInMenu: true,
+    component: './Search'
   },
   {
     path: '/article/:id',

@@ -3,7 +3,6 @@ import IconText from '@/components/IconText'
 import { useGlobalHooks } from '@/hooks'
 import useFormatTime from '@/hooks/useFormatTime'
 import usePaginationItem from '@/hooks/usePaginationItem'
-import { OperationItem } from '@/pages/Post/Article/data'
 import {
   EyeOutlined,
   LikeFilled,
@@ -27,7 +26,7 @@ interface SelfProps {
 
 const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
   const intl = useIntl()
-  const { keyToValue } = useGlobalHooks()
+  const { isIncludeMe, keyToValue } = useGlobalHooks()
   const { getDataDictionary } = useModel('useDataDictionary')
   const [listLoading, setListLoading] = useState(true)
   const [firstEnter, setFirstEnter] = useState(true)
@@ -78,25 +77,6 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
       console.log('获取博客报错了', error)
     }
     setListLoading(false)
-  }
-
-  const isIncludeMe = (type: OperationItem['key'], blogDataArr: API.BlogDataItem[]) => {
-    if (!loginUserId) return false
-    if (!blogDataArr || blogDataArr.length <= 0) return false
-    const blogDataObj = blogDataArr[0]
-
-    let flag = false
-    switch (type) {
-      case 'LIKE':
-        flag = blogDataObj.likeArr.includes(loginUserId)
-        break
-      case 'COLLECT':
-        flag = blogDataObj.collectionArr.includes(loginUserId)
-        break
-      default:
-        break
-    }
-    return flag
   }
 
   const articleStatus = (item: API.BlogInfo) => {
@@ -254,17 +234,25 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
                     <IconText icon={EyeOutlined} text={item.reads} />
                     <IconText
                       text={item.likes}
-                      icon={isIncludeMe('LIKE', item.blogDataArr) ? LikeFilled : LikeOutlined}
+                      icon={
+                        isIncludeMe('LIKE', item.blogDataArr, loginUserId)
+                          ? LikeFilled
+                          : LikeOutlined
+                      }
                       className={`${
-                        isIncludeMe('LIKE', item.blogDataArr) &&
+                        isIncludeMe('LIKE', item.blogDataArr, loginUserId) &&
                         'content-list-item-left-actions-active'
                       }`}
                     />
                     <IconText
                       text={item.collections}
-                      icon={isIncludeMe('COLLECT', item.blogDataArr) ? StarFilled : StarOutlined}
+                      icon={
+                        isIncludeMe('COLLECT', item.blogDataArr, loginUserId)
+                          ? StarFilled
+                          : StarOutlined
+                      }
                       className={`${
-                        isIncludeMe('COLLECT', item.blogDataArr) &&
+                        isIncludeMe('COLLECT', item.blogDataArr, loginUserId) &&
                         'content-list-item-left-actions-active'
                       }`}
                     />

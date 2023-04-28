@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 20:13:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-21 22:22:55
+ * @LastEditTime: 2023-04-28 11:49:47
  * @Description:
  */
 import { DataDictionaryPageApi } from '@/pages/Admin/DataDictionaryManagement/service'
@@ -32,7 +32,8 @@ export default function useDataDictionary() {
         obj[item.key] = arr
       }
     })
-    setDataDictionaryObj(obj)
+
+    setDataDictionaryObj({ ...obj })
 
     return obj
   }

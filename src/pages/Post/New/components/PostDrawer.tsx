@@ -3,7 +3,7 @@
  * @Date: 2023-04-18 20:15:06
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 13:49:53
+ * @LastEditTime: 2023-04-28 21:14:16
  * @Description:
  */
 
@@ -135,7 +135,12 @@ const PostModal: React.FC<PostModalProps> = React.memo(({ titleValue, blogInfo, 
 
   return (
     <>
-      <Drawer width={350} title='发布文章' open={drawerOpen} onClose={handleClose}>
+      <Drawer
+        width={350}
+        open={drawerOpen}
+        onClose={handleClose}
+        title={intl.formatMessage({ id: 'menu.post.article' })}
+      >
         <ProForm<API.BlogInfo>
           form={form}
           layout='vertical'

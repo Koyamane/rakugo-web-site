@@ -3,7 +3,7 @@
 
 declare namespace API {
   type PageParams = {
-    dto?: Record<string, string | number>
+    dto?: Record<string, string | number | undefined>
     searchMap?: {
       [key: string]: {
         opt: 'LIKE' | 'IN' | 'NOT_IN'
@@ -11,7 +11,8 @@ declare namespace API {
       }
     }
     betweenMap?: Record<string, string[]>
-    isOr?: boolean // 是否并列
+    orMap?: Record<string, string> // 多字段或
+    norMap?: Record<string, string> // 多字段非或
     /** 1是升序，-1是降序 */
     sort?: Record<string, 1 | -1>
     /** 过滤字段，为空不过滤，1显示，0不显示 */

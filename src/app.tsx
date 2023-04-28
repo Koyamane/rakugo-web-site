@@ -3,10 +3,17 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-25 23:57:13
+ * @LastEditTime: 2023-04-28 11:05:40
  * @Description:
  */
-import { AvatarDropdown, Footer, PostArticle, SelectLang, ThemeIcon } from '@/components'
+import {
+  AvatarDropdown,
+  Footer,
+  HeaderSearch,
+  PostArticle,
+  SelectLang,
+  ThemeIcon
+} from '@/components'
 import { ProLayoutProps } from '@ant-design/pro-components'
 import { RunTimeLayoutConfig } from '@umijs/max'
 import { ReactNode } from 'react'
@@ -110,7 +117,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     },
     style: { background: initialState?.settings?.token?.bgLayout },
     actionsRender: () => [
-      // <HeaderSearch key='HeaderSearch' />,
+      <HeaderSearch key='HeaderSearch' />,
       <PostArticle key='PostArticle' />,
       <ThemeIcon key='ThemeIcon' />,
       <SelectLang key='SelectLang' />

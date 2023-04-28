@@ -1,7 +1,9 @@
 export default {
+  'pages.form.comprehensive': '総合',
   'pages.form.search': '検索',
   'pages.form.search.history': '検索履歴',
   'pages.form.atMost': '最大',
+  'pages.form.date': '日付',
   'pages.form.image': '画像',
   'pages.form.audio': 'オーディオ',
   'pages.form.video': 'ビデオ',

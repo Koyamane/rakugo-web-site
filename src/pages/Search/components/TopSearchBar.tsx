@@ -3,20 +3,20 @@
  * @Date: 2023-04-22 13:42:42
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 23:24:48
+ * @LastEditTime: 2023-04-28 23:57:34
  * @Description:
  */
-import { unique } from '@/utils/tools'
-import { SearchOutlined } from '@ant-design/icons'
+import { debounce, unique } from '@/utils/tools'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { history, Link, useIntl } from '@umijs/max'
+import { history, useIntl } from '@umijs/max'
 import type { InputRef } from 'antd'
 import { AutoComplete, Input } from 'antd'
 import classNames from 'classnames'
 import React, { useMemo, useRef, useState } from 'react'
 
-export type HeaderSearchProps = {
+export type TopSearchBarProps = {
   className?: string
+  setSearchParams?: React.Dispatch<React.SetStateAction<API.PageParams>>
 }
 
 interface OptionType {
@@ -27,23 +27,19 @@ interface OptionType {
   }[]
 }
 
-const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
+const TopSearchBar: React.FC<TopSearchBarProps> = ({ className }) => {
   const intl = useIntl()
   const inputRef = useRef<InputRef | null>(null)
-  const [searchMode, setSearchMode] = useState(false)
   const [options, setOptions] = useState<OptionType[]>([])
 
   const searchClassName = useEmotionCss(({ token }) => ({
-    display: 'inline-flex',
-
-    '.pc-header-search': {
-      transition: 'width 0.3s',
-      width: searchMode ? '400px' : '200px'
-    },
-
-    '.mobile-header-search': {
+    '&.search-page-top-bar': {
       display: 'none',
-      color: token.colorTextDescription
+      marginBlockEnd: token.marginMD,
+
+      '.ant-select': {
+        width: '100%'
+      }
     },
 
     input: {
@@ -51,64 +47,54 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
     },
 
     [`@media screen and (max-width: ${token.screenMD}px)`]: {
-      '.pc-header-search': {
-        display: 'none'
-      },
-      '.mobile-header-search': {
-        display: 'inline-flex'
+      '&.search-page-top-bar': {
+        display: 'block'
       }
     }
   }))
 
   const clearClassName = useEmotionCss(() => ({
     display: 'flex',
+    lineHeight: '22px',
     justifyContent: 'space-between'
   }))
+
+  const clearSearchHistory = (e: any) => {
+    e.preventDefault()
+    setOptions([])
+    localStorage.removeItem('searchHhistory')
+  }
 
   const clearAllItem = useMemo(() => {
     return (
       <div className={clearClassName}>
         <span>{intl.formatMessage({ id: 'pages.form.search.history' })}</span>
-        <a
-          onClick={(e: any) => {
-            e.preventDefault()
-            setOptions([])
-            localStorage.removeItem('searchHhistory')
-          }}
-        >
-          {intl.formatMessage({ id: 'pages.form.clear' })}
-        </a>
+        <a onClick={clearSearchHistory}>{intl.formatMessage({ id: 'pages.form.clear' })}</a>
       </div>
     )
   }, [intl.locale])
 
-  // 这里这么设置，就是为了让下拉列表能晚点获取数据，从而达到等宽
-  const onSetSearchMode = (flag: boolean) => {
-    if (flag) {
-      setSearchMode(true)
+  const onChange = (e: any) => {
+    debounce(() => {
+      if (e.target.value) {
+        setOptions([])
+        return
+      }
 
-      setTimeout(() => {
-        let searchHhistoryArr = []
+      let searchHhistoryArr = []
+      try {
+        searchHhistoryArr = JSON.parse(localStorage.getItem('searchHhistory') || '[]')
+      } catch (error) {
+        console.log(error)
+      }
 
-        try {
-          searchHhistoryArr = JSON.parse(localStorage.getItem('searchHhistory') || '[]')
-        } catch (error) {
-          console.log(error)
+      setOptions([
+        {
+          label: clearAllItem,
+          options: Array.isArray(searchHhistoryArr) ? searchHhistoryArr : []
         }
-
-        setOptions([
-          {
-            label: clearAllItem,
-            options: Array.isArray(searchHhistoryArr) ? searchHhistoryArr : []
-          }
-        ])
-      }, 300)
-
-      return
-    }
-
-    setOptions([])
-    setSearchMode(false)
+      ])
+    }, 200)()
   }
 
   const onSearch = (value: string) => {
@@ -132,28 +118,24 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
     setTimeout(() => {
       // 因为点击搜索图标也会触发，而且会聚焦，所以这里延迟失焦
       inputRef?.current?.blur()
+      setOptions([])
     })
-    // 调用搜索
+
     history.push('/search?query=' + value)
   }
 
   const onSelect = (value: string) => {
     inputRef?.current?.blur()
-    // 调用搜索
+    setOptions([])
     history.push('/search?query=' + value)
   }
 
   return (
-    <div className={classNames(searchClassName, className)}>
-      <Link className='mobile-header-search' to='/search'>
-        <SearchOutlined />
-      </Link>
-
+    <div className={classNames(searchClassName, className, 'search-page-top-bar')}>
       <AutoComplete
         key='AutoComplete'
         options={options}
         onSelect={onSelect}
-        className='pc-header-search'
         onChange={(completeValue, option: any) => {
           // 防止回显 id
           if (option?.value) return
@@ -161,11 +143,11 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
       >
         <Input.Search
           allowClear
+          enterButton
           ref={inputRef}
           onSearch={onSearch}
-          enterButton={searchMode}
-          onFocus={() => onSetSearchMode(true)}
-          onBlur={() => onSetSearchMode(false)}
+          onChange={onChange}
+          onFocus={onChange}
           aria-label={intl.formatMessage({ id: 'pages.form.search' })}
           placeholder={intl.formatMessage({ id: 'pages.form.search' })}
         />
@@ -174,4 +156,4 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
   )
 }
 
-export default HeaderSearch
+export default TopSearchBar

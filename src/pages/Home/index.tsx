@@ -1,6 +1,5 @@
-import sideBg from '@/assets/kiniyorikakaruonnnanoko.jpg'
 import { BackTop } from '@/components'
-import { useGlobalHooks } from '@/hooks'
+import { useGlobalClassName, useGlobalHooks } from '@/hooks'
 import { AnnouncementInfo } from '@/pages/Admin/AnnouncementManagement/data'
 import { AnnouncementPageApi } from '@/pages/Admin/AnnouncementManagement/service'
 import { CopyrightOutlined, SoundOutlined } from '@ant-design/icons'
@@ -15,6 +14,7 @@ import { BlogSortKey } from './data'
 
 export default (): React.ReactNode => {
   const { formatValue } = useGlobalHooks()
+  const { homeLayoutClassName, infiniteScrollClassName } = useGlobalClassName()
   const { initialState } = useModel('@@initialState')
   const { currentUser } = initialState || {}
   const [sortKey, setSortKey] = useState<BlogSortKey>('createdDate')
@@ -22,70 +22,6 @@ export default (): React.ReactNode => {
 
   const announcementClassName = useEmotionCss(({ token }) => ({
     marginBlockEnd: token.marginMD
-  }))
-
-  const homeLayoutClassName = useEmotionCss(({ token }) => ({
-    display: 'flex',
-    alignItems: 'flex-start',
-
-    '.home-layout-side-bar': {
-      flexShrink: '0',
-      position: 'sticky',
-      minWidth: '180px',
-      top: token.marginMD,
-      marginInlineEnd: token.marginMD,
-
-      '&-menu': {
-        borderRadius: token.borderRadius,
-        border: 'none !important'
-      },
-
-      '&-title': {
-        width: '100%',
-        display: 'flex',
-        color: '#fedfe1',
-        alignItems: 'center',
-        fontFamily: ['Segoe UI'],
-        writingMode: 'vertical-rl',
-        fontSize: token.fontSizeHeading3,
-        marginInline: token.marginMD,
-        padding: `${token.paddingSM}px 0`,
-        backgroundImage: `url(${sideBg})`,
-        backgroundPosition: 'bottom',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        textShadow: '0.5px #00000066',
-        WebkitTextStroke: '0.5px #2a2828b3',
-        borderRadius: token.borderRadius,
-
-        rt: {
-          fontSize: token.fontSizeLG
-        }
-      },
-
-      '&-copyright': {
-        textAlign: 'center',
-        color: token.colorText,
-        paddingBlock: token.paddingSM,
-        paddingInline: token.paddingMD,
-        borderRadius: token.borderRadius,
-        background: token.colorBgContainer,
-        a: {
-          color: token.colorText,
-          '&:hover': {
-            color: token.colorText,
-            textDecoration: 'underline'
-          }
-        }
-      }
-    },
-
-    // 放后面权重高，所以媒体查询要放后面来
-    [`@media screen and (max-width: ${token.screenLG}px)`]: {
-      '.home-layout-side-bar': {
-        display: 'none'
-      }
-    }
   }))
 
   const announcementItemClassName = useEmotionCss(({ token }) => {
@@ -170,7 +106,7 @@ export default (): React.ReactNode => {
           </div>
         </div>
 
-        <div style={{ flex: 1 }}>
+        <div className={infiniteScrollClassName}>
           <HomeList userId={currentUser?.userId} sortKey={sortKey} />
         </div>
       </div>
