@@ -122,13 +122,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       <ThemeIcon key='ThemeIcon' />,
       <SelectLang key='SelectLang' />
     ],
-    onCollapse: collapsed => {
-      if (!collapsed) {
-        document.body.setAttribute('style', 'overflow: hidden')
-      } else {
-        document.body.setAttribute('style', 'overflow: initial')
-      }
-    },
+    // onCollapse: collapsed => {
+    //   if (!collapsed) {
+    //     document.body.setAttribute('style', 'overflow: hidden')
+    //   } else {
+    //     document.body.setAttribute('style', 'overflow: initial')
+    //   }
+    // },
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       render: (_, avatarChildren) => {

@@ -53,7 +53,7 @@ const PostModal: React.FC<PostModalProps> = React.memo(({ titleValue, blogInfo, 
     }
 
     // 防止苹果乱滑动
-    document.body.setAttribute('style', 'overflow: hidden')
+    // document.body.setAttribute('style', 'overflow: hidden')
 
     if (!firstOpen) {
       setDrawerOpen(true)
@@ -88,7 +88,7 @@ const PostModal: React.FC<PostModalProps> = React.memo(({ titleValue, blogInfo, 
 
   const handleClose = () => {
     // 解除禁止
-    document.body.setAttribute('style', 'overflow: initial')
+    // document.body.setAttribute('style', 'overflow: initial')
     setDrawerOpen(false)
   }
 

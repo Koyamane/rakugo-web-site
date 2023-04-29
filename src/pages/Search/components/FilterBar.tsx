@@ -3,7 +3,7 @@
  * @Date: 2023-04-28 11:09:26
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 22:42:22
+ * @LastEditTime: 2023-04-29 11:48:30
  * @Description:
  */
 import { useGlobalHooks } from '@/hooks'
@@ -130,7 +130,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ dtoSort, setDtoSort, setSearchPar
   const handleOpen = (e: any) => {
     e.preventDefault()
     // 防止苹果乱滑动
-    document.body.setAttribute('style', 'overflow: hidden')
+    // document.body.setAttribute('style', 'overflow: hidden')
     form.setFieldsValue({
       sort: dtoSort,
       date: curDate
@@ -141,7 +141,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ dtoSort, setDtoSort, setSearchPar
 
   const handleClose = () => {
     // 解除禁止
-    document.body.setAttribute('style', 'overflow: initial')
+    // document.body.setAttribute('style', 'overflow: initial')
     setOpen(false)
   }
 
@@ -200,7 +200,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ dtoSort, setDtoSort, setSearchPar
         </div>
       </div>
 
-      <Drawer width={350} title='筛选' open={open} onClose={handleClose}>
+      <Drawer width={300} title='筛选' open={open} onClose={handleClose}>
         <ProForm
           form={form}
           layout='vertical'

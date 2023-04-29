@@ -3,7 +3,7 @@
  * @Date: 2023-04-22 13:42:42
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 23:57:34
+ * @LastEditTime: 2023-04-29 11:49:00
  * @Description:
  */
 import { debounce, unique } from '@/utils/tools'
@@ -133,7 +133,7 @@ const TopSearchBar: React.FC<TopSearchBarProps> = ({ className }) => {
   return (
     <div className={classNames(searchClassName, className, 'search-page-top-bar')}>
       <AutoComplete
-        key='AutoComplete'
+        autoFocus
         options={options}
         onSelect={onSelect}
         onChange={(completeValue, option: any) => {
