@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 14:23:21
+ * @LastEditTime: 2023-04-29 22:00:32
  * @Description:
  */
 import {
@@ -18,6 +18,7 @@ import { ProLayoutProps } from '@ant-design/pro-components'
 import { RunTimeLayoutConfig } from '@umijs/max'
 import { ReactNode } from 'react'
 import defaultSettings from '../config/defaultSettings'
+import Page403 from './pages/Exception/403'
 import RenderApp from './RenderApp'
 import { errorConfig } from './requestErrorConfig'
 import { GetCrsfKey, GetUserInfo } from './services/global'
@@ -71,7 +72,8 @@ export async function getInitialState(): Promise<{
     settings: defaultSettings as ProLayoutProps
   }
 }
-// ProLayout 支持的api https://procomponents.ant.design/components/layout
+
+// ProLayout 支持的 api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     pageTitleRender(props, defaultPageTitle, info) {
@@ -86,7 +88,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       }
 
       const { title, formatMessage } = props
-
       const titleSuffix =
         (formatMessage && formatMessage({ id: 'pages.layouts.site.title' })) || title || '落語'
 
@@ -150,7 +151,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     navTheme: initialState?.settings?.navTheme,
     // menuHeaderRender: undefined,
     // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
+    unAccessible: <Page403 />,
+    // 组件崩溃时
+    // ErrorBoundary: (error: Error) => <ErrorBoundary>{error.children}</ErrorBoundary>,
     // 增加一个 loading 的状态
     // childrenRender: (children) => {
     // if (initialState?.loading) return <PageLoading />;

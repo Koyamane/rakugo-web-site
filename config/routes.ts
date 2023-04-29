@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 11:10:37
+ * @LastEditTime: 2023-04-29 21:21:11
  * @Description:
  */
 /**
@@ -20,9 +20,9 @@
  */
 export default [
   {
-    path: '/home',
-    name: 'home',
+    path: '/',
     icon: 'home',
+    name: 'home',
     component: './Home'
   },
   {
@@ -159,10 +159,6 @@ export default [
         component: './Account/Settings'
       }
     ]
-  },
-  {
-    path: '/',
-    redirect: '/home'
   },
   {
     path: '*',
