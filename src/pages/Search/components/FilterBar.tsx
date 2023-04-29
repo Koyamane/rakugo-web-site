@@ -3,7 +3,7 @@
  * @Date: 2023-04-28 11:09:26
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 13:21:23
+ * @LastEditTime: 2023-04-29 15:03:47
  * @Description:
  */
 import { Drawer } from '@/components'
@@ -60,22 +60,12 @@ const FilterBar: React.FC<FilterBarProps> = ({ dtoSort, setDtoSort, setSearchPar
       '.filter-bar-right': {
         '&-btn': {
           display: 'none',
-          // cursor: 'pointer',
           fontSize: token.fontSizeLG
-          // color: token.colorTextDescription,
-
-          // '&:hover': {
-          //   color: token.colorTextDescription
-          // }
         }
       },
 
       '.ant-select': {
-        minWidth: '100px',
-
-        '.ant-select-selection-item': {
-          // fontSize: token.fontSizeSM
-        }
+        minWidth: '100px'
       },
 
       [`@media screen and (max-width: ${token.screenLG}px)`]: {

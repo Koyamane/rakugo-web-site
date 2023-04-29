@@ -3,10 +3,10 @@
  * @Date: 2023-04-22 13:42:42
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 14:41:15
+ * @LastEditTime: 2023-04-29 15:33:33
  * @Description:
  */
-import { unique } from '@/utils/tools'
+import { debounce, unique } from '@/utils/tools'
 import { SearchOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { history, useIntl } from '@umijs/max'
@@ -84,31 +84,28 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
 
   // 这里这么设置，就是为了让下拉列表能晚点获取数据，从而达到等宽
   const onSetSearchMode = (flag: boolean) => {
-    if (flag) {
-      setSearchMode(true)
-
-      setTimeout(() => {
-        let searchHhistoryArr = []
-
-        try {
-          searchHhistoryArr = JSON.parse(localStorage.getItem('searchHhistory') || '[]')
-        } catch (error) {
-          console.log(error)
-        }
-
-        setOptions([
-          {
-            label: clearAllItem,
-            options: Array.isArray(searchHhistoryArr) ? searchHhistoryArr : []
-          }
-        ])
-      }, 300)
-
+    setSearchMode(flag)
+    if (!flag) {
+      setOptions([])
       return
     }
 
-    setOptions([])
-    setSearchMode(false)
+    debounce(() => {
+      let searchHhistoryArr = []
+
+      try {
+        searchHhistoryArr = JSON.parse(localStorage.getItem('searchHhistory') || '[]')
+      } catch (error) {
+        console.log(error)
+      }
+
+      setOptions([
+        {
+          label: clearAllItem,
+          options: Array.isArray(searchHhistoryArr) ? searchHhistoryArr : []
+        }
+      ])
+    }, 300)()
   }
 
   const onSearch = (value: string) => {
@@ -168,7 +165,6 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
         }}
       >
         <Input.Search
-          allowClear
           ref={inputRef}
           onSearch={onSearch}
           enterButton={searchMode}

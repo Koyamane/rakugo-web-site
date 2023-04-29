@@ -172,9 +172,8 @@ export const fileToBase64 = async (file: File) => {
   })
 }
 
+let flag = true
 export function throttle(fn: any, delay = 500) {
-  let flag = true
-
   return (...args: any[]) => {
     if (flag) {
       flag = false

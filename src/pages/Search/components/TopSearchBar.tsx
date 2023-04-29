@@ -3,7 +3,7 @@
  * @Date: 2023-04-22 13:42:42
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 14:42:23
+ * @LastEditTime: 2023-04-29 15:34:43
  * @Description:
  */
 import { debounce, unique } from '@/utils/tools'
@@ -147,7 +147,6 @@ const TopSearchBar: React.FC<TopSearchBarProps> = ({ className }) => {
         }}
       >
         <Input.Search
-          allowClear
           enterButton
           ref={inputRef}
           onSearch={onSearch}
