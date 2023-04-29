@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 15:26:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-25 21:51:25
+ * @LastEditTime: 2023-04-29 23:12:01
  * @Description:
  */
 import loginBg from '@/assets/humikiri.jpg'
@@ -89,6 +89,7 @@ const User: React.FC = () => {
         transform: `translateY(${token.marginSM}px)`
       },
       '& .ant-pro-form-login-main': {
+        minWidth: '350px',
         padding: token.paddingMD,
         background: '#f5f5f5cc',
         borderRadius: token.borderRadius,

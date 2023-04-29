@@ -297,7 +297,7 @@ const Register: FC = () => {
         ]}
       />
 
-      <Row gutter={12} justify='space-between'>
+      <Row gutter={24} justify='space-between'>
         <Col span={15}>
           <ProFormText
             name='captcha'

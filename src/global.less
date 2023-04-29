@@ -8,16 +8,36 @@ body,
     'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
 
-  .ant-pro-top-nav-header-main {
-    padding-inline-end: @padding-md;
-  }
+  .ant-pro-top-nav-header {
+    .ant-pro-top-nav-header-main {
+      padding-inline-end: @padding-md;
+    }
 
-  .ant-pro-top-nav-header-logo {
-    padding-inline-end: @padding-md;
+    .ant-pro-top-nav-header-logo {
+      padding-inline-end: @padding-md;
 
-    // 隐藏首页标题
-    h1 {
-      display: none;
+      // 隐藏首页标题
+      h1 {
+        display: none;
+      }
+    }
+
+    .ant-menu-light {
+      .ant-menu-item:after,
+      .ant-menu-submenu:after {
+        border: none;
+      }
+
+      .ant-menu-submenu-selected > .ant-menu-submenu-title {
+        color: inherit;
+      }
+    }
+
+    .ant-menu-dark {
+      .ant-menu-item-selected,
+      .ant-menu-submenu-selected {
+        background-color: transparent;
+      }
     }
   }
 
@@ -41,6 +61,10 @@ body,
 
   .ant-avatar {
     border: none;
+  }
+
+  .ant-popover-open {
+    font-size: inherit;
   }
 
   .hljs-class .hljs-title,
@@ -72,6 +96,19 @@ body,
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+}
+
+.ant-menu-light .ant-menu-item-selected,
+.ant-menu-light > .ant-menu .ant-menu-item-selected {
+  color: #de8972;
+  background-color: #fff6f0;
+}
+
+.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active,
+.ant-menu-dark
+  > .ant-menu:not(.ant-menu-horizontal)
+  .ant-menu-item:not(.ant-menu-item-selected):active {
+  background-color: transparent;
 }
 
 .react-medium-image-zoom {
