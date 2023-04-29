@@ -1,5 +1,6 @@
 export default {
   'pages.form.comprehensive': '総合',
+  'pages.form.filter': 'フィルター',
   'pages.form.search': '検索',
   'pages.form.search.history': '検索履歴',
   'pages.form.atMost': '最大',

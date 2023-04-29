@@ -1,5 +1,6 @@
 export default {
   'pages.form.comprehensive': '综合',
+  'pages.form.filter': '筛选',
   'pages.form.search': '搜索',
   'pages.form.search.history': '搜索历史',
   'pages.form.atMost': '最多',

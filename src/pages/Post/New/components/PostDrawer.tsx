@@ -3,15 +3,15 @@
  * @Date: 2023-04-18 20:15:06
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 21:14:16
+ * @LastEditTime: 2023-04-29 14:46:08
  * @Description:
  */
 
-import { InputFileItem } from '@/components'
+import { Drawer, InputFileItem } from '@/components'
 import { useFormItemFillHint, useGlobalHooks } from '@/hooks'
 import { ProForm, ProFormSelect, ProFormTextArea } from '@ant-design/pro-components'
 import { history, useIntl, useModel, useParams } from '@umijs/max'
-import { App, Button, Drawer, Form } from 'antd'
+import { App, Button, Form } from 'antd'
 import React, { useMemo, useState } from 'react'
 import showdown from 'showdown'
 import { AddBlogType } from '../data'
@@ -52,9 +52,6 @@ const PostModal: React.FC<PostModalProps> = React.memo(({ titleValue, blogInfo, 
       return
     }
 
-    // 防止苹果乱滑动
-    // document.body.setAttribute('style', 'overflow: hidden')
-
     if (!firstOpen) {
       setDrawerOpen(true)
       return
@@ -87,8 +84,6 @@ const PostModal: React.FC<PostModalProps> = React.memo(({ titleValue, blogInfo, 
   }
 
   const handleClose = () => {
-    // 解除禁止
-    // document.body.setAttribute('style', 'overflow: initial')
     setDrawerOpen(false)
   }
 
@@ -128,6 +123,7 @@ const PostModal: React.FC<PostModalProps> = React.memo(({ titleValue, blogInfo, 
       } else {
         await addBlog(params)
       }
+      handleClose()
     } catch (error) {
       setLoading(false)
     }

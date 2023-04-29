@@ -3,13 +3,13 @@
  * @Date: 2023-04-22 13:42:42
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 23:24:48
+ * @LastEditTime: 2023-04-29 14:41:15
  * @Description:
  */
 import { unique } from '@/utils/tools'
 import { SearchOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { history, Link, useIntl } from '@umijs/max'
+import { history, useIntl } from '@umijs/max'
 import type { InputRef } from 'antd'
 import { AutoComplete, Input } from 'antd'
 import classNames from 'classnames'
@@ -143,11 +143,19 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
     history.push('/search?query=' + value)
   }
 
+  const goSearch = () => {
+    // 为了让苹果手机能正常弹出键盘
+    let oInput = document.createElement('input')
+    oInput.id = 'input-autofocus-dom'
+    oInput.setAttribute('style', 'opacity: 0')
+    document.querySelector('.page-layout')?.insertAdjacentElement('afterbegin', oInput)
+    oInput.focus()
+    history.push('/search')
+  }
+
   return (
     <div className={classNames(searchClassName, className)}>
-      <Link className='mobile-header-search' to='/search'>
-        <SearchOutlined />
-      </Link>
+      <SearchOutlined className='mobile-header-search' onClick={goSearch} />
 
       <AutoComplete
         key='AutoComplete'

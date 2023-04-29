@@ -3,7 +3,7 @@
  * @Date: 2023-04-22 13:42:42
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 11:49:00
+ * @LastEditTime: 2023-04-29 14:42:23
  * @Description:
  */
 import { debounce, unique } from '@/utils/tools'
@@ -12,7 +12,7 @@ import { history, useIntl } from '@umijs/max'
 import type { InputRef } from 'antd'
 import { AutoComplete, Input } from 'antd'
 import classNames from 'classnames'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 export type TopSearchBarProps = {
   className?: string
@@ -129,6 +129,11 @@ const TopSearchBar: React.FC<TopSearchBarProps> = ({ className }) => {
     setOptions([])
     history.push('/search?query=' + value)
   }
+
+  useEffect(() => {
+    // 因为苹果手机不能自动对焦，所以用这个 input 来实现，现在要清空它
+    document.getElementById('input-autofocus-dom')?.remove()
+  }, [])
 
   return (
     <div className={classNames(searchClassName, className, 'search-page-top-bar')}>

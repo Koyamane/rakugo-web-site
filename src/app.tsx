@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 11:05:40
+ * @LastEditTime: 2023-04-29 14:23:21
  * @Description:
  */
 import {
@@ -122,13 +122,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       <ThemeIcon key='ThemeIcon' />,
       <SelectLang key='SelectLang' />
     ],
-    // onCollapse: collapsed => {
-    //   if (!collapsed) {
-    //     document.body.setAttribute('style', 'overflow: hidden')
-    //   } else {
-    //     document.body.setAttribute('style', 'overflow: initial')
-    //   }
-    // },
+    onCollapse: collapsed => {
+      if (!collapsed) {
+        document.body.setAttribute('style', 'overflow: hidden')
+      } else {
+        document.body.removeAttribute('style')
+      }
+    },
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       render: (_, avatarChildren) => {

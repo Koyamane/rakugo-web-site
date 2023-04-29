@@ -1,5 +1,6 @@
 export default {
   'pages.form.comprehensive': 'Comprehensive',
+  'pages.form.filter': 'Filter',
   'pages.form.search': 'Search',
   'pages.form.search.history': 'Search History',
   'pages.form.atMost': 'At most',

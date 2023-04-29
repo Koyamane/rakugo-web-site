@@ -3,15 +3,16 @@
  * @Date: 2023-04-28 11:09:26
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 11:48:30
+ * @LastEditTime: 2023-04-29 13:21:23
  * @Description:
  */
+import { Drawer } from '@/components'
 import { useGlobalHooks } from '@/hooks'
 import { FilterOutlined } from '@ant-design/icons'
 import { ProForm, ProFormSelect } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, useModel } from '@umijs/max'
-import { Divider, Drawer, Form, Select, Space } from 'antd'
+import { Divider, Form, Select, Space } from 'antd'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 import React, { useState } from 'react'
@@ -129,8 +130,6 @@ const FilterBar: React.FC<FilterBarProps> = ({ dtoSort, setDtoSort, setSearchPar
 
   const handleOpen = (e: any) => {
     e.preventDefault()
-    // 防止苹果乱滑动
-    // document.body.setAttribute('style', 'overflow: hidden')
     form.setFieldsValue({
       sort: dtoSort,
       date: curDate
@@ -140,8 +139,6 @@ const FilterBar: React.FC<FilterBarProps> = ({ dtoSort, setDtoSort, setSearchPar
   }
 
   const handleClose = () => {
-    // 解除禁止
-    // document.body.setAttribute('style', 'overflow: initial')
     setOpen(false)
   }
 
@@ -200,7 +197,12 @@ const FilterBar: React.FC<FilterBarProps> = ({ dtoSort, setDtoSort, setSearchPar
         </div>
       </div>
 
-      <Drawer width={300} title='筛选' open={open} onClose={handleClose}>
+      <Drawer
+        width={300}
+        open={open}
+        onClose={handleClose}
+        title={<FormattedMessage id='pages.form.filter' />}
+      >
         <ProForm
           form={form}
           layout='vertical'
