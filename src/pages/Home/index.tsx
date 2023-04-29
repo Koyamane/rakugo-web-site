@@ -60,7 +60,7 @@ export default (): React.ReactNode => {
           icon={<SoundOutlined />}
           className={announcementClassName}
           message={
-            <Marquee pauseOnHover gradient={false}>
+            <Marquee pauseOnHover speed={30} gradient={false}>
               {announcementList.map(item => (
                 <div key={item.id} className={announcementItemClassName}>
                   {formatValue(item, 'title')}

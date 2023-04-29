@@ -297,8 +297,8 @@ const Register: FC = () => {
         ]}
       />
 
-      <Row gutter={8} justify='space-between'>
-        <Col span={16}>
+      <Row gutter={12} justify='space-between'>
+        <Col span={15}>
           <ProFormText
             name='captcha'
             disabled={btnLoading}
@@ -321,7 +321,7 @@ const Register: FC = () => {
           />
         </Col>
 
-        <Col span={8}>
+        <Col span={9}>
           <Captcha ref={captchaRef} charNum={4} onChange={setCaptcha} />
         </Col>
       </Row>
