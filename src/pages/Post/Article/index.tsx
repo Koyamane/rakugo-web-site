@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-26 10:49:09
+ * @LastEditTime: 2023-04-29 16:09:37
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -248,13 +248,11 @@ export default (): React.ReactNode => {
         background: token.colorBgBase
       })
     } else {
-      setTimeout(() => {
-        curZoom.attach('.article-layout-content img').update({
-          background: token.colorBgBase
-        })
-      }, 200)
+      curZoom.attach('.article-layout-content img').update({
+        background: token.colorBgBase
+      })
     }
-  }, [blogInfo, token])
+  }, [loading, blogInfo, token])
 
   if (loading) return <PageLoading />
 

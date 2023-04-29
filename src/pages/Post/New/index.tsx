@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-26 10:53:54
+ * @LastEditTime: 2023-04-29 16:11:10
  * @Description:
  */
 
@@ -129,7 +129,7 @@ export default (): React.ReactNode => {
       } else {
         curZoom.attach('.post-article-editor img')
       }
-    }, 200)()
+    }, 300)()
   }, [mainText])
 
   // 因为路由 layout false 会导致用不了 token，所以只能采取覆盖的方式
