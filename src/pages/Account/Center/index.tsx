@@ -3,41 +3,41 @@
  * @Date: 2021-12-25 23:14:57
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-12 20:56:28
+ * @LastEditTime: 2023-04-25 19:56:45
  * @Description:
  */
 import { BackTop } from '@/components'
 import IconText from '@/components/IconText'
 import { GetUserInfo } from '@/services/global'
 import { ContactsOutlined, HomeOutlined, SmileOutlined } from '@ant-design/icons'
+import { PageLoading } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { connect, FormattedMessage, useModel, useParams } from '@umijs/max'
-import { Card, Col, Divider, Row, Space, Spin, Tag } from 'antd'
+import { FormattedMessage, Helmet, useIntl, useModel, useParams } from '@umijs/max'
+import { Card, Col, Divider, Row, Space, Tag } from 'antd'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import Articles from './components/Articles'
 import Collections from './components/Collections'
 import FollowButton from './components/FollowButton'
 import Follows from './components/Follows'
-import type { AccountCenterState, AccountProps, tabKeyType } from './data'
+import type { tabKeyType } from './data'
 
-const Center: React.FC<AccountProps> = ({
-  articlesNum,
-  collectionsNum,
-  followsNum,
-  followersNum,
-  dispatch
-}) => {
+const Center: React.FC = () => {
+  const intl = useIntl()
   const [tabKey, setTabKey] = useState<tabKeyType>('articles')
   const [loading, setLoading] = useState(false)
   const [currentUser, setCurrentUser] = useState<API.UserInfo>()
   const { initialState } = useModel('@@initialState')
   const { setTo404 } = useModel('use404Model')
+  const {
+    setNums,
+    nums: { articlesNum, collectionsNum, followsNum, followersNum }
+  } = useModel('useAccount')
   // 登录的用户
   const { currentUser: loginUser } = initialState || {}
   const { userId } = useParams<{ userId: string }>()
 
   const isMe = useMemo(() => {
-    return loginUser?.userId === userId
+    return loginUser?.userId === userId || !userId
   }, [userId])
 
   //  获取页面的用户信息，默认不发请求
@@ -46,8 +46,7 @@ const Center: React.FC<AccountProps> = ({
     try {
       const res = await GetUserInfo(userId)
       setCurrentUser({ ...res })
-      dispatch({
-        type: 'AccountCenter/setAllNum',
+      setNums({
         articlesNum: res.blogs,
         collectionsNum: res.collections,
         followsNum: res.watchers,
@@ -140,7 +139,7 @@ const Center: React.FC<AccountProps> = ({
     getCurrentUserInfo()
   }, [userId])
 
-  const leftClassName = useEmotionCss(({ token }) => ({
+  const centerClassName = useEmotionCss(({ token }) => ({
     '.account-center-left': {
       position: 'sticky',
       top: token.marginMD
@@ -224,6 +223,10 @@ const Center: React.FC<AccountProps> = ({
     },
 
     [`@media screen and (max-width: ${token.screenLG}px)`]: {
+      '&.ant-row': {
+        // margin: '0 !important'
+      },
+
       '.account-center-left': {
         position: 'relative',
         top: 'auto'
@@ -231,10 +234,18 @@ const Center: React.FC<AccountProps> = ({
     }
   }))
 
+  if (loading) return <PageLoading />
+
   return (
-    <Spin spinning={loading}>
-      {currentUser && (
-        <Row gutter={20} align='top' className={leftClassName}>
+    currentUser && (
+      <>
+        <Helmet>
+          <title>
+            {currentUser.nickname} - {intl.formatMessage({ id: 'pages.layouts.site.title' })}
+          </title>
+        </Helmet>
+
+        <Row gutter={20} align='top' className={centerClassName}>
           <Col lg={8} md={24} sm={24} xs={24} className='account-center-left'>
             <div className='user-info-card'>
               <div className='user-info-card-top'>
@@ -286,16 +297,11 @@ const Center: React.FC<AccountProps> = ({
             </Card>
           </Col>
         </Row>
-      )}
 
-      <BackTop />
-    </Spin>
+        <BackTop />
+      </>
+    )
   )
 }
 
-export default connect(({ AccountCenter }: { AccountCenter: AccountCenterState }) => ({
-  articlesNum: AccountCenter.articlesNum,
-  collectionsNum: AccountCenter.collectionsNum,
-  followsNum: AccountCenter.followsNum,
-  followersNum: AccountCenter.followersNum
-}))(Center)
+export default Center

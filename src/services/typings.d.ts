@@ -3,7 +3,7 @@
 
 declare namespace API {
   type PageParams = {
-    dto?: Record<string, string | number>
+    dto?: Record<string, string | number | undefined>
     searchMap?: {
       [key: string]: {
         opt: 'LIKE' | 'IN' | 'NOT_IN'
@@ -11,7 +11,8 @@ declare namespace API {
       }
     }
     betweenMap?: Record<string, string[]>
-    isOr?: boolean // 是否并列
+    orMap?: Record<string, string> // 多字段或
+    norMap?: Record<string, string> // 多字段非或
     /** 1是升序，-1是降序 */
     sort?: Record<string, 1 | -1>
     /** 过滤字段，为空不过滤，1显示，0不显示 */
@@ -73,7 +74,7 @@ declare namespace API {
     editor: DataDictionary.EDITOR
     status: DataDictionary.BLOG_STATUS
     sort: string
-    description: string
+    summary: string
     title: string
     content: string
     mdData: string
@@ -92,9 +93,9 @@ declare namespace API {
     order: number
     key: string | number
     value: string | number | boolean
-    valueZh: string | number | boolean
-    valueEn: string | number | boolean
-    valueJa: string | number | boolean
+    value_zh: string | number | boolean
+    value_en: string | number | boolean
+    value_ja: string | number | boolean
   }
 
   type DataDictionaryInfo = {

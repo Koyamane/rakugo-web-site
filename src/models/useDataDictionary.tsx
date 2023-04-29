@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 20:13:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 19:02:08
+ * @LastEditTime: 2023-04-28 11:49:47
  * @Description:
  */
 import { DataDictionaryPageApi } from '@/pages/Admin/DataDictionaryManagement/service'
@@ -32,8 +32,8 @@ export default function useDataDictionary() {
         obj[item.key] = arr
       }
     })
-    console.log(obj)
-    setDataDictionaryObj(obj)
+
+    setDataDictionaryObj({ ...obj })
 
     return obj
   }
@@ -51,7 +51,11 @@ export default function useDataDictionary() {
         const obj = formatDataDictionaryList(res.list)
 
         cb && cb(obj)
+
+        return obj
       } catch (error) {}
+
+      return
     },
     []
   )

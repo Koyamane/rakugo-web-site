@@ -1,3 +1,25 @@
+function objSort(obj: Record<string, string>) {
+  const newObj: Record<string, string> = {}
+  // 遍历对象，并将key进行排序
+  Object.keys(obj)
+    .sort()
+    .forEach(key => (newObj[key] = obj[key]))
+  // 将排序好的数组转成字符串
+  return JSON.stringify(newObj)
+}
+
+export function unique(arr: any[]) {
+  const set = new Set()
+  for (let i = 0; i < arr.length; i++) {
+    const str = objSort(arr[i])
+    set.add(str)
+  }
+
+  // 将数组中的字符串转回对象
+  arr = [...set].map(item => JSON.parse(item as string))
+  return arr
+}
+
 /**
  * @description: 获取文章目录，务必放在 userLayoutEffect 中使用
  * @param {String} target: 目标节点下面的标题
@@ -126,6 +148,19 @@ export const formatTableParams = (
   }
 }
 
+export const base64ToFile = (dataurl: string, filename: string) => {
+  const arr = dataurl.split(',')
+  const mime = arr[0].match(/:(.*?);/)[1]
+  const bstr = atob(arr[1])
+  let n = bstr.length
+  const u8arr = new Uint8Array(n)
+  // eslint-disable-next-line no-plusplus
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n)
+  }
+  return new File([u8arr], filename, { type: mime })
+}
+
 // file 转 bse64
 export const fileToBase64 = async (file: File) => {
   return await new Promise(resolve => {
@@ -137,16 +172,15 @@ export const fileToBase64 = async (file: File) => {
   })
 }
 
-let lastTime = new Date().getTime()
-/**
- * @description: 节流
- */
-export function throttle(callback: () => void, delay: number = 500) {
-  return () => {
-    const nowTime = new Date().getTime()
-    if (nowTime - lastTime > delay) {
-      callback()
-      lastTime = nowTime
+let flag = true
+export function throttle(fn: any, delay = 500) {
+  return (...args: any[]) => {
+    if (flag) {
+      flag = false
+      setTimeout(() => {
+        fn(...args)
+        flag = true
+      }, delay)
     }
   }
 }

@@ -1,7 +1,8 @@
 export default {
   'menu.home': '首页',
+  'menu.search': '搜索',
   'menu.post': '发布',
-  'menu.post.article': '写文章',
+  'menu.post.article': '发布文章',
   'menu.post.edit': '编辑内容',
   'menu.article': '文章',
   'menu.admin': '管理页',

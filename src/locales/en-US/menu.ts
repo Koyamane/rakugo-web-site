@@ -1,5 +1,6 @@
 export default {
   'menu.home': 'Home',
+  'menu.search': 'Search',
   'menu.post': 'Post',
   'menu.post.article': 'Post an article',
   'menu.post.edit': 'Edit Content',

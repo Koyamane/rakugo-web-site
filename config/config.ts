@@ -7,12 +7,9 @@ import routes from './routes'
 const { REACT_APP_ENV = 'dev' } = process.env
 
 export default defineConfig({
+  esbuildMinifyIIFE: true,
   codeSplitting: {
     jsStrategy: 'granularChunks'
-  },
-  dva: {
-    immer: { enableES5: true },
-    extraModels: []
   },
   /**
    * @name 开启 hash 模式
@@ -83,8 +80,20 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  title: '落語',
-  favicons: ['/favicon.svg'],
+  // title: '落語',
+  favicons: ['/logo.svg'],
+  metas: [
+    { name: 'keywords', content: 'rakugo,koyamane,落語,小山音' },
+    { name: 'description', content: '小山音倾力打造' },
+    { name: 'description', content: '你轻轻地来，诉说着往事，留下一段佳话' },
+    { name: 'apple-mobile-web-app-title', content: '落語' }
+  ],
+  links: [
+    // 苹果相关的
+    { rel: 'bookmark', href: '/favicon.png' },
+    { rel: 'apple-touch-icon', href: '/favicon.png' },
+    { rel: 'apple-touch-icon-precomposed', href: '/favicon.png', sizes: '180x180' }
+  ],
   layout: {
     locale: true,
     ...defaultSettings
@@ -118,6 +127,7 @@ export default defineConfig({
     theme: {
       token: {
         pageMaxWidth: 1152,
+        colorBgLayoutHeader: 'rgba(255, 255, 255, 0.6)',
         colorPrimary: '#de8972',
         colorInfo: '#de8972' // 可以改到 a 标签的颜色，和 massage 的标签颜色
       }

@@ -3,13 +3,19 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-16 22:27:41
+ * @LastEditTime: 2023-04-29 14:23:21
  * @Description:
  */
-// import { history } from '@umijs/max';
-import { AvatarDropdown, Footer, PostArticle, SelectLang, ThemeIcon } from '@/components'
-import { Settings as LayoutSettings } from '@ant-design/pro-components'
-import type { RunTimeLayoutConfig } from '@umijs/max'
+import {
+  AvatarDropdown,
+  Footer,
+  HeaderSearch,
+  PostArticle,
+  SelectLang,
+  ThemeIcon
+} from '@/components'
+import { ProLayoutProps } from '@ant-design/pro-components'
+import { RunTimeLayoutConfig } from '@umijs/max'
 import { ReactNode } from 'react'
 import defaultSettings from '../config/defaultSettings'
 import RenderApp from './RenderApp'
@@ -22,7 +28,7 @@ import { GetCrsfKey, GetUserInfo } from './services/global'
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<{
-  settings?: Partial<LayoutSettings>
+  settings?: ProLayoutProps
   currentUser?: API.UserInfo
   loading?: boolean
   fetchUserInfo?: () => Promise<API.UserInfo | undefined>
@@ -46,6 +52,9 @@ export async function getInitialState(): Promise<{
   }
 
   defaultSettings.navTheme = (localStorage.getItem('navTheme') as any) || defaultSettings.navTheme
+  if (defaultSettings.token) {
+    defaultSettings.token.bgLayout = defaultSettings.navTheme === 'light' ? '#f5f5f5' : '#000000'
+  }
 
   // 不是登录页面且有token时，就获取用户信息
   if (location.pathname !== '/user/login' && localStorage.getItem('token')) {
@@ -53,23 +62,73 @@ export async function getInitialState(): Promise<{
     return {
       fetchUserInfo,
       currentUser,
-      settings: defaultSettings as Partial<LayoutSettings>
+      settings: defaultSettings as ProLayoutProps
     }
   }
 
   return {
     fetchUserInfo,
-    settings: defaultSettings as Partial<LayoutSettings>
+    settings: defaultSettings as ProLayoutProps
   }
 }
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
+    pageTitleRender(props, defaultPageTitle, info) {
+      switch (info?.id) {
+        case '':
+        case 'menu.article':
+        case 'menu.account':
+        case 'menu.account.center':
+          return ''
+        default:
+          break
+      }
+
+      const { title, formatMessage } = props
+
+      const titleSuffix =
+        (formatMessage && formatMessage({ id: 'pages.layouts.site.title' })) || title || '落語'
+
+      if (info?.id === 'menu.home') {
+        return titleSuffix
+      }
+
+      return info?.pageName + ' - ' + titleSuffix
+    },
+    // 在这里设置 layout 图片背景
+    bgLayoutImgList: [
+      {
+        src: require('@/assets/humikiri.jpg'),
+        width: '101%',
+        height: '100%',
+        objectFit: 'cover',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }
+    ],
+    headerRender({ token, navTheme }, defaultDom) {
+      const style = {
+        height: '100%',
+        background: navTheme === 'realDark' ? '#141414' : token.bgLayout
+      }
+      return <div style={style}>{defaultDom}</div>
+    },
+    style: { background: initialState?.settings?.token?.bgLayout },
     actionsRender: () => [
+      <HeaderSearch key='HeaderSearch' />,
       <PostArticle key='PostArticle' />,
       <ThemeIcon key='ThemeIcon' />,
       <SelectLang key='SelectLang' />
     ],
+    onCollapse: collapsed => {
+      if (!collapsed) {
+        document.body.setAttribute('style', 'overflow: hidden')
+      } else {
+        document.body.removeAttribute('style')
+      }
+    },
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       render: (_, avatarChildren) => {

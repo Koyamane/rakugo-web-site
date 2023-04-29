@@ -1,9 +1,8 @@
 import BlogListSkeleton from '@/components/BlogListSkeleton'
 import IconText from '@/components/IconText'
+import { useGlobalHooks } from '@/hooks'
 import useFormatTime from '@/hooks/useFormatTime'
 import usePaginationItem from '@/hooks/usePaginationItem'
-import { BLOG_STATUS, toObj } from '@/locales/dataDictionary'
-import { OperationItem } from '@/pages/Post/Article/data'
 import {
   EyeOutlined,
   LikeFilled,
@@ -13,25 +12,27 @@ import {
   StarOutlined
 } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { connect, Dispatch, NavLink, useIntl } from '@umijs/max'
+import { NavLink, useIntl, useModel } from '@umijs/max'
 import { Divider, Pagination, Popover, Space, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { SomebodyBlogPage } from '../../service'
 import OperateItem from './OperateItem'
 
 interface SelfProps {
-  dispatch: Dispatch
   isMe?: boolean
   loginUserId?: API.UserInfo['userId']
   userId?: API.UserInfo['userId']
 }
 
-const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) => {
+const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
   const intl = useIntl()
+  const { isIncludeMe, keyToValue } = useGlobalHooks()
+  const { getDataDictionary } = useModel('useDataDictionary')
   const [listLoading, setListLoading] = useState(true)
   const [firstEnter, setFirstEnter] = useState(true)
   const formatTime = useFormatTime()
   const itemRender = usePaginationItem()
+  const { setNums } = useModel('useAccount')
   const [blogData, setBlogData] = useState<{
     list: API.BlogInfo[]
     pagination: { current: number; pageSize: number; total: number }
@@ -67,34 +68,15 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
             total: res.total
           }
         })
-        dispatch({
-          type: 'AccountCenter/setArticlesNum',
+        setNums(values => ({
+          ...values,
           articlesNum: res.total
-        })
+        }))
       }
     } catch (error) {
       console.log('获取博客报错了', error)
     }
     setListLoading(false)
-  }
-
-  const isIncludeMe = (type: OperationItem['key'], blogDataArr: API.BlogDataItem[]) => {
-    if (!loginUserId) return false
-    if (!blogDataArr || blogDataArr.length <= 0) return false
-    const blogDataObj = blogDataArr[0]
-
-    let flag = false
-    switch (type) {
-      case 'LIKE':
-        flag = blogDataObj.likeArr.includes(loginUserId)
-        break
-      case 'COLLECT':
-        flag = blogDataObj.collectionArr.includes(loginUserId)
-        break
-      default:
-        break
-    }
-    return flag
   }
 
   const articleStatus = (item: API.BlogInfo) => {
@@ -104,10 +86,10 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
         content={item.rejectReason || '无'}
         title={intl.formatMessage({ id: 'pages.form.rejectReason' })}
       >
-        <a>{toObj(BLOG_STATUS)[item.status]}</a>
+        <a>{keyToValue('BLOG_STATUS', item.status)}</a>
       </Popover>
     ) : (
-      toObj(BLOG_STATUS)[item.status]
+      keyToValue('BLOG_STATUS', item.status)
     )
   }
 
@@ -118,6 +100,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
   }
 
   useEffect(() => {
+    getDataDictionary(['BLOG_STATUS'])
     // 每次id不一样，都要发请求
     initList()
   }, [userId])
@@ -171,7 +154,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
           textOverflow: 'ellipsis',
           wordBreak: 'break-word',
           WebkitBoxOrient: 'vertical', // 设置或检索伸缩盒子对象的子元素的排列方式
-          WebkitLineClamp: '3' // 在第几行上加 ...
+          WebkitLineClamp: '2' // 在第几行上加 ...
         },
 
         '&-actions': {
@@ -189,8 +172,8 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
         borderRadius: token.borderRadius,
         overflow: 'hidden',
         position: 'relative',
-        width: '220px',
-        minHeight: '155px',
+        width: '180px',
+        minHeight: '134px',
         cursor: 'pointer',
         marginInlineStart: token.marginXS,
 
@@ -216,6 +199,8 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
         flexDirection: 'column-reverse',
 
         '&-right': {
+          width: '100%',
+          minHeight: '180px',
           marginInline: 'auto',
           marginBlockEnd: token.marginSM
         }
@@ -232,12 +217,8 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
               <div className='content-list-item-left'>
                 <div className='content-list-item-left-userInfo'>
                   {formatTime(item.approvedDate)}
-                  {!!item.tags.length && (
-                    <>
-                      <Divider type='vertical' />
-                      {item.tags.join('・')}
-                    </>
-                  )}
+                  <Divider type='vertical' />
+                  {item.tags.join('・')}
                 </div>
                 <div className='content-list-item-left-title text-ellipsis'>
                   <NavLink target='_blank' to={`/article/${item.id}`}>
@@ -245,11 +226,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
                   </NavLink>
                 </div>
 
-                {item.content && (
-                  <div className='content-list-item-left-body'>
-                    {item.content.replace(/<[^>]+>/g, '')}
-                  </div>
-                )}
+                <div className='content-list-item-left-body'>{item.summary}</div>
 
                 <div className='content-list-item-left-actions'>
                   <Space size='middle'>
@@ -257,17 +234,25 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
                     <IconText icon={EyeOutlined} text={item.reads} />
                     <IconText
                       text={item.likes}
-                      icon={isIncludeMe('LIKE', item.blogDataArr) ? LikeFilled : LikeOutlined}
+                      icon={
+                        isIncludeMe('LIKE', item.blogDataArr, loginUserId)
+                          ? LikeFilled
+                          : LikeOutlined
+                      }
                       className={`${
-                        isIncludeMe('LIKE', item.blogDataArr) &&
+                        isIncludeMe('LIKE', item.blogDataArr, loginUserId) &&
                         'content-list-item-left-actions-active'
                       }`}
                     />
                     <IconText
                       text={item.collections}
-                      icon={isIncludeMe('COLLECT', item.blogDataArr) ? StarFilled : StarOutlined}
+                      icon={
+                        isIncludeMe('COLLECT', item.blogDataArr, loginUserId)
+                          ? StarFilled
+                          : StarOutlined
+                      }
                       className={`${
-                        isIncludeMe('COLLECT', item.blogDataArr) &&
+                        isIncludeMe('COLLECT', item.blogDataArr, loginUserId) &&
                         'content-list-item-left-actions-active'
                       }`}
                     />
@@ -306,4 +291,4 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId, dispatch }) 
   )
 }
 
-export default connect()(Articles)
+export default Articles

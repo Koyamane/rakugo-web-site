@@ -3,10 +3,11 @@
  * @Date: 2023-03-28 19:32:45
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 18:30:31
+ * @LastEditTime: 2023-04-28 12:53:30
  * @Description:
  */
 import IconText from '@/components/IconText'
+import { useGlobalHooks } from '@/hooks'
 import useParamsRedirect from '@/hooks/useParamsRedirect'
 import { LikeFilled, MessageFilled, StarFilled } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
@@ -20,6 +21,7 @@ const ArticleOperationBtn: React.FC<ArticleOperationBtnProps> = React.memo(
   ({ mobileMode, blogInfo, userId }) => {
     const intl = useIntl()
     const { message } = App.useApp()
+    const { isIncludeMe } = useGlobalHooks()
     const paramsRedirect = useParamsRedirect()
     const [loading, setLoading] = useState(false)
     const [blogData, setBlogData] = useState<API.BlogDataItem>({
@@ -47,24 +49,6 @@ const ArticleOperationBtn: React.FC<ArticleOperationBtnProps> = React.memo(
         }
       }
     })
-
-    const isIncludeMe = (type: OperationItem['key']) => {
-      if (!userId) return false
-      if (!blogData) return false
-
-      let flag = false
-      switch (type) {
-        case 'LIKE':
-          flag = blogData.likeArr.includes(userId)
-          break
-        case 'COLLECT':
-          flag = blogData.collectionArr.includes(userId)
-          break
-        default:
-          break
-      }
-      return flag
-    }
 
     const operationList: OperationItem[] = [
       {
@@ -174,7 +158,7 @@ const ArticleOperationBtn: React.FC<ArticleOperationBtnProps> = React.memo(
             text={item.text}
             onClick={() => handleClick(item.key)}
             className={`footer-blog-data-item ${
-              isIncludeMe(item.key) ? 'footer-blog-data-item-active' : ''
+              isIncludeMe(item.key, [blogData], userId) ? 'footer-blog-data-item-active' : ''
             }`}
           />
         ))}
@@ -190,7 +174,7 @@ const ArticleOperationBtn: React.FC<ArticleOperationBtnProps> = React.memo(
               shape='circle'
               icon={<item.icon />}
               onClick={() => handleClick(item.key)}
-              type={isIncludeMe(item.key) ? 'primary' : 'default'}
+              type={isIncludeMe(item.key, [blogData], userId) ? 'primary' : 'default'}
             />
           </Badge>
         ))}
@@ -198,6 +182,8 @@ const ArticleOperationBtn: React.FC<ArticleOperationBtnProps> = React.memo(
         <Badge count={blogInfo.comments}>
           <Button shape='circle' size='large' onClick={scrollToComments} icon={<MessageFilled />} />
         </Badge>
+
+        {/* <ReportBtn /> */}
       </>
     )
   }

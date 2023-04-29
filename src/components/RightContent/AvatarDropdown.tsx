@@ -42,7 +42,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
       )
       goLogin()
       // 如果当前页是仅登录可查的话，会有闪烁，加异步1s也没用
-      localStorage.clear()
+      localStorage.removeItem('token')
     } catch (error) {
       console.log(error)
     }
@@ -71,14 +71,9 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
         return
       }
 
-      if (key === 'center') {
-        history.push(`/account/center/${currentUser?.userId}`)
-        return
-      }
-
       history.push(`/account/${key}`)
     },
-    [setInitialState]
+    [currentUser]
   )
 
   const notLogin = (

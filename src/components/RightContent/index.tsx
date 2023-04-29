@@ -3,13 +3,14 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-16 22:35:09
+ * @LastEditTime: 2023-04-24 12:44:03
  * @Description:
  */
+import { useParamsRedirect } from '@/hooks'
 import { FormOutlined } from '@ant-design/icons'
 import { useToken } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { FormattedMessage, NavLink, SelectLang as UmiSelectLang, useModel } from '@umijs/max'
+import { FormattedMessage, history, SelectLang as UmiSelectLang, useModel } from '@umijs/max'
 import { Popover } from 'antd'
 import { useMemo } from 'react'
 
@@ -24,18 +25,22 @@ export const ThemeIcon = () => {
   const changeTheme = () => {
     const navTheme = initialState?.settings?.navTheme === 'light' ? 'realDark' : 'light'
     localStorage.setItem('navTheme', navTheme)
+
     setInitialState({
       ...initialState,
       settings: {
         ...initialState?.settings,
-        navTheme
+        navTheme,
+        token: {
+          ...initialState?.settings?.token,
+          bgLayout: navTheme === 'light' ? '#f5f5f5' : '#000000'
+        }
       }
     })
   }
 
-  const themeIconClassName = useEmotionCss(({ token }) => ({
-    display: 'inline-flex',
-    fontSize: token.fontSizeXL
+  const themeIconClassName = useEmotionCss(() => ({
+    display: 'inline-flex'
   }))
 
   return (
@@ -70,20 +75,26 @@ export const ThemeIcon = () => {
 }
 
 export const PostArticle: React.FC = () => {
-  const postArticleClassName = useEmotionCss(({ token }) => ({
-    display: 'inline-flex',
-    fontSize: token.fontSizeXL,
-    color: token.colorTextDescription,
-    '&:hover': {
-      color: token.colorTextDescription
-    }
+  const paramsRedirect = useParamsRedirect()
+
+  const postArticleClassName = useEmotionCss(() => ({
+    display: 'inline-flex'
   }))
+
+  const goPost = () => {
+    if (!localStorage.getItem('token')) {
+      paramsRedirect({ params: { redirect: '/post/md' } })
+      return
+    }
+
+    history.push('/post/md')
+  }
 
   return (
     <Popover content={<FormattedMessage id='menu.post.article' />}>
-      <NavLink target='_blank' to='/post/article' className={postArticleClassName}>
+      <span className={postArticleClassName} onClick={goPost}>
         <FormOutlined />
-      </NavLink>
+      </span>
     </Popover>
   )
 }

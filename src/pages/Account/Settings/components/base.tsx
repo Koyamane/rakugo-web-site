@@ -60,12 +60,7 @@ const BaseView: React.FC = () => {
         }
       }))
     } catch (error) {
-      message.error(
-        intl.formatMessage({
-          id: 'pages.account.update.error',
-          defaultMessage: '更新失败，请重试！'
-        })
-      )
+      console.log(error)
     }
     setBtnLoading(false)
   }

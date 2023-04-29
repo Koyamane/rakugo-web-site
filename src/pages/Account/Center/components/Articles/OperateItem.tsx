@@ -3,7 +3,7 @@
  * @Date: 2023-03-28 12:09:45
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-06 12:09:04
+ * @LastEditTime: 2023-04-24 13:38:32
  * @Description:
  */
 import {
@@ -14,7 +14,7 @@ import {
   LoadingOutlined
 } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { Link, useIntl } from '@umijs/max'
+import { history, useIntl } from '@umijs/max'
 import { App, Dropdown, MenuProps, Modal } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { DeleteBlogApi } from '../../service'
@@ -31,16 +31,16 @@ const OperateItem: React.FC<PropsType> = React.memo(props => {
   const { message } = App.useApp()
   const [modal, contextHolder] = Modal.useModal()
 
-  const handleDeleteBlog = async (title: API.BlogInfo['title'], id: API.BlogInfo['id']) => {
+  const handleDeleteBlog = async () => {
     modal.confirm({
       title: intl.formatMessage({ id: 'pages.form.delete.title' }),
       icon: <ExclamationCircleOutlined />,
-      content: title,
+      content: blogInfo.title,
       okType: 'danger',
       async onOk() {
         setLoading(true)
         try {
-          await DeleteBlogApi(id)
+          await DeleteBlogApi(blogInfo.id)
           message.success(intl.formatMessage({ id: 'pages.form.delete.success' }))
           onDeleted()
         } catch (error) {
@@ -51,12 +51,28 @@ const OperateItem: React.FC<PropsType> = React.memo(props => {
     })
   }
 
+  const goEdit = () => {
+    if (blogInfo.editor === 'RICH_TEXT') {
+      history.push(`/post/rt/${blogInfo.id}`)
+      return
+    }
+
+    history.push(`/post/md/${blogInfo.id}`)
+  }
+
   const items: MenuProps['items'] = useMemo(() => {
     return [
       {
         key: 'list-vertical-edit',
         label: (
-          <Link to={`/post/${blogInfo.id}`}>{intl.formatMessage({ id: 'pages.form.edit' })}</Link>
+          <a
+            onClick={e => {
+              e.preventDefault()
+              goEdit()
+            }}
+          >
+            {intl.formatMessage({ id: 'pages.form.edit' })}
+          </a>
         ),
         icon: <EditOutlined />
       },
@@ -66,7 +82,7 @@ const OperateItem: React.FC<PropsType> = React.memo(props => {
           <a
             onClick={e => {
               e.preventDefault()
-              handleDeleteBlog(blogInfo.title, blogInfo.id)
+              handleDeleteBlog()
             }}
           >
             {intl.formatMessage({ id: 'pages.form.delete' })}
@@ -75,7 +91,7 @@ const OperateItem: React.FC<PropsType> = React.memo(props => {
         icon: <DeleteOutlined />
       }
     ]
-  }, [blogInfo, intl])
+  }, [intl])
 
   const operateClassName = useEmotionCss(({ token }) => ({
     fontSize: token.fontSizeXL

@@ -77,7 +77,7 @@ export default {
   'pages.blog.blogEdit.success': '投稿に成功しました',
   'pages.blog.blogAdd.topNotice':
     'ここでブログを投稿します。ページを離れると、データは保存されません',
-  'pages.blog.blogAdd.success': '投稿に成功しました。レビューをお待ちください',
+  'pages.blog.blogAdd.success': '投稿に成功しました',
   'pages.blog.blogAdd.error': '投稿に失敗しました。再試行してください',
   'pages.searchTable.createForm.newRule': '新しいルール',
   'pages.searchTable.updateForm.ruleConfig': 'ルール構成',

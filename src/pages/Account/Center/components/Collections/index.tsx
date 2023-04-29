@@ -4,23 +4,23 @@ import useFormatTime from '@/hooks/useFormatTime'
 import usePaginationItem from '@/hooks/usePaginationItem'
 import { EyeOutlined, UserOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { connect, Dispatch, FormattedMessage, NavLink } from '@umijs/max'
+import { FormattedMessage, NavLink, useModel } from '@umijs/max'
 import { Divider, Pagination, Space, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { BlogCollectionPage } from '../../service'
 import CancelCollect from './CancelCollect'
 
 interface SelfProps {
-  dispatch: Dispatch
   isMe?: boolean
   userId?: API.UserInfo['userId']
 }
 
-const Articles: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
+const Articles: React.FC<SelfProps> = ({ isMe, userId }) => {
   const [listLoading, setBistLoading] = useState(true)
   const [firstEnter, setFirstEnter] = useState(true)
   const formatTime = useFormatTime()
   const itemRender = usePaginationItem()
+  const { setNums } = useModel('useAccount')
   const [collectionData, setCollectionData] = useState<{
     list: any[]
     pagination: { current: number; total: number }
@@ -46,10 +46,10 @@ const Articles: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
             total: res.total
           }
         })
-        dispatch({
-          type: 'AccountCenter/setCollectionsNum',
+        setNums(values => ({
+          ...values,
           collectionsNum: res.total
-        })
+        }))
       }
     } catch (error) {
       console.log('获取收藏报错了', error)
@@ -157,13 +157,8 @@ const Articles: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
                 <>
                   <div className='content-list-item-userInfo'>
                     {formatTime(item.approvedDate)}
-
-                    {!!item.tags.length && (
-                      <>
-                        <Divider type='vertical' />
-                        {item.tags.join('・')}
-                      </>
-                    )}
+                    <Divider type='vertical' />
+                    {item.tags.join('・')}
                   </div>
 
                   <div className='content-list-item-title text-ellipsis'>
@@ -172,11 +167,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
                     </NavLink>
                   </div>
 
-                  {item.content && (
-                    <div className='content-list-item-body text-ellipsis'>
-                      {item.content.replace(/<[^>]+>/g, '')}
-                    </div>
-                  )}
+                  <div className='content-list-item-body text-ellipsis'>{item.summary}</div>
 
                   <div className='content-list-item-actions'>
                     <Space size='middle'>
@@ -210,4 +201,4 @@ const Articles: React.FC<SelfProps> = ({ isMe, userId, dispatch }) => {
   )
 }
 
-export default connect()(Articles)
+export default Articles

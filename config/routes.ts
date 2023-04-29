@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 13:18:56
+ * @LastEditTime: 2023-04-28 11:10:37
  * @Description:
  */
 /**
@@ -26,6 +26,12 @@ export default [
     component: './Home'
   },
   {
+    path: '/search',
+    name: 'search',
+    hideInMenu: true,
+    component: './Search'
+  },
+  {
     path: '/article/:id',
     name: 'article',
     hideInMenu: true,
@@ -34,13 +40,37 @@ export default [
   {
     path: '/post',
     name: 'post',
+    layout: false,
     hideInMenu: true,
+    component: './Post/New',
     routes: [
       {
-        name: 'article',
-        path: '/post/article',
+        path: '/post',
+        redirect: '/post/md'
+      },
+      {
+        path: '/post/md',
+        name: 'markdown',
         wrappers: ['@/wrappers/auth'],
-        component: './Post/New'
+        component: './Post/New/components/MarkdownEditor'
+      },
+      {
+        path: '/post/md/:id',
+        name: 'markdown',
+        wrappers: ['@/wrappers/auth'],
+        component: './Post/New/components/MarkdownEditor'
+      },
+      {
+        path: '/post/rt',
+        name: 'richtext',
+        wrappers: ['@/wrappers/auth'],
+        component: './Post/New/components/RichtextEditor'
+      },
+      {
+        path: '/post/rt/:id',
+        name: 'rich_text',
+        wrappers: ['@/wrappers/auth'],
+        component: './Post/New/components/RichtextEditor'
       }
     ]
   },
@@ -50,6 +80,10 @@ export default [
     icon: 'crown',
     access: 'canAdmin',
     routes: [
+      {
+        path: '/admin',
+        component: './Exception/404'
+      },
       {
         path: '/admin/announcement',
         name: 'announcement',
@@ -75,21 +109,26 @@ export default [
   {
     path: '/user',
     layout: false,
+    hideInMenu: true,
     component: './User',
     routes: [
       {
-        name: 'login',
+        path: '/user',
+        redirect: '/user/login'
+      },
+      {
         path: '/user/login',
+        name: 'login',
         component: './User/Login'
       },
       {
-        name: 'register',
         path: '/user/register',
+        name: 'register',
         component: './User/Register'
       },
       {
-        name: 'register-result',
         path: '/user/register/result',
+        name: 'register-result',
         component: './User/RegisterResult'
       }
     ]
@@ -100,15 +139,17 @@ export default [
     hideInMenu: true,
     routes: [
       {
+        path: '/account',
+        component: './Exception/404'
+      },
+      {
         path: '/account/center',
-        name: 'center',
         wrappers: ['@/wrappers/auth'],
-        component: './Account/Center/redirect'
+        component: './Account/Center'
       },
       {
         path: '/account/center/:userId',
         name: 'center',
-        wrappers: ['@/wrappers/auth'],
         component: './Account/Center'
       },
       {

@@ -65,6 +65,7 @@ export const errorConfig: RequestConfig = {
     },
     // 错误接收及处理
     errorHandler: (error: any, opts: any) => {
+      // 发请求时设置的跳过错误处理
       if (opts?.skipErrorHandler) throw error
 
       if (error.response && error.response.status === 401) {
@@ -78,7 +79,7 @@ export const errorConfig: RequestConfig = {
           description: errorMessage
         })
 
-        localStorage.clear()
+        localStorage.removeItem('token')
 
         if (pathname !== '/user/login') {
           history.replace({
@@ -125,8 +126,8 @@ export const errorConfig: RequestConfig = {
       } else if (error.response) {
         // Axios 的错误
         // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
-        const errorMessage = error.response.data?.message || error.response.statusText
-        message.error(`${error.response.status}：${errorMessage}`)
+        const errorMessage = error.response.data?.msg || error.response.statusText
+        message.error(`${errorMessage}`)
       } else if (error.request) {
         // 请求已经成功发起，但没有收到响应
         // \`error.request\` 在浏览器中是 XMLHttpRequest 的实例，

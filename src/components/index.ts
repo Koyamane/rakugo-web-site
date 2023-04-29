@@ -9,14 +9,20 @@ import BackTop from './BackTop'
 import BlogListSkeleton from './BlogListSkeleton'
 import Comment from './Comment'
 import DirectoryAnchor from './DirectoryAnchor'
+import Drawer from './Drawer'
 import FollowButton from './FollowButton'
 import Footer from './Footer'
 import FooterBar from './FooterBar'
+import HeaderSearch from './HeaderSearch'
 import IconText from './IconText'
+import InputFileItem from './InputFileItem'
 import { PostArticle, SelectLang, ThemeIcon } from './RightContent'
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown'
 
 export {
+  Drawer,
+  HeaderSearch,
+  InputFileItem,
   PostArticle,
   Comment,
   DirectoryAnchor,

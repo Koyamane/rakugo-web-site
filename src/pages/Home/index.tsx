@@ -1,10 +1,10 @@
-import sakuraBg from '@/assets/sakura.jpg'
 import { BackTop } from '@/components'
+import { useGlobalClassName, useGlobalHooks } from '@/hooks'
 import { AnnouncementInfo } from '@/pages/Admin/AnnouncementManagement/data'
 import { AnnouncementPageApi } from '@/pages/Admin/AnnouncementManagement/service'
-import { SoundOutlined } from '@ant-design/icons'
+import { CopyrightOutlined, SoundOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { useModel } from '@umijs/max'
+import { FormattedMessage, useModel } from '@umijs/max'
 import { Alert } from 'antd'
 import React, { useEffect, useState } from 'react'
 import Marquee from 'react-fast-marquee'
@@ -13,61 +13,16 @@ import SortSideBar from './components/SortSideBar'
 import { BlogSortKey } from './data'
 
 export default (): React.ReactNode => {
-  const [announcementList, setAnnouncementList] = useState<AnnouncementInfo[]>([])
+  const { formatValue } = useGlobalHooks()
+  const { homeLayoutClassName, infiniteScrollClassName } = useGlobalClassName()
   const { initialState } = useModel('@@initialState')
   const { currentUser } = initialState || {}
   const [sortKey, setSortKey] = useState<BlogSortKey>('createdDate')
+  const [announcementList, setAnnouncementList] = useState<AnnouncementInfo[]>([])
 
-  const homeLayoutClassName = useEmotionCss(({ token }) => {
-    return {
-      display: 'flex',
-      alignItems: 'flex-start',
-      marginBlockStart: token.marginMD,
-
-      '.home-layout-side-bar': {
-        flexShrink: '0',
-        position: 'sticky',
-        minWidth: '180px',
-        top: token.marginMD,
-        marginInlineEnd: token.marginMD,
-
-        '&-menu': {
-          borderRadius: token.borderRadius,
-          border: 'none !important'
-        },
-
-        '&-title': {
-          width: '100%',
-          display: 'flex',
-          color: '#fedfe1',
-          alignItems: 'center',
-          fontFamily: ['Segoe UI'],
-          writingMode: 'vertical-rl',
-          fontSize: token.fontSizeHeading3,
-          marginTop: token.marginMD,
-          padding: `${token.paddingSM}px 0`,
-          backgroundImage: `url(${sakuraBg})`,
-          backgroundPosition: 'bottom',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          textShadow: '0.5px #00000066',
-          WebkitTextStroke: '0.5px #2a2828b3',
-          borderRadius: token.borderRadius,
-
-          rt: {
-            fontSize: token.fontSizeLG
-          }
-        }
-      },
-
-      // 放后面权重高，所以媒体查询要放后面来
-      [`@media screen and (max-width: ${token.screenLG}px)`]: {
-        '.home-layout-side-bar': {
-          display: 'none'
-        }
-      }
-    }
-  })
+  const announcementClassName = useEmotionCss(({ token }) => ({
+    marginBlockEnd: token.marginMD
+  }))
 
   const announcementItemClassName = useEmotionCss(({ token }) => {
     return {
@@ -103,11 +58,12 @@ export default (): React.ReactNode => {
           banner
           showIcon
           icon={<SoundOutlined />}
+          className={announcementClassName}
           message={
-            <Marquee pauseOnHover gradient={false}>
+            <Marquee pauseOnHover speed={30} gradient={false}>
               {announcementList.map(item => (
                 <div key={item.id} className={announcementItemClassName}>
-                  {item.title}
+                  {formatValue(item, 'title')}
                 </div>
               ))}
             </Marquee>
@@ -137,9 +93,20 @@ export default (): React.ReactNode => {
               <span>だ</span>
             </ruby>
           </div>
+
+          <div className='home-layout-side-bar-copyright'>
+            <div>
+              <CopyrightOutlined /> 2023 <FormattedMessage id='app.copyright.produced' />
+            </div>
+            <div>
+              <a target='_blank' href='https://beian.miit.gov.cn/' rel='noopener noreferrer'>
+                赣ICP备2021009462号-1
+              </a>
+            </div>
+          </div>
         </div>
 
-        <div style={{ flex: 1 }}>
+        <div className={infiniteScrollClassName}>
           <HomeList userId={currentUser?.userId} sortKey={sortKey} />
         </div>
       </div>

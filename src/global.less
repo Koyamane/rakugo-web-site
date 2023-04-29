@@ -8,16 +8,6 @@ body,
     'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
 
-  // .render-app {
-  //   &>.ant-pro-layout {
-  //     &>.ant-pro-layout-bg-list {
-  //       display: none;
-  //     }
-  //     // &>.ant-layout {
-  //     // }
-  //   }
-  // }
-
   .ant-pro-top-nav-header-main {
     padding-inline-end: @padding-md;
   }
@@ -32,6 +22,9 @@ body,
   }
 
   .ant-pro-global-header-right-content {
+    // 这个逼版本，min-width 只增不减的，很坑，所以要设置为 auto。但是设置后，它又正常增减了，删了又不能，太鸡儿坑了
+    min-width: auto !important;
+
     .ant-pro-global-header-header-actions-item {
       padding: 0;
     }
@@ -42,8 +35,34 @@ body,
     }
   }
 
+  .ant-pro-global-header-header-actions-item {
+    font-size: 20px;
+  }
+
   .ant-avatar {
     border: none;
+  }
+
+  .hljs-class .hljs-title,
+  .hljs-params,
+  .hljs-title.class_ {
+    color: #50a14f;
+  }
+
+  .quill {
+    .ql-editor {
+      line-height: 1.75;
+
+      pre {
+        display: block;
+        padding: 15px 12px;
+        overflow-x: auto;
+        color: #333;
+        font-size: 12px;
+        word-break: normal;
+        background: #f8f8f8;
+      }
+    }
   }
 
   // 添加缩略...
@@ -53,22 +72,17 @@ body,
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+}
 
-  // 富文本编辑器的样式
-  .bf-container {
-    .bf-content {
-      height: auto;
-      padding: 0;
-
-      .public-DraftEditor-content {
-        padding: 0;
-
-        & > div {
-          padding: 0;
-        }
-      }
-    }
+.react-medium-image-zoom {
+  button {
+    display: none;
   }
+}
+
+.medium-zoom-overlay,
+.medium-zoom-image {
+  z-index: 20;
 }
 
 .colorWeak {
@@ -93,10 +107,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-ul,
-ol {
-  list-style: none;
-}
+// ul,
+// ol {
+//   list-style: none;
+// }
 
 ::selection {
   color: #fff;

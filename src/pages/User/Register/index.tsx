@@ -183,13 +183,8 @@ const Register: FC = () => {
 
   const handleRegister = async (formData: RegisterParams) => {
     if (formData.captcha !== captcha) {
-      message.error(
-        intl.formatMessage({
-          id: 'pages.register.captcha.errorMessage',
-          defaultMessage: '验证码错误'
-        })
-      )
-
+      message.error(intl.formatMessage({ id: 'pages.register.captcha.errorMessage' }))
+      form.resetFields(['captcha'])
       form.setFields([
         {
           name: ['captcha'],
@@ -205,7 +200,6 @@ const Register: FC = () => {
           ]
         }
       ])
-
       captchaRef.current.refresh()
       return
     }
@@ -233,13 +227,9 @@ const Register: FC = () => {
 
       history.replace('/user/register/result')
     } catch (error) {
-      message.error(
-        intl.formatMessage({
-          id: 'pages.register.failure',
-          defaultMessage: '注册失败，请重试！'
-        })
-      )
       setBtnLoading(false)
+      form.resetFields(['captcha'])
+      captchaRef.current.refresh()
     }
   }
 
@@ -252,20 +242,12 @@ const Register: FC = () => {
       subTitle={intl.formatMessage({ id: 'pages.layouts.site.description' })}
       onFinish={handleRegister}
       submitter={{
-        searchConfig: {
-          submitText: intl.formatMessage({
-            id: 'pages.login.register',
-            defaultMessage: '注册'
-          })
-        }
+        searchConfig: { submitText: intl.formatMessage({ id: 'pages.login.register' }) }
       }}
       actions={
         <div style={{ textAlign: 'end' }}>
           <NavLink key='goLogin' to='/user/login'>
-            {intl.formatMessage({
-              id: 'pages.login.goLogin',
-              defaultMessage: '使用已有账号登录'
-            })}
+            {intl.formatMessage({ id: 'pages.login.goLogin' })}
           </NavLink>
         </div>
       }
@@ -315,8 +297,8 @@ const Register: FC = () => {
         ]}
       />
 
-      <Row gutter={8} justify='space-between'>
-        <Col span={16}>
+      <Row gutter={12} justify='space-between'>
+        <Col span={15}>
           <ProFormText
             name='captcha'
             disabled={btnLoading}
@@ -339,7 +321,7 @@ const Register: FC = () => {
           />
         </Col>
 
-        <Col>
+        <Col span={9}>
           <Captcha ref={captchaRef} charNum={4} onChange={setCaptcha} />
         </Col>
       </Row>

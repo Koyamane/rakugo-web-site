@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 16:55:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-18 12:54:25
+ * @LastEditTime: 2023-04-23 14:16:13
  * @Description:
  */
 import { BLOG_STATUS, toObj } from '@/locales/dataDictionary'
@@ -54,7 +54,6 @@ const BlogManagement: React.FC = () => {
       handleModalVisible(false)
     } catch (error) {
       console.log(error)
-      message.error('审核失败，请重试')
     }
     hide()
   }
@@ -67,7 +66,7 @@ const BlogManagement: React.FC = () => {
       message.success('删除成功，即将刷新')
       actionRef.current?.reloadAndRest?.()
     } catch (error) {
-      message.error('删除失败，请重试')
+      console.log(error)
     }
     hide()
   }
