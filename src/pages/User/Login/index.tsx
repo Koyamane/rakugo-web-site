@@ -116,8 +116,8 @@ const Login: React.FC = () => {
           ]}
         />
 
-        <Row gutter={24} justify='space-between'>
-          <Col span={15}>
+        <Row gutter={12} justify='space-between'>
+          <Col span={16}>
             <ProFormText
               name='captcha'
               disabled={btnLoading}
@@ -135,7 +135,7 @@ const Login: React.FC = () => {
             />
           </Col>
 
-          <Col span={9}>
+          <Col span={8}>
             <Captcha ref={captchaRef} charNum={4} onChange={setCaptcha} />
           </Col>
         </Row>
