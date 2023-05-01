@@ -3,15 +3,14 @@
  * @Date: 2023-04-22 13:42:42
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 15:33:33
+ * @LastEditTime: 2023-05-01 21:25:13
  * @Description:
  */
 import { debounce, unique } from '@/utils/tools'
 import { SearchOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { history, useIntl } from '@umijs/max'
-import type { InputRef } from 'antd'
-import { AutoComplete, Input } from 'antd'
+import { AutoComplete, Input, InputRef } from 'antd'
 import classNames from 'classnames'
 import React, { useMemo, useRef, useState } from 'react'
 
@@ -62,6 +61,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
 
   const clearClassName = useEmotionCss(() => ({
     display: 'flex',
+    lineHeight: '22px',
     justifyContent: 'space-between'
   }))
 
@@ -84,12 +84,16 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
 
   // 这里这么设置，就是为了让下拉列表能晚点获取数据，从而达到等宽
   const onSetSearchMode = (flag: boolean) => {
-    setSearchMode(flag)
     if (!flag) {
       setOptions([])
+
+      debounce(() => {
+        setSearchMode(false)
+      }, 100)()
       return
     }
 
+    setSearchMode(true)
     debounce(() => {
       let searchHhistoryArr = []
 
@@ -108,7 +112,8 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
     }, 300)()
   }
 
-  const onSearch = (value: string) => {
+  const onSearch = (value: string, e: any) => {
+    e.stopPropagation()
     if (!value) return
 
     let searchHhistoryArr = []
@@ -126,10 +131,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
 
     localStorage.setItem('searchHhistory', JSON.stringify(arr))
 
-    setTimeout(() => {
-      // 因为点击搜索图标也会触发，而且会聚焦，所以这里延迟失焦
-      inputRef?.current?.blur()
-    })
+    inputRef?.current?.blur()
     // 调用搜索
     history.push('/search?query=' + value)
   }
