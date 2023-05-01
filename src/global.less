@@ -22,22 +22,8 @@ body,
       }
     }
 
-    .ant-menu-light {
-      .ant-menu-item:after,
-      .ant-menu-submenu:after {
-        border: none;
-      }
-
-      .ant-menu-submenu-selected > .ant-menu-submenu-title {
-        color: inherit;
-      }
-    }
-
-    .ant-menu-dark {
-      .ant-menu-item-selected,
-      .ant-menu-submenu-selected {
-        background-color: transparent;
-      }
+    .ant-menu-light .ant-menu-submenu-selected > .ant-menu-submenu-title {
+      color: inherit;
     }
   }
 
@@ -98,17 +84,12 @@ body,
   }
 }
 
-.ant-menu-light .ant-menu-item-selected,
-.ant-menu-light > .ant-menu .ant-menu-item-selected {
-  color: #de8972;
-  background-color: #fff6f0;
+.ant-drawer {
+  position: absolute;
 }
 
-.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active,
-.ant-menu-dark
-  > .ant-menu:not(.ant-menu-horizontal)
-  .ant-menu-item:not(.ant-menu-item-selected):active {
-  background-color: transparent;
+.ant-menu-light .ant-menu-item-selected {
+  color: #c07764;
 }
 
 .react-medium-image-zoom {
