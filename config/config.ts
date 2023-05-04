@@ -43,7 +43,7 @@ export default defineConfig({
     // 如果不想要 configProvide 动态设置主题需要把这个设置为 default
     // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
     'root-entry-name': 'variable',
-    '@primary-color': '#de8972'
+    '@primary-color': '#bc6048'
   },
   /**
    * @name moment 的国际化配置
@@ -128,8 +128,8 @@ export default defineConfig({
       token: {
         pageMaxWidth: 1152,
         colorBgLayoutHeader: 'rgba(255, 255, 255, 0.6)',
-        colorPrimary: '#de8972',
-        colorInfo: '#de8972' // 可以改到 a 标签的颜色，和 massage 的标签颜色
+        colorPrimary: '#bc6048',
+        colorInfo: '#bc6048' // 可以改到 a 标签的颜色，和 massage 的标签颜色
       }
     }
   },

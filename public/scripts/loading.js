@@ -86,7 +86,7 @@
           display: block;
           width: 9px;
           height: 9px;
-          background-color: #de8972;
+          background-color: #bc6048;
           border-radius: 100%;
           -webkit-transform: scale(0.75);
           -ms-transform: scale(0.75);

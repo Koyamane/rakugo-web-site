@@ -18,7 +18,7 @@ const Settings: ProLayoutProps & {
   layout: 'top',
   navTheme: 'light',
   contentWidth: 'Fixed',
-  colorPrimary: '#de8972',
+  colorPrimary: '#bc6048',
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false, // 色弱模式
@@ -29,7 +29,7 @@ const Settings: ProLayoutProps & {
   token: {
     // 参见 ts 声明，demo 见文档，通过 token 修改样式
     //https://procomponents.ant.design/components/layout#%E9%80%9A%E8%BF%87-token-%E4%BF%AE%E6%94%B9%E6%A0%B7%E5%BC%8F
-    colorPrimary: '#de8972',
+    colorPrimary: '#bc6048',
     bgLayout: '#f5f5f5'
   },
   splitMenus: false
