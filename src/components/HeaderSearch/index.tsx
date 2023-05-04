@@ -3,7 +3,7 @@
  * @Date: 2023-04-22 13:42:42
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-01 21:25:13
+ * @LastEditTime: 2023-05-04 21:11:58
  * @Description:
  */
 import { debounce, unique } from '@/utils/tools'
@@ -36,7 +36,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
     display: 'inline-flex',
 
     '.pc-header-search': {
-      transition: 'width 0.3s',
+      transition: 'all 0.3s',
       width: searchMode ? '400px' : '200px'
     },
 
@@ -45,8 +45,17 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
       color: token.colorTextDescription
     },
 
+    '.ant-input-group-addon': {
+      backgroundColor: 'transparent'
+    },
+
     input: {
-      color: token.colorTextDescription
+      color: token.colorTextDescription,
+      backgroundColor: searchMode ? 'none' : 'transparent'
+    },
+
+    button: {
+      backgroundColor: searchMode ? 'none' : 'transparent'
     },
 
     [`@media screen and (max-width: ${token.screenMD}px)`]: {
@@ -168,6 +177,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ className }) => {
       >
         <Input.Search
           ref={inputRef}
+          // bordered={searchMode}
           onSearch={onSearch}
           enterButton={searchMode}
           onFocus={() => onSetSearchMode(true)}

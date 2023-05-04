@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 22:00:32
+ * @LastEditTime: 2023-05-04 20:46:32
  * @Description:
  */
 import {
@@ -109,13 +109,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         transform: 'translate(-50%, -50%)'
       }
     ],
-    headerRender({ token, navTheme }, defaultDom) {
-      const style = {
-        height: '100%',
-        background: navTheme === 'realDark' ? '#141414' : token.bgLayout
-      }
-      return <div style={style}>{defaultDom}</div>
-    },
+    // headerRender({ token, navTheme }, defaultDom) {
+    //   const style = {
+    //     height: '100%',
+    //     background: navTheme === 'realDark' ? '#141414' : token.bgLayout
+    //   }
+    //   return <div style={style}>{defaultDom}</div>
+    // },
     style: { background: initialState?.settings?.token?.bgLayout },
     actionsRender: () => [
       <HeaderSearch key='HeaderSearch' />,
