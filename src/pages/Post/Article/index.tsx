@@ -43,7 +43,6 @@ export default (): React.ReactNode => {
 
   const articleLayoutClassName = useEmotionCss(({ token }) => ({
     display: 'flex',
-    alignItems: 'flex-start',
     color: token.colorText,
 
     '.article-layout-left': {
@@ -51,6 +50,7 @@ export default (): React.ReactNode => {
       position: 'sticky',
       top: '50%',
       display: 'flex',
+      height: 'max-content',
       gap: token.marginMD,
       flexDirection: 'column',
       transform: 'translateY(-50%)',

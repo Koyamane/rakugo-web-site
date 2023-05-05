@@ -92,6 +92,11 @@ export default defineConfig({
     // 苹果相关的
     { rel: 'bookmark', href: '/favicon.png' },
     { rel: 'apple-touch-icon', href: '/favicon.png' },
+    { rel: 'apple-touch-icon', href: '/favicon.png', sizes: '152x152' },
+    { rel: 'apple-touch-icon', href: '/favicon.png', sizes: '120x120' },
+    { rel: 'apple-touch-icon', href: '/favicon.png', sizes: '76x76' },
+    { rel: 'apple-touch-icon', href: '/favicon.png', sizes: '60x60' },
+    { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.png' },
     { rel: 'apple-touch-icon-precomposed', href: '/favicon.png', sizes: '180x180' }
   ],
   layout: {
