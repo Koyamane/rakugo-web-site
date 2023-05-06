@@ -17,7 +17,7 @@ export default (): React.ReactNode => {
   const { homeLayoutClassName, infiniteScrollClassName } = useGlobalClassName()
   const { initialState } = useModel('@@initialState')
   const { currentUser } = initialState || {}
-  const [sortKey, setSortKey] = useState<BlogSortKey>('createdDate')
+  const [sortKey, setSortKey] = useState<BlogSortKey>('approvedDate')
   const [announcementList, setAnnouncementList] = useState<AnnouncementInfo[]>([])
 
   const announcementClassName = useEmotionCss(({ token }) => ({

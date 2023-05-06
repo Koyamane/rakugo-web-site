@@ -13,7 +13,7 @@ const SortSideBar: React.FC<SortSideBarProps> = React.memo(({ setSortKey, sortKe
   const items: MenuProps['items'] = [
     {
       label: <FormattedMessage id='pages.blog.sort.createdDate' />,
-      key: 'createdDate'
+      key: 'approvedDate'
     },
     {
       label: <FormattedMessage id='pages.blog.sort.reads' />,

@@ -17,7 +17,7 @@ export default (): React.ReactNode => {
   const { homeLayoutClassName, infiniteScrollClassName } = useGlobalClassName()
   const [searchParams, setSearchParams] = useState<API.PageParams>({
     dto: { status: 'APPROVED' },
-    sort: { createdDate: -1 }
+    sort: { approvedDate: -1 }
   })
 
   const items: MenuProps['items'] = [
