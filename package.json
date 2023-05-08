@@ -53,7 +53,7 @@
     "@bytemd/react": "^1.21.0",
     "@types/crypto-js": "^4.1.1",
     "@umijs/route-utils": "^2.2.2",
-    "antd": "^5.2.2",
+    "antd": "^5.4.7",
     "antd-img-crop": "^4.12.2",
     "classnames": "^2.3.2",
     "crypto-js": "^4.1.1",

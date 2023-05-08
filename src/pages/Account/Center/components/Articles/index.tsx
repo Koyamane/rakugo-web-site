@@ -83,7 +83,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
     return item.status === 'REJECT' ? (
       <Popover
         trigger='hover'
-        content={item.rejectReason || '无'}
+        content={item.rejectReason}
         title={intl.formatMessage({ id: 'pages.form.rejectReason' })}
       >
         <a>{keyToValue('BLOG_STATUS', item.status)}</a>

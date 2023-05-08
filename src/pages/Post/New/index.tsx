@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-05 18:41:00
+ * @LastEditTime: 2023-05-08 17:36:38
  * @Description:
  */
 
@@ -250,7 +250,7 @@ export default (): React.ReactNode => {
 
                 <>
                   <PostDrawer editor={editor} blogInfo={blogInfo} titleValue={titleValue} />
-                  <Popover content={switchTo} placement='bottomRight'>
+                  <Popover content={switchTo}>
                     <SwapOutlined
                       onClick={changeEditor}
                       className='post-article-header-change-editor'
