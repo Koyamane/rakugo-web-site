@@ -3,11 +3,10 @@
  * @Date: 2023-04-09 14:20:57
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-08 16:47:32
+ * @LastEditTime: 2023-05-08 18:56:05
  * @Description:
  */
-import { useModel } from '@/.umi/plugin-model'
-import { Navigate, Outlet } from '@umijs/max'
+import { Navigate, Outlet, useModel } from '@umijs/max'
 
 export default () => {
   const { initialState } = useModel('@@initialState')
