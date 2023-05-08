@@ -3,13 +3,16 @@
  * @Date: 2023-04-09 14:20:57
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-17 23:14:08
+ * @LastEditTime: 2023-05-08 16:47:32
  * @Description:
  */
+import { useModel } from '@/.umi/plugin-model'
 import { Navigate, Outlet } from '@umijs/max'
 
 export default () => {
-  if (localStorage.getItem('token')) {
+  const { initialState } = useModel('@@initialState')
+
+  if (initialState?.currentUser?.userId) {
     return <Outlet />
   }
 

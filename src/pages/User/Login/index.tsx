@@ -53,19 +53,20 @@ const Login: React.FC = () => {
 
       localStorage.setItem('token', res.token)
 
-      await setInitialState(s => ({
+      setInitialState(s => ({
         ...s,
         currentUser: res.userInfo
       }))
 
-      message.success(
-        intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！'
-        })
-      )
-
-      goRedirect()
+      setTimeout(() => {
+        message.success(
+          intl.formatMessage({
+            id: 'pages.login.success',
+            defaultMessage: '登录成功！'
+          })
+        )
+        goRedirect()
+      })
     } catch (error) {
       console.log(error)
       setBtnLoading(false)

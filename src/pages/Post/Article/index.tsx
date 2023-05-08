@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 16:09:37
+ * @LastEditTime: 2023-05-08 17:22:22
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -216,7 +216,7 @@ export default (): React.ReactNode => {
 
       if (res?.createdId) {
         const data = await BlogSimplePageApi({
-          dto: { createdId: res.createdId },
+          dto: { createdId: res.createdId, status: 'APPROVED' },
           pageSize: 5,
           searchMap: {
             id: {

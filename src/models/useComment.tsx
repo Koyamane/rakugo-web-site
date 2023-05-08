@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 20:13:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-15 16:11:14
+ * @LastEditTime: 2023-05-08 17:18:12
  * @Description:
  */
 import { CommentType, LikeObjType } from '@/components/Comment/data'
@@ -19,7 +19,7 @@ export default function useComment() {
   const currentUser = initialState?.currentUser
 
   const treeToObj: any = (treeList: any[]) => {
-    const newObj: any[] = []
+    const newObj: any = {}
     function obj(sourceArr: any[]) {
       sourceArr.forEach(item => {
         newObj[item.id] = {
@@ -45,10 +45,7 @@ export default function useComment() {
   const formatSetLikeObj = (target: object | [], isAdd?: boolean) => {
     setLikeObj(
       isAdd
-        ? {
-            ...likeObj,
-            ...(Array.isArray(target) ? treeToObj(target) : target)
-          }
+        ? { ...likeObj, ...(Array.isArray(target) ? treeToObj(target) : target) }
         : Array.isArray(target)
         ? treeToObj(target)
         : target

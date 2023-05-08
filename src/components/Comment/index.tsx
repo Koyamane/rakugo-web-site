@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 13:41:39
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-21 22:00:13
+ * @LastEditTime: 2023-05-08 17:14:25
  * @Description:
  */
 import useParamsRedirect from '@/hooks/useParamsRedirect'
@@ -28,6 +28,7 @@ const Comment: React.FC<CommentProps> = props => {
   const { initialState } = useModel('@@initialState')
   const { likeObj, setLikeObj, currentComment, setCurrentComment } = useModel('useComment')
   const currentUser = initialState?.currentUser
+  const userId = currentUser?.userId
   const [commentData, setCommentData] = useState<{
     list: CommentType[]
     pagination: { current: number; total: number; targetTotal: number }
@@ -108,9 +109,9 @@ const Comment: React.FC<CommentProps> = props => {
       {
         [commentInfo.id]: {
           likes: commentInfo.likeArr.length,
-          liked: commentInfo.likeArr.includes(currentUser?.userId || ''),
+          liked: commentInfo.likeArr.includes(userId || ''),
           dislikes: commentInfo.dislikeArr.length,
-          disliked: commentInfo.dislikeArr.includes(currentUser?.userId || '')
+          disliked: commentInfo.dislikeArr.includes(userId || '')
         }
       },
       true
@@ -145,14 +146,27 @@ const Comment: React.FC<CommentProps> = props => {
       {
         [commentChildrenInfo.id]: {
           likes: commentChildrenInfo.likeArr.length,
-          liked: commentChildrenInfo.likeArr.includes(currentUser?.userId || ''),
+          liked: commentChildrenInfo.likeArr.includes(userId || ''),
           dislikes: commentChildrenInfo.dislikeArr.length,
-          disliked: commentChildrenInfo.dislikeArr.includes(currentUser?.userId || '')
+          disliked: commentChildrenInfo.dislikeArr.includes(userId || '')
         }
       },
       true
     )
   }
+
+  useEffect(() => {
+    if (!userId) {
+      const obj = JSON.parse(JSON.stringify(likeObj))
+      for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          obj[key].liked = false
+          obj[key].disliked = false
+        }
+      }
+      setLikeObj(obj)
+    }
+  }, [userId])
 
   useEffect(() => {
     setCurrentComment(undefined)
