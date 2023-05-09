@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-09 22:02:26
+ * @LastEditTime: 2023-05-09 23:26:39
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -272,9 +272,11 @@ export default (): React.ReactNode => {
         </Helmet>
 
         <div className={articleLayoutClassName}>
-          <div className='article-layout-left'>
-            <ArticleOperationBtn blogInfo={blogInfo} userId={userId} />
-          </div>
+          {blogInfo.status === 'APPROVED' && (
+            <div className='article-layout-left'>
+              <ArticleOperationBtn blogInfo={blogInfo} userId={userId} />
+            </div>
+          )}
 
           <div className='article-layout-content'>
             <div className='article-layout-content-header'>
@@ -408,10 +410,11 @@ export default (): React.ReactNode => {
           </div>
         </div>
 
-        <FooterBar mobileMode extra={<ArticleFooterUser blogInfo={blogInfo} />}>
-          <ArticleOperationBtn mobileMode blogInfo={blogInfo} userId={userId} />
-        </FooterBar>
-
+        {blogInfo.status === 'APPROVED' && (
+          <FooterBar mobileMode extra={<ArticleFooterUser blogInfo={blogInfo} />}>
+            <ArticleOperationBtn mobileMode blogInfo={blogInfo} userId={userId} />
+          </FooterBar>
+        )}
         <BackTop />
       </>
     )
