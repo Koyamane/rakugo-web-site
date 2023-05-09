@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-08 17:22:22
+ * @LastEditTime: 2023-05-09 21:20:58
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -210,7 +210,7 @@ export default (): React.ReactNode => {
     setLoading(true)
 
     try {
-      const res = await BlogInfoApi(id, userId)
+      const res = await BlogInfoApi(id, 1)
 
       setBlogInfo(res)
 
