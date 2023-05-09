@@ -24,7 +24,7 @@ const CommentBar: React.FC<CommentBarProps> = React.memo(props => {
 
   const commentPlaceholder = useMemo(() => {
     if (!commentInfo) {
-      return intl.formatMessage({ id: 'pages.content.placeholder' })
+      return intl.formatMessage({ id: 'pages.comment.placeholder' })
     }
 
     const { username } = commentInfo

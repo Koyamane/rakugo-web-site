@@ -59,6 +59,7 @@ export default {
   'pages.sort.hottest': 'Hottest',
   'pages.content.empty': 'Content cannot be empty',
   'pages.content.placeholder': 'Please enter content',
+  'pages.comment.placeholder': 'Share your thoughts （＾∀＾●）ﾉｼ',
   'pages.comment.add': 'Add Comment',
   'pages.comment.success': 'Successfully added a comment',
   'pages.comment.noMore': 'No more comments',
