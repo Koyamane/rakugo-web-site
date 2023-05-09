@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-09 21:20:58
+ * @LastEditTime: 2023-05-09 22:02:26
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -125,6 +125,9 @@ export default (): React.ReactNode => {
       },
 
       '&-bottom': {
+        display: 'flex',
+        marginBlock: token.marginLG,
+        gap: token.marginLG,
         overflow: 'hidden'
       }
     },
@@ -135,7 +138,6 @@ export default (): React.ReactNode => {
 
       '&-user': {
         padding: token.paddingMD,
-        marginBlockEnd: token.marginMD,
         borderRadius: token.borderRadius,
         background: token.colorBgContainer,
 
@@ -190,6 +192,10 @@ export default (): React.ReactNode => {
             }
           }
         }
+      },
+
+      '&-directory': {
+        marginBlockStart: token.marginMD
       }
     },
 
@@ -318,7 +324,7 @@ export default (): React.ReactNode => {
 
             <Divider />
 
-            <Space size='large' className='article-layout-content-bottom'>
+            <div className='article-layout-content-bottom'>
               <Space>
                 <FormattedMessage id='pages.form.sort' />
                 <Tag color='magenta'>{keyToValue('ARTICLE_SORT', blogInfo.sort)}</Tag>
@@ -334,7 +340,7 @@ export default (): React.ReactNode => {
                   ))}
                 </span>
               </Space>
-            </Space>
+            </div>
 
             {blogInfo.status === 'APPROVED' && <Comment targetType='Blog' targetId={blogInfo.id} />}
           </div>
@@ -396,7 +402,9 @@ export default (): React.ReactNode => {
               )}
             </div>
 
-            {!!directoryList.length && <DirectoryAnchor items={directoryList} />}
+            {!!directoryList.length && (
+              <DirectoryAnchor items={directoryList} className='article-layout-right-directory' />
+            )}
           </div>
         </div>
 
