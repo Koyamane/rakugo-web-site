@@ -3,11 +3,12 @@
  * @Date: 2023-04-14 17:17:48
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 15:26:52
+ * @LastEditTime: 2023-05-09 18:06:12
  * @Description:
  */
 import frontmatter from '@bytemd/plugin-frontmatter' // 解析前题
 import gemoji from '@bytemd/plugin-gemoji' // emoji
+import gfm from '@bytemd/plugin-gfm' // 支持 GFM
 import highlight from '@bytemd/plugin-highlight' // 代码高亮
 import math from '@bytemd/plugin-math' // 数学公式
 import mermaid from '@bytemd/plugin-mermaid' // 流程图等
@@ -20,11 +21,12 @@ import 'katex/dist/katex.css'
 import React, { useLayoutEffect } from 'react'
 
 const plugins = [
-  gemoji(), // Gemoji短代码
-  mermaid(),
-  frontmatter(), // 解析前题
+  gfm(),
   highlight(), // 代码高亮
-  math()
+  frontmatter(), // 解析前题
+  gemoji(), // Gemoji短代码
+  math(),
+  mermaid()
 ]
 
 interface MarkdownItemProps {
