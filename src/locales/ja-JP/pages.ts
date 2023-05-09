@@ -58,7 +58,7 @@ export default {
   'pages.sort.hottest': '人気',
   'pages.content.empty': 'コンテンツを空にすることはできません',
   'pages.content.placeholder': 'コンテントを入力してください',
-  'pages.comment.placeholder': 'あなたの考えを共有しましょう （＾∀＾●）ﾉｼ',
+  'pages.comment.placeholder': '考えを共有しましょう （＾∀＾●）ﾉｼ',
   'pages.comment.add': '追加',
   'pages.comment.success': '追加に成功しました',
   'pages.comment.noMore': 'これ以上のコメントはありません',
