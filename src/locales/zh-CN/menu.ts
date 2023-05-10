@@ -10,6 +10,7 @@ export default {
   'menu.admin.announcement': '公告管理',
   'menu.admin.blog': '博文管理',
   'menu.admin.dataDictionary': '数据字典',
+  'menu.admin.websiteBg': '网站背景',
   'menu.login': '登录',
   'menu.register': '注册',
   'menu.register-result': '注册结果',

@@ -6,7 +6,7 @@
  * @LastEditTime: 2021-12-25 16:47:38
  * @Description:
  */
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import { AddBlogType } from './data'
 
 const formatParams = (params: AddBlogType): FormData => {

@@ -3,13 +3,13 @@
  * @Date: 2023-04-18 20:15:06
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 14:46:08
+ * @LastEditTime: 2023-05-10 14:14:17
  * @Description:
  */
 
 import { Drawer, InputFileItem } from '@/components'
 import { useFormItemFillHint, useGlobalHooks } from '@/hooks'
-import { ProForm, ProFormSelect, ProFormTextArea } from '@ant-design/pro-components'
+import { ProForm, ProFormSelect, ProFormTextArea } from '@ant-design/pro-form'
 import { history, useIntl, useModel, useParams } from '@umijs/max'
 import { App, Button, Form } from 'antd'
 import React, { useMemo, useState } from 'react'

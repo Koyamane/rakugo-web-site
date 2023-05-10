@@ -1,7 +1,7 @@
 import { useGoRedirect } from '@/hooks'
 import { aesEncrypt } from '@/utils/encryption'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components'
+import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-form'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, NavLink, useIntl, useModel } from '@umijs/max'
 import { App, Col, Form, Row } from 'antd'

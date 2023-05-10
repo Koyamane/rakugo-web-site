@@ -1,6 +1,5 @@
 import { aesEncrypt } from '@/utils/encryption'
-import { LoginForm } from '@ant-design/pro-components'
-import { ProFormText } from '@ant-design/pro-form'
+import { LoginForm, ProFormText } from '@ant-design/pro-form'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, history, NavLink, useIntl, useModel } from '@umijs/max'
 import { Col, Form, message, Row } from 'antd'

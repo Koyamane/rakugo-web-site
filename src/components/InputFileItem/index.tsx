@@ -1,8 +1,9 @@
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
+import { useIntl } from '@umijs/max'
 import { Button, Input, message, Upload } from 'antd'
 import classNames from 'classnames'
-import React, { useState } from 'react'
-import { useIntl } from 'umi'
+import React, { useMemo, useState } from 'react'
 
 interface InputUploadProps {
   // onChange 是自定义组件必须的
@@ -11,6 +12,8 @@ interface InputUploadProps {
 
   afterText?: string
   placeholder?: string
+
+  imageMode?: boolean
 
   className?: string // class 类名
   fileType?: 'IMAGE' | 'AUDIO' | 'VIDEO' // 文件类型
@@ -26,6 +29,7 @@ interface InputUploadProps {
 
 const InputUpload: React.FC<InputUploadProps> = props => {
   const {
+    imageMode,
     className,
     value,
     onChange,
@@ -39,6 +43,12 @@ const InputUpload: React.FC<InputUploadProps> = props => {
   } = props
 
   const intl = useIntl()
+  const [fileName, setFileName] = useState()
+  const [loading, setLoading] = useState(false)
+  const [fileUrl, setFileUrl] = useState('')
+  const url = useMemo(() => {
+    return typeof value === 'string' ? fileUrl || value : fileUrl
+  }, [fileUrl, value])
 
   const placeholder = props.placeholder || intl.formatMessage({ id: 'pages.form.clickToUpload' })
   const afterText = props.afterText || intl.formatMessage({ id: 'pages.form.upload' })
@@ -75,8 +85,6 @@ const InputUpload: React.FC<InputUploadProps> = props => {
       reg: ''
     }
   }
-
-  const [fileName, setFileName] = useState()
 
   // useState 不能在函数中实时变化数值所以不用
   let isCan = true
@@ -190,11 +198,21 @@ const InputUpload: React.FC<InputUploadProps> = props => {
       // 展示文件名称
       setFileName(file.name)
 
+      if (imageMode) {
+        setLoading(true)
+        const reader: any = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+          setFileUrl(reader.result)
+          setLoading(false)
+        }
+      }
+
       if (base64) {
         const reader: any = new FileReader()
         reader.readAsDataURL(file)
         reader.onload = () => {
-          onChange && onChange(reader.result.substring(reader.result.indexOf(',') + 1))
+          onChange && onChange(reader.result)
         }
       } else if (formData) {
         const fData = new FormData()
@@ -207,30 +225,45 @@ const InputUpload: React.FC<InputUploadProps> = props => {
     }
   }
 
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>上传</div>
+    </div>
+  )
+
   const inputFileItemClassName = useEmotionCss(() => ({
     width: '100%',
     display: 'inline-block',
-
     '.ant-upload': {
-      width: '100%'
+      width: '100%',
+      overflow: 'hidden'
     }
   }))
 
   return (
-    <div className={classNames(className, inputFileItemClassName)}>
-      <Upload
-        accept={fileType && acceptValue[fileType]}
-        showUploadList={false}
-        beforeUpload={beforeUpload}
-        onChange={handleUploadChange}
-      >
+    <Upload
+      showUploadList={false}
+      beforeUpload={beforeUpload}
+      onChange={handleUploadChange}
+      accept={fileType && acceptValue[fileType]}
+      listType={imageMode ? 'picture-card' : 'text'}
+      className={classNames(className, inputFileItemClassName)}
+    >
+      {imageMode ? (
+        url ? (
+          <img src={url} style={{ width: '100%' }} />
+        ) : (
+          uploadButton
+        )
+      ) : (
         <Input.Search
           value={fileName || value}
           placeholder={placeholder}
           enterButton={children || <Button>{afterText}</Button>}
         />
-      </Upload>
-    </div>
+      )}
+    </Upload>
   )
 }
 

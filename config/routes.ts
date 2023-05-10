@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 21:21:11
+ * @LastEditTime: 2023-05-10 14:20:17
  * @Description:
  */
 /**
@@ -103,6 +103,11 @@ export default [
         path: '/admin/data-dictionary',
         name: 'dataDictionary',
         component: './Admin/DataDictionaryManagement'
+      },
+      {
+        path: '/admin/website-bg',
+        name: 'websiteBg',
+        component: './Admin/WebsiteBgManagement'
       }
     ]
   },

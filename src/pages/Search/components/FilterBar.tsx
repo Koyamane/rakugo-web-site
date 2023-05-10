@@ -1,7 +1,7 @@
 import { Drawer } from '@/components'
 import { useGlobalHooks } from '@/hooks'
 import { FilterOutlined } from '@ant-design/icons'
-import { ProForm, ProFormSelect } from '@ant-design/pro-components'
+import { ProForm, ProFormSelect } from '@ant-design/pro-form'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, useModel } from '@umijs/max'
 import { Divider, Form, Select, Space } from 'antd'
