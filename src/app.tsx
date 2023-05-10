@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-04 20:46:32
+ * @LastEditTime: 2023-05-10 10:51:54
  * @Description:
  */
 import {
@@ -47,6 +47,7 @@ export async function getInitialState(): Promise<{
       const userInfo: API.UserInfo = await GetUserInfo()
       return userInfo
     } catch (error) {
+      localStorage.removeItem('token')
       console.log(error)
     }
     return undefined
