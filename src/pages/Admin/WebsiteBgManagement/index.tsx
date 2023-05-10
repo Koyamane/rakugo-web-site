@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 16:55:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-10 16:03:30
+ * @LastEditTime: 2023-05-10 16:32:05
  * @Description:
  */
 import { NOTIFICATION_STATUS, BG_IMAGE_POSITION, toObj } from '@/locales/dataDictionary'
@@ -103,7 +103,7 @@ const WebsiteBgManagement: React.FC = () => {
     //   render: value => <span style={{ wordBreak: 'break-all' }}>{value}</span>
     // },
     {
-      title: '背景所处位置',
+      title: '所处位置',
       sorter: true,
       dataIndex: 'position',
       valueEnum: toObj(BG_IMAGE_POSITION)
@@ -220,10 +220,10 @@ const WebsiteBgManagement: React.FC = () => {
 
         <ProFormSelect
           name='position'
-          label='背景所处位置'
+          label='所处位置'
           allowClear={false}
           options={BG_IMAGE_POSITION}
-          rules={[{ required: true, message: '请选择背景所处位置' }]}
+          rules={[{ required: true, message: '请选择所处位置' }]}
         />
 
         <Form.Item
