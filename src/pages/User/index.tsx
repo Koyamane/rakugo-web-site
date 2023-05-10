@@ -3,14 +3,13 @@
  * @Date: 2023-04-12 15:26:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-09 20:45:39
+ * @LastEditTime: 2023-05-10 14:58:35
  * @Description:
  */
-import loginBg from '@/assets/humikiri.jpg'
 import { SelectLang } from '@/components'
 import Footer from '@/components/Footer'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { Helmet, Outlet, useIntl, useLocation } from '@umijs/max'
+import { Helmet, Outlet, useIntl, useLocation, useModel } from '@umijs/max'
 import React, { useEffect, useState } from 'react'
 
 const Lang = () => {
@@ -42,6 +41,7 @@ const User: React.FC = () => {
   const intl = useIntl()
   const location = useLocation()
   const [pageTitle, setPageTitle] = useState('')
+  const { initialState } = useModel('@@initialState')
 
   useEffect(() => {
     // 千万不要用 useMemo 来赋值，不然登录完成跳转后，页面标题依旧为“登录”
@@ -72,13 +72,13 @@ const User: React.FC = () => {
       flexDirection: 'column',
       height: '100vh',
       overflow: 'auto',
-      backgroundImage: `url(${loginBg})`,
+      backgroundImage: initialState?.bgUrl ? `url(${initialState?.bgUrl})` : 'none',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       '& .ant-pro-form-login-container': {
         padding: 0,
-        minHeight: '540px',
+        minHeight: '535px',
         background: 'initial',
         alignItems: 'center',
         paddingBlockStart: token.paddingXL

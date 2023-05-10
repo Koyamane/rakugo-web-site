@@ -3,10 +3,10 @@
  * @Date: 2023-03-06 16:55:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-10 14:21:14
+ * @LastEditTime: 2023-05-10 15:31:28
  * @Description:
  */
-import { NOTIFICATION_STATUS, toObj } from '@/locales/dataDictionary'
+import { NOTIFICATION_STATUS, BG_IMAGE_POSITION, toObj } from '@/locales/dataDictionary'
 import { formatTableParams } from '@/utils/tools'
 import { InputFileItem } from '@/components'
 import { PlusOutlined } from '@ant-design/icons'
@@ -93,13 +93,21 @@ const WebsiteBgManagement: React.FC = () => {
       title: '背景图片',
       dataIndex: 'imgUrl',
       hideInSearch: true,
-      render: value => <Image width={200} src={value as string} />
+      render: value => (
+        <Image style={{ maxWidth: '100%', maxHeight: '100px' }} src={value as string} />
+      )
     },
     // {
     //   title: '图片地址',
     //   dataIndex: 'imgUrl',
     //   render: value => <span style={{ wordBreak: 'break-all' }}>{value}</span>
     // },
+    {
+      title: '背景所处位置',
+      sorter: true,
+      dataIndex: 'position',
+      valueEnum: toObj(BG_IMAGE_POSITION)
+    },
     {
       title: '状态',
       dataIndex: 'status',
@@ -208,6 +216,14 @@ const WebsiteBgManagement: React.FC = () => {
           allowClear={false}
           initialValue='NOT_EXPIRED'
           options={NOTIFICATION_STATUS}
+        />
+
+        <ProFormSelect
+          name='position'
+          label='背景所处位置'
+          allowClear={false}
+          options={BG_IMAGE_POSITION}
+          rules={[{ required: true, message: '请选择背景所处位置' }]}
         />
 
         <Form.Item

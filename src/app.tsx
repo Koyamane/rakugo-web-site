@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-10 10:51:54
+ * @LastEditTime: 2023-05-10 15:04:15
  * @Description:
  */
 import {
@@ -22,16 +22,17 @@ import Page403 from './pages/Exception/403'
 import RenderApp from './RenderApp'
 import { errorConfig } from './requestErrorConfig'
 import { GetCrsfKey, GetUserInfo } from './services/global'
-// import { currentUser as queryCurrentUser } from '@/services/ant-design-proz/api';
+import { BgImageInfoApi } from './pages/Admin/WebsiteBgManagement/service'
 // const isDev = process.env.NODE_ENV === 'development';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<{
+  bgUrl?: string
+  loading?: boolean
   settings?: ProLayoutProps
   currentUser?: API.UserInfo
-  loading?: boolean
   fetchUserInfo?: () => Promise<API.UserInfo | undefined>
 }> {
   try {
@@ -53,6 +54,15 @@ export async function getInitialState(): Promise<{
     return undefined
   }
 
+  let bgUrl = ''
+
+  try {
+    const bgInfo = await BgImageInfoApi({ position: 'WEBSITE' })
+    bgUrl = bgInfo?.imgUrl || ''
+  } catch (error) {
+    console.log(error)
+  }
+
   defaultSettings.navTheme = (localStorage.getItem('navTheme') as any) || defaultSettings.navTheme
   if (defaultSettings.token) {
     defaultSettings.token.bgLayout = defaultSettings.navTheme === 'light' ? '#f5f5f5' : '#000000'
@@ -63,6 +73,7 @@ export async function getInitialState(): Promise<{
     const currentUser = await fetchUserInfo()
     return {
       fetchUserInfo,
+      bgUrl,
       currentUser,
       settings: defaultSettings as ProLayoutProps
     }
@@ -70,6 +81,7 @@ export async function getInitialState(): Promise<{
 
   return {
     fetchUserInfo,
+    bgUrl,
     settings: defaultSettings as ProLayoutProps
   }
 }
@@ -99,17 +111,19 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       return info?.pageName + ' - ' + titleSuffix
     },
     // 在这里设置 layout 图片背景
-    bgLayoutImgList: [
-      {
-        src: require('@/assets/humikiri.jpg'),
-        width: '101%',
-        height: '100%',
-        objectFit: 'cover',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)'
-      }
-    ],
+    bgLayoutImgList: initialState?.bgUrl
+      ? [
+          {
+            src: initialState.bgUrl,
+            width: '101%',
+            height: '100%',
+            objectFit: 'cover',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)'
+          }
+        ]
+      : [],
     // headerRender({ token, navTheme }, defaultDom) {
     //   const style = {
     //     height: '100%',

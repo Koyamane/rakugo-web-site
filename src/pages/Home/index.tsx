@@ -11,13 +11,15 @@ import Marquee from 'react-fast-marquee'
 import HomeList from './components/HomeList'
 import SortSideBar from './components/SortSideBar'
 import { BlogSortKey } from './data'
+import { BgImageInfoApi } from '../Admin/WebsiteBgManagement/service'
 
 export default (): React.ReactNode => {
   const { formatValue } = useGlobalHooks()
-  const { homeLayoutClassName, infiniteScrollClassName } = useGlobalClassName()
   const { initialState } = useModel('@@initialState')
   const { currentUser } = initialState || {}
   const [sortKey, setSortKey] = useState<BlogSortKey>('approvedDate')
+  const [sideBg, setSideBg] = useState('')
+  const { homeLayoutClassName, infiniteScrollClassName } = useGlobalClassName()
   const [announcementList, setAnnouncementList] = useState<AnnouncementInfo[]>([])
 
   const announcementClassName = useEmotionCss(({ token }) => ({
@@ -29,6 +31,38 @@ export default (): React.ReactNode => {
       marginInlineEnd: token.marginXL
     }
   })
+
+  const sideBarTitleClassName = useEmotionCss(({ token }) => ({
+    width: '100%',
+    display: 'flex',
+    color: '#fedfe1',
+    alignItems: 'center',
+    fontFamily: ['Segoe UI'],
+    writingMode: 'vertical-rl',
+    fontSize: token.fontSizeHeading3,
+    marginInlineStart: token.marginMD,
+    padding: `${token.paddingSM}px 0`,
+    backgroundImage: sideBg ? `url(${sideBg})` : 'none',
+    backgroundPosition: 'bottom',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    textShadow: '0.5px #00000066',
+    WebkitTextStroke: '0.5px #2a2828b3',
+    borderRadius: token.borderRadius,
+
+    rt: {
+      fontSize: token.fontSizeLG
+    }
+  }))
+
+  const getSideBg = async () => {
+    try {
+      const bgInfo = await BgImageInfoApi({ position: 'HOME_SIDE_TITLE' })
+      setSideBg(bgInfo?.imgUrl || '')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const getAnnouncementList = async () => {
     try {
@@ -49,6 +83,7 @@ export default (): React.ReactNode => {
 
   useEffect(() => {
     getAnnouncementList()
+    getSideBg()
   }, [])
 
   return (
@@ -75,7 +110,7 @@ export default (): React.ReactNode => {
         <div className='home-layout-side-bar'>
           <SortSideBar setSortKey={setSortKey} sortKey={sortKey} />
 
-          <div className='home-layout-side-bar-title'>
+          <div className={sideBarTitleClassName}>
             <ruby>
               <ruby>
                 <span>生</span>

@@ -39,6 +39,6 @@ export const BgImageDeleteApi = (id: BgImageInfo['id']) => {
   return request('/bgImage/api/delete', { method: 'delete', data: { id } })
 }
 
-export const BgImageInfoApi = (params?: Pick<BgImageInfo, 'id' | 'order'>) => {
+export const BgImageInfoApi = (params?: Pick<BgImageInfo, 'id' | 'order' | 'position'>) => {
   return request('/bgImage/api/info', { method: 'get', params })
 }
