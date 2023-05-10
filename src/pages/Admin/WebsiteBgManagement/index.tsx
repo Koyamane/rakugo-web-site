@@ -3,7 +3,7 @@
  * @Date: 2023-03-06 16:55:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-10 15:31:28
+ * @LastEditTime: 2023-05-10 16:03:30
  * @Description:
  */
 import { NOTIFICATION_STATUS, BG_IMAGE_POSITION, toObj } from '@/locales/dataDictionary'
@@ -229,7 +229,6 @@ const WebsiteBgManagement: React.FC = () => {
         <Form.Item
           name='imgUrl'
           label='背景图片'
-          extra='推荐 16:9 尺寸'
           rules={[{ required: true, message: '请上传背景图片' }]}
         >
           <InputFileItem fileType='IMAGE' imageMode fileSize={2} />
