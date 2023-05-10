@@ -7,8 +7,7 @@
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
-import { useGlobalHooks } from '@/hooks'
-import useFormatTime from '@/hooks/useFormatTime'
+import { useGlobalHooks, useFormatTime } from '@/hooks'
 import { PageLoading, useToken } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, Helmet, NavLink, useIntl, useModel, useParams } from '@umijs/max'

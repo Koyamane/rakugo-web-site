@@ -3,11 +3,11 @@
  * @Date: 2023-03-06 13:41:39
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-08 17:14:25
+ * @LastEditTime: 2023-05-10 11:12:05
  * @Description:
  */
-import useParamsRedirect from '@/hooks/useParamsRedirect'
 import { throttle } from '@/utils/tools'
+import { useGlobalClassName, useParamsRedirect } from '@/hooks'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl, useModel } from '@umijs/max'
 import { Divider, Skeleton, Space, Spin } from 'antd'
@@ -26,6 +26,7 @@ const Comment: React.FC<CommentProps> = props => {
   const paramsRedirect = useParamsRedirect()
   const [initLoading, setInitLoading] = useState(false)
   const { initialState } = useModel('@@initialState')
+  const { noMoreClassName } = useGlobalClassName()
   const { likeObj, setLikeObj, currentComment, setCurrentComment } = useModel('useComment')
   const currentUser = initialState?.currentUser
   const userId = currentUser?.userId
@@ -198,13 +199,6 @@ const Comment: React.FC<CommentProps> = props => {
             color: token.colorText
           }
         }
-      },
-
-      '.comment-no-more': {
-        textAlign: 'center',
-        color: token.colorTextDescription,
-        fontSize: token.fontSizeSM,
-        padding: token.paddingMD
       }
     }
   })
@@ -251,7 +245,7 @@ const Comment: React.FC<CommentProps> = props => {
           hasMore={commentData.list.length < commentData.pagination.total}
           loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
           endMessage={
-            <div className='comment-no-more'>
+            <div className={noMoreClassName}>
               {intl.formatMessage({ id: 'pages.comment.noMore' })}
             </div>
           }

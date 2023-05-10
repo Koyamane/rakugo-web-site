@@ -3,7 +3,7 @@
  * @Date: 2023-04-21 22:16:16
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 15:10:02
+ * @LastEditTime: 2023-05-10 11:02:03
  * @Description:
  */
 
@@ -169,7 +169,8 @@ const useGlobalClassName = () => {
 
   const noMoreClassName = useEmotionCss(({ token }) => {
     return {
-      marginBlock: token.marginSM,
+      fontSize: token.fontSizeSM,
+      paddingBlock: token.paddingSM,
       color: token.colorTextDescription,
       textAlign: 'center'
     }

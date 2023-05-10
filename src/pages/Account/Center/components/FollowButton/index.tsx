@@ -1,5 +1,5 @@
+import { useParamsRedirect } from '@/hooks'
 import { FollowSomeBodyApi, IsFollowedApi } from '@/components/FollowButton/services'
-import useParamsRedirect from '@/hooks/useParamsRedirect'
 import { CheckOutlined, PlusOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl, useModel } from '@umijs/max'

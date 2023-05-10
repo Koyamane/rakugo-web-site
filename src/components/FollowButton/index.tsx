@@ -1,4 +1,4 @@
-import useParamsRedirect from '@/hooks/useParamsRedirect'
+import { useParamsRedirect } from '@/hooks'
 import { CheckOutlined, PlusOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl, useModel } from '@umijs/max'
