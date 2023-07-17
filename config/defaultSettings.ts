@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-23 17:00:17
+ * @LastEditTime: 2023-07-17 16:08:58
  * @Description:
  */
 import { ProLayoutProps } from '@ant-design/pro-components'
@@ -22,8 +22,8 @@ const Settings: ProLayoutProps & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false, // 色弱模式
-  title: '落語',
   pwa: true,
+  title: false,
   logo: '/logo.svg',
   iconfontUrl: '',
   token: {

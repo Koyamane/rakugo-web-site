@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 15:26:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-10 14:58:35
+ * @LastEditTime: 2023-07-17 17:00:16
  * @Description:
  */
 import { SelectLang } from '@/components'
@@ -105,6 +105,12 @@ const User: React.FC = () => {
     <div className={containerClassName}>
       <Helmet>
         <title>{pageTitle}</title>
+        <meta name='keywords' content='rakugo,koyamane,落語,小山音' />
+        <meta
+          name='description'
+          property='og:description'
+          content='你轻轻地来，诉说着往事，留下一段佳话'
+        />
       </Helmet>
 
       <Lang />

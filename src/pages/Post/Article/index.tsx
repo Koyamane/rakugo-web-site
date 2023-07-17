@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-09 23:26:39
+ * @LastEditTime: 2023-07-17 16:52:40
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
@@ -268,6 +268,21 @@ export default (): React.ReactNode => {
           <title>
             {blogInfo.title} - {intl.formatMessage({ id: 'pages.layouts.site.title' })}
           </title>
+          <meta name='keywords' content={blogInfo.tags.join(',')} />
+          <meta name='description' content={blogInfo.summary} />
+          <meta property='og:title' content={blogInfo.title} />
+          <meta property='og:description' content={blogInfo.summary} />
+          <meta property='og:url' content={location.href} />
+          {blogInfo.cover && <meta property='og:image' content={blogInfo.cover} />}
+          <meta property='og:type' content={blogInfo.sort} />
+          <meta
+            property='og:site_name'
+            content={
+              keyToValue('ARTICLE_SORT', blogInfo.sort) +
+              ' - ' +
+              intl.formatMessage({ id: 'pages.layouts.site.title' })
+            }
+          />
         </Helmet>
 
         <div className={articleLayoutClassName}>

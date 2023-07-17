@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-05-10 15:04:15
+ * @LastEditTime: 2023-07-17 15:48:29
  * @Description:
  */
 import {
@@ -131,6 +131,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     //   }
     //   return <div style={style}>{defaultDom}</div>
     // },
+    headerTitleRender: logo => <a>{logo}</a>,
     style: { background: initialState?.settings?.token?.bgLayout },
     actionsRender: () => [
       <HeaderSearch key='HeaderSearch' />,

@@ -82,12 +82,12 @@ export default defineConfig({
    */
   // title: '落語',
   favicons: ['/logo.svg'],
-  metas: [
-    { name: 'keywords', content: 'rakugo,koyamane,落語,小山音' },
-    { name: 'description', content: '小山音倾力打造' },
-    { name: 'description', content: '你轻轻地来，诉说着往事，留下一段佳话' },
-    { name: 'apple-mobile-web-app-title', content: '落語' }
-  ],
+  // metas: [
+  //   { name: 'keywords', content: 'rakugo,koyamane,落語,小山音' },
+  //   { name: 'description', content: '小山音倾力打造' },
+  //   { name: 'description', content: '你轻轻地来，诉说着往事，留下一段佳话' },
+  //   { name: 'apple-mobile-web-app-title', content: '落語' }
+  // ],
   links: [
     // 苹果相关的
     { rel: 'bookmark', href: '/favicon.png' },
@@ -117,7 +117,6 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/i18n
    */
   locale: {
-    // default zh-CN
     default: 'zh-CN',
     antd: true,
     // default true, when it is true, will use `navigator.language` overwrite default
