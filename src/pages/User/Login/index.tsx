@@ -6,7 +6,7 @@ import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, NavLink, useIntl, useModel } from '@umijs/max'
 import { App, Col, Form, Row } from 'antd'
 import React, { useRef, useState } from 'react'
-import Captcha from 'react-captcha-code'
+import Captcha from 'react18-verify-code'
 import { LoginParams } from '../data'
 import { LoginApi } from '../services'
 

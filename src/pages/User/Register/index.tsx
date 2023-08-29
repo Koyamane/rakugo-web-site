@@ -4,7 +4,7 @@ import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, history, NavLink, useIntl, useModel } from '@umijs/max'
 import { Col, Form, message, Row } from 'antd'
 import { FC, useRef, useState } from 'react'
-import Captcha from 'react-captcha-code'
+import Captcha from 'react18-verify-code'
 import { RegisterParams } from '../data'
 import { RegisterApi } from '../services'
 
