@@ -3,14 +3,13 @@
  * @Date: 2023-04-12 15:26:36
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-25 21:51:25
+ * @LastEditTime: 2023-07-17 17:00:16
  * @Description:
  */
-import loginBg from '@/assets/humikiri.jpg'
 import { SelectLang } from '@/components'
 import Footer from '@/components/Footer'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import { Helmet, Outlet, useIntl, useLocation } from '@umijs/max'
+import { Helmet, Outlet, useIntl, useLocation, useModel } from '@umijs/max'
 import React, { useEffect, useState } from 'react'
 
 const Lang = () => {
@@ -42,6 +41,7 @@ const User: React.FC = () => {
   const intl = useIntl()
   const location = useLocation()
   const [pageTitle, setPageTitle] = useState('')
+  const { initialState } = useModel('@@initialState')
 
   useEffect(() => {
     // 千万不要用 useMemo 来赋值，不然登录完成跳转后，页面标题依旧为“登录”
@@ -72,14 +72,15 @@ const User: React.FC = () => {
       flexDirection: 'column',
       height: '100vh',
       overflow: 'auto',
-      backgroundImage: `url(${loginBg})`,
+      backgroundImage: initialState?.bgUrl ? `url(${initialState?.bgUrl})` : 'none',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       '& .ant-pro-form-login-container': {
+        padding: 0,
+        minHeight: '535px',
         background: 'initial',
         alignItems: 'center',
-        padding: 0,
         paddingBlockStart: token.paddingXL
       },
       '& .ant-pro-form-login-title': {
@@ -89,8 +90,8 @@ const User: React.FC = () => {
         transform: `translateY(${token.marginSM}px)`
       },
       '& .ant-pro-form-login-main': {
-        padding: token.paddingMD,
         background: '#f5f5f5cc',
+        padding: token.paddingMD,
         borderRadius: token.borderRadius,
         boxShadow: token.boxShadow
       },
@@ -104,6 +105,12 @@ const User: React.FC = () => {
     <div className={containerClassName}>
       <Helmet>
         <title>{pageTitle}</title>
+        <meta name='keywords' content='rakugo,koyamane,落語,小山音' />
+        <meta
+          name='description'
+          property='og:description'
+          content='你轻轻地来，诉说着往事，留下一段佳话'
+        />
       </Helmet>
 
       <Lang />

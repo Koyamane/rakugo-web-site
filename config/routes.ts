@@ -3,7 +3,7 @@
  * @Date: 2023-04-12 19:25:38
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 11:10:37
+ * @LastEditTime: 2023-05-10 14:20:17
  * @Description:
  */
 /**
@@ -20,9 +20,9 @@
  */
 export default [
   {
-    path: '/home',
-    name: 'home',
+    path: '/',
     icon: 'home',
+    name: 'home',
     component: './Home'
   },
   {
@@ -103,6 +103,11 @@ export default [
         path: '/admin/data-dictionary',
         name: 'dataDictionary',
         component: './Admin/DataDictionaryManagement'
+      },
+      {
+        path: '/admin/website-bg',
+        name: 'websiteBg',
+        component: './Admin/WebsiteBgManagement'
       }
     ]
   },
@@ -159,10 +164,6 @@ export default [
         component: './Account/Settings'
       }
     ]
-  },
-  {
-    path: '/',
-    redirect: '/home'
   },
   {
     path: '*',

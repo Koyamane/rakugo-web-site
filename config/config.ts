@@ -43,7 +43,7 @@ export default defineConfig({
     // 如果不想要 configProvide 动态设置主题需要把这个设置为 default
     // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
     'root-entry-name': 'variable',
-    '@primary-color': '#de8972'
+    '@primary-color': '#bc6048'
   },
   /**
    * @name moment 的国际化配置
@@ -82,16 +82,21 @@ export default defineConfig({
    */
   // title: '落語',
   favicons: ['/logo.svg'],
-  metas: [
-    { name: 'keywords', content: 'rakugo,koyamane,落語,小山音' },
-    { name: 'description', content: '小山音倾力打造' },
-    { name: 'description', content: '你轻轻地来，诉说着往事，留下一段佳话' },
-    { name: 'apple-mobile-web-app-title', content: '落語' }
-  ],
+  // metas: [
+  //   { name: 'keywords', content: 'rakugo,koyamane,落語,小山音' },
+  //   { name: 'description', content: '小山音倾力打造' },
+  //   { name: 'description', content: '你轻轻地来，诉说着往事，留下一段佳话' },
+  //   { name: 'apple-mobile-web-app-title', content: '落語' }
+  // ],
   links: [
     // 苹果相关的
     { rel: 'bookmark', href: '/favicon.png' },
     { rel: 'apple-touch-icon', href: '/favicon.png' },
+    { rel: 'apple-touch-icon', href: '/favicon.png', sizes: '152x152' },
+    { rel: 'apple-touch-icon', href: '/favicon.png', sizes: '120x120' },
+    { rel: 'apple-touch-icon', href: '/favicon.png', sizes: '76x76' },
+    { rel: 'apple-touch-icon', href: '/favicon.png', sizes: '60x60' },
+    { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.png' },
     { rel: 'apple-touch-icon-precomposed', href: '/favicon.png', sizes: '180x180' }
   ],
   layout: {
@@ -112,7 +117,6 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/i18n
    */
   locale: {
-    // default zh-CN
     default: 'zh-CN',
     antd: true,
     // default true, when it is true, will use `navigator.language` overwrite default
@@ -128,8 +132,8 @@ export default defineConfig({
       token: {
         pageMaxWidth: 1152,
         colorBgLayoutHeader: 'rgba(255, 255, 255, 0.6)',
-        colorPrimary: '#de8972',
-        colorInfo: '#de8972' // 可以改到 a 标签的颜色，和 massage 的标签颜色
+        colorPrimary: '#bc6048',
+        colorInfo: '#bc6048' // 可以改到 a 标签的颜色，和 massage 的标签颜色
       }
     }
   },

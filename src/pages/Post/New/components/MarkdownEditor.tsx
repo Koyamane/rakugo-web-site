@@ -3,7 +3,7 @@
  * @Date: 2023-04-16 23:42:11
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-24 15:36:33
+ * @LastEditTime: 2023-05-09 18:06:01
  * @Description:
  */
 import { useVerifyFileSize } from '@/hooks'
@@ -68,7 +68,6 @@ const MarkdownEditor: React.FC = () => {
       highlight(), // 代码高亮
       frontmatter(), // 解析前题
       gemoji(), // Gemoji短代码
-      // mediumZoom(),
       math({ locale: mathLocale[intl.locale] }),
       mermaid({ locale: mermaidLocale[intl.locale] })
     ]

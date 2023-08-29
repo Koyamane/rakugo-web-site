@@ -12,8 +12,8 @@ export const BlogSimplePageApi = (params?: API.PageParams) => {
   return request('/blog/api/page/simple', { method: 'post', data: params })
 }
 
-export const BlogInfoApi = (id: number | string, userId?: number | string) => {
-  return request('/blog/api/info', { method: 'get', params: { id, userId } })
+export const BlogInfoApi = (id: number | string, addRead?: number) => {
+  return request('/blog/api/info', { method: 'get', params: { id, addRead } })
 }
 
 export const BlogLikeApi = (

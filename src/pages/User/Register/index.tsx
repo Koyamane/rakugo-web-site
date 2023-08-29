@@ -1,11 +1,10 @@
 import { aesEncrypt } from '@/utils/encryption'
-import { LoginForm } from '@ant-design/pro-components'
-import { ProFormText } from '@ant-design/pro-form'
+import { LoginForm, ProFormText } from '@ant-design/pro-form'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, history, NavLink, useIntl, useModel } from '@umijs/max'
 import { Col, Form, message, Row } from 'antd'
 import { FC, useRef, useState } from 'react'
-import Captcha from 'react-captcha-code'
+import Captcha from 'react18-verify-code'
 import { RegisterParams } from '../data'
 import { RegisterApi } from '../services'
 
@@ -298,7 +297,7 @@ const Register: FC = () => {
       />
 
       <Row gutter={12} justify='space-between'>
-        <Col span={15}>
+        <Col span={16}>
           <ProFormText
             name='captcha'
             disabled={btnLoading}
@@ -321,7 +320,7 @@ const Register: FC = () => {
           />
         </Col>
 
-        <Col span={9}>
+        <Col span={8}>
           <Captcha ref={captchaRef} charNum={4} onChange={setCaptcha} />
         </Col>
       </Row>

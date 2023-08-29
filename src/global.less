@@ -8,16 +8,22 @@ body,
     'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
 
-  .ant-pro-top-nav-header-main {
-    padding-inline-end: @padding-md;
-  }
+  .ant-pro-top-nav-header {
+    .ant-pro-top-nav-header-main {
+      padding-inline-end: @padding-md;
+    }
 
-  .ant-pro-top-nav-header-logo {
-    padding-inline-end: @padding-md;
+    .ant-pro-top-nav-header-logo {
+      padding-inline-end: @padding-md;
 
-    // 隐藏首页标题
-    h1 {
-      display: none;
+      // 隐藏首页标题
+      // h1 {
+      //   display: none;
+      // }
+    }
+
+    .ant-menu-light .ant-menu-submenu-selected > .ant-menu-submenu-title {
+      color: inherit;
     }
   }
 
@@ -41,6 +47,10 @@ body,
 
   .ant-avatar {
     border: none;
+  }
+
+  .ant-popover-open {
+    font-size: inherit;
   }
 
   .hljs-class .hljs-title,
@@ -72,6 +82,15 @@ body,
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+}
+
+.ant-result {
+  padding: 32px;
+}
+
+.ant-menu-light .ant-menu-item-selected,
+.ant-menu-light > .ant-menu .ant-menu-item-selected {
+  color: #c07764;
 }
 
 .react-medium-image-zoom {
@@ -115,7 +134,7 @@ body {
 ::selection {
   color: #fff;
   // 文字选中的背景色
-  background: #de8972;
+  background: #bc6048;
 }
 
 @media (max-width: 768px) {

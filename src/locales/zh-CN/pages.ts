@@ -56,6 +56,7 @@ export default {
   'pages.sort.hottest': '最热',
   'pages.content.empty': '内容不能为空',
   'pages.content.placeholder': '请输入内容',
+  'pages.comment.placeholder': '发一条友善的评论吧 （＾∀＾●）ﾉｼ',
   'pages.comment.add': '发布',
   'pages.comment.success': '发布成功',
   'pages.comment.noMore': '没有更多评论了',

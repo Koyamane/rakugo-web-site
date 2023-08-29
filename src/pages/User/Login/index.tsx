@@ -1,12 +1,12 @@
 import { useGoRedirect } from '@/hooks'
 import { aesEncrypt } from '@/utils/encryption'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components'
+import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-form'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, NavLink, useIntl, useModel } from '@umijs/max'
 import { App, Col, Form, Row } from 'antd'
 import React, { useRef, useState } from 'react'
-import Captcha from 'react-captcha-code'
+import Captcha from 'react18-verify-code'
 import { LoginParams } from '../data'
 import { LoginApi } from '../services'
 
@@ -53,19 +53,20 @@ const Login: React.FC = () => {
 
       localStorage.setItem('token', res.token)
 
-      await setInitialState(s => ({
+      setInitialState(s => ({
         ...s,
         currentUser: res.userInfo
       }))
 
-      message.success(
-        intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！'
-        })
-      )
-
-      goRedirect()
+      setTimeout(() => {
+        message.success(
+          intl.formatMessage({
+            id: 'pages.login.success',
+            defaultMessage: '登录成功！'
+          })
+        )
+        goRedirect()
+      })
     } catch (error) {
       console.log(error)
       setBtnLoading(false)
@@ -117,7 +118,7 @@ const Login: React.FC = () => {
         />
 
         <Row gutter={12} justify='space-between'>
-          <Col span={15}>
+          <Col span={16}>
             <ProFormText
               name='captcha'
               disabled={btnLoading}
@@ -135,7 +136,7 @@ const Login: React.FC = () => {
             />
           </Col>
 
-          <Col span={9}>
+          <Col span={8}>
             <Captcha ref={captchaRef} charNum={4} onChange={setCaptcha} />
           </Col>
         </Row>

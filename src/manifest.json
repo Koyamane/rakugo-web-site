@@ -1,10 +1,10 @@
 {
-  "name": "Ant Design Pro",
-  "short_name": "Ant Design Pro",
+  "name": "落語",
+  "short_name": "落語",
   "display": "standalone",
   "start_url": "./?utm_source=homescreen",
-  "theme_color": "#002140",
-  "background_color": "#001529",
+  "theme_color": "#bc6048",
+  "background_color": "#f5f5f5",
   "icons": [
     {
       "src": "icons/icon-192x192.png",

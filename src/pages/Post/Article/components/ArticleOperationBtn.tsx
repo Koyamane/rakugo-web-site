@@ -3,12 +3,11 @@
  * @Date: 2023-03-28 19:32:45
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 12:53:30
+ * @LastEditTime: 2023-05-10 11:12:34
  * @Description:
  */
 import IconText from '@/components/IconText'
-import { useGlobalHooks } from '@/hooks'
-import useParamsRedirect from '@/hooks/useParamsRedirect'
+import { useGlobalHooks, useParamsRedirect } from '@/hooks'
 import { LikeFilled, MessageFilled, StarFilled } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl } from '@umijs/max'
@@ -163,7 +162,12 @@ const ArticleOperationBtn: React.FC<ArticleOperationBtnProps> = React.memo(
           />
         ))}
 
-        <IconText icon={MessageFilled} text={blogInfo.comments} onClick={scrollToComments} />
+        <IconText
+          icon={MessageFilled}
+          text={blogInfo.comments}
+          className='footer-blog-data-item'
+          onClick={scrollToComments}
+        />
       </Space>
     ) : (
       <>

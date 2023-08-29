@@ -57,7 +57,7 @@ declare namespace API {
     targetId: string
     userId: string[]
     likeArr: string[]
-    readArr: string[]
+    // readArr: string[]
     dislikeArr: string[]
     collectionArr: string[]
   }

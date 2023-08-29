@@ -1,4 +1,4 @@
-import useParamsRedirect from '@/hooks/useParamsRedirect'
+import { useParamsRedirect } from '@/hooks'
 import { CheckOutlined, PlusOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl, useModel } from '@umijs/max'
@@ -39,8 +39,8 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
   const { initialState } = useModel('@@initialState')
   const userId = initialState?.currentUser?.userId
   const curFollowed = useMemo(() => {
-    return followedValue ?? followed
-  }, [followed, followedValue])
+    return userId ? followedValue ?? followed : false
+  }, [followed, followedValue, userId])
 
   const followButtonClassName = useEmotionCss(({ token }) => {
     return {

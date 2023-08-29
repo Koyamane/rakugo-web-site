@@ -1,1 +1,1 @@
-export type BlogSortKey = 'createdDate' | 'reads' | 'likes' | 'collections' | 'comments'
+export type BlogSortKey = 'approvedDate' | 'reads' | 'likes' | 'collections' | 'comments'

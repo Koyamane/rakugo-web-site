@@ -3,7 +3,7 @@
  * @Date: 2023-04-10 11:46:12
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 14:23:21
+ * @LastEditTime: 2023-07-17 15:48:29
  * @Description:
  */
 import {
@@ -18,19 +18,21 @@ import { ProLayoutProps } from '@ant-design/pro-components'
 import { RunTimeLayoutConfig } from '@umijs/max'
 import { ReactNode } from 'react'
 import defaultSettings from '../config/defaultSettings'
+import Page403 from './pages/Exception/403'
 import RenderApp from './RenderApp'
 import { errorConfig } from './requestErrorConfig'
 import { GetCrsfKey, GetUserInfo } from './services/global'
-// import { currentUser as queryCurrentUser } from '@/services/ant-design-proz/api';
+import { BgImageInfoApi } from './pages/Admin/WebsiteBgManagement/service'
 // const isDev = process.env.NODE_ENV === 'development';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<{
+  bgUrl?: string
+  loading?: boolean
   settings?: ProLayoutProps
   currentUser?: API.UserInfo
-  loading?: boolean
   fetchUserInfo?: () => Promise<API.UserInfo | undefined>
 }> {
   try {
@@ -46,9 +48,19 @@ export async function getInitialState(): Promise<{
       const userInfo: API.UserInfo = await GetUserInfo()
       return userInfo
     } catch (error) {
+      localStorage.removeItem('token')
       console.log(error)
     }
     return undefined
+  }
+
+  let bgUrl = ''
+
+  try {
+    const bgInfo = await BgImageInfoApi({ position: 'WEBSITE' })
+    bgUrl = bgInfo?.imgUrl || ''
+  } catch (error) {
+    console.log(error)
   }
 
   defaultSettings.navTheme = (localStorage.getItem('navTheme') as any) || defaultSettings.navTheme
@@ -61,6 +73,7 @@ export async function getInitialState(): Promise<{
     const currentUser = await fetchUserInfo()
     return {
       fetchUserInfo,
+      bgUrl,
       currentUser,
       settings: defaultSettings as ProLayoutProps
     }
@@ -68,10 +81,12 @@ export async function getInitialState(): Promise<{
 
   return {
     fetchUserInfo,
+    bgUrl,
     settings: defaultSettings as ProLayoutProps
   }
 }
-// ProLayout 支持的api https://procomponents.ant.design/components/layout
+
+// ProLayout 支持的 api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     pageTitleRender(props, defaultPageTitle, info) {
@@ -86,7 +101,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       }
 
       const { title, formatMessage } = props
-
       const titleSuffix =
         (formatMessage && formatMessage({ id: 'pages.layouts.site.title' })) || title || '落語'
 
@@ -97,24 +111,27 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       return info?.pageName + ' - ' + titleSuffix
     },
     // 在这里设置 layout 图片背景
-    bgLayoutImgList: [
-      {
-        src: require('@/assets/humikiri.jpg'),
-        width: '101%',
-        height: '100%',
-        objectFit: 'cover',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)'
-      }
-    ],
-    headerRender({ token, navTheme }, defaultDom) {
-      const style = {
-        height: '100%',
-        background: navTheme === 'realDark' ? '#141414' : token.bgLayout
-      }
-      return <div style={style}>{defaultDom}</div>
-    },
+    bgLayoutImgList: initialState?.bgUrl
+      ? [
+          {
+            src: initialState.bgUrl,
+            width: '101%',
+            height: '100%',
+            objectFit: 'cover',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)'
+          }
+        ]
+      : [],
+    // headerRender({ token, navTheme }, defaultDom) {
+    //   const style = {
+    //     height: '100%',
+    //     background: navTheme === 'realDark' ? '#141414' : token.bgLayout
+    //   }
+    //   return <div style={style}>{defaultDom}</div>
+    // },
+    headerTitleRender: logo => <a>{logo}</a>,
     style: { background: initialState?.settings?.token?.bgLayout },
     actionsRender: () => [
       <HeaderSearch key='HeaderSearch' />,
@@ -150,7 +167,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     navTheme: initialState?.settings?.navTheme,
     // menuHeaderRender: undefined,
     // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
+    unAccessible: <Page403 />,
+    // 组件崩溃时
+    // ErrorBoundary: (error: Error) => <ErrorBoundary>{error.children}</ErrorBoundary>,
     // 增加一个 loading 的状态
     // childrenRender: (children) => {
     // if (initialState?.loading) return <PageLoading />;

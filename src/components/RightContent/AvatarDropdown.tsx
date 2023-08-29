@@ -6,7 +6,6 @@ import { history, useIntl, useModel } from '@umijs/max'
 import { App, Avatar } from 'antd'
 import type { MenuInfo } from 'rc-menu/lib/interface'
 import React, { useCallback } from 'react'
-import { flushSync } from 'react-dom'
 import HeaderDropdown from '../HeaderDropdown'
 
 export type GlobalHeaderRightProps = {
@@ -34,15 +33,14 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
   const loginOut = async () => {
     try {
       await LogOutApi()
+      setInitialState(s => ({ ...s, currentUser: undefined }))
+      localStorage.removeItem('token')
       message.success(
         intl.formatMessage({
           id: 'pages.account.logOut.success',
           defaultMessage: '退出登录成功！'
         })
       )
-      goLogin()
-      // 如果当前页是仅登录可查的话，会有闪烁，加异步1s也没用
-      localStorage.removeItem('token')
     } catch (error) {
       console.log(error)
     }
@@ -64,9 +62,6 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
     (event: MenuInfo) => {
       const { key } = event
       if (key === 'logout') {
-        flushSync(() => {
-          setInitialState(s => ({ ...s, currentUser: undefined }))
-        })
         loginOut()
         return
       }

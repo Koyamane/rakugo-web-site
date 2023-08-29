@@ -1,10 +1,10 @@
+import { useParamsRedirect } from '@/hooks'
 import { FollowSomeBodyApi, IsFollowedApi } from '@/components/FollowButton/services'
-import useParamsRedirect from '@/hooks/useParamsRedirect'
 import { CheckOutlined, PlusOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl, useModel } from '@umijs/max'
 import { App, Button, ButtonProps } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 interface FollowButtonProps {
   targetId: string
@@ -17,6 +17,9 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
   const paramsRedirect = useParamsRedirect()
   const [isFollowed, setIsFollowed] = useState(false)
   const [loading, setLoading] = useState(false)
+  const curFollowed = useMemo(() => {
+    return userId && isFollowed
+  }, [isFollowed, userId])
   const {
     setNums,
     nums: { followersNum }
@@ -28,7 +31,7 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
     if (targetId === userId) return
 
     // 说明默认为已关注，不用查询
-    if (isFollowed) return
+    if (curFollowed) return
 
     if (!userId || !targetId) {
       setIsFollowed(false)
@@ -133,10 +136,10 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
       loading={loading}
       onClick={handleFollow}
       className={followBtnClassName}
-      icon={isFollowed ? <CheckOutlined /> : <PlusOutlined />}
+      icon={curFollowed ? <CheckOutlined /> : <PlusOutlined />}
       {...otherProps}
     >
-      {isFollowed
+      {curFollowed
         ? intl.formatMessage({
             id: 'pages.account.followed',
             defaultMessage: '已关注'

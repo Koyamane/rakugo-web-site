@@ -3,11 +3,10 @@
  * @Date: 2023-04-21 22:16:16
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-28 15:10:02
+ * @LastEditTime: 2023-05-10 15:36:40
  * @Description:
  */
 
-import sideBg from '@/assets/kiniyorikakaruonnnanoko.jpg'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 
 const useGlobalClassName = () => {
@@ -25,29 +24,6 @@ const useGlobalClassName = () => {
       '&-menu': {
         borderRadius: token.borderRadius,
         border: 'none !important'
-      },
-
-      '&-title': {
-        width: '100%',
-        display: 'flex',
-        color: '#fedfe1',
-        alignItems: 'center',
-        fontFamily: ['Segoe UI'],
-        writingMode: 'vertical-rl',
-        fontSize: token.fontSizeHeading3,
-        marginInlineStart: token.marginMD,
-        padding: `${token.paddingSM}px 0`,
-        backgroundImage: `url(${sideBg})`,
-        backgroundPosition: 'bottom',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        textShadow: '0.5px #00000066',
-        WebkitTextStroke: '0.5px #2a2828b3',
-        borderRadius: token.borderRadius,
-
-        rt: {
-          fontSize: token.fontSizeLG
-        }
       },
 
       '&-copyright': {
@@ -169,7 +145,8 @@ const useGlobalClassName = () => {
 
   const noMoreClassName = useEmotionCss(({ token }) => {
     return {
-      marginBlock: token.marginSM,
+      fontSize: token.fontSizeSM,
+      paddingBlock: token.paddingSM,
       color: token.colorTextDescription,
       textAlign: 'center'
     }

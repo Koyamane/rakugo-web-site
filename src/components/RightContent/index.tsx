@@ -75,6 +75,7 @@ export const ThemeIcon = () => {
 }
 
 export const PostArticle: React.FC = () => {
+  const { initialState } = useModel('@@initialState')
   const paramsRedirect = useParamsRedirect()
 
   const postArticleClassName = useEmotionCss(() => ({
@@ -82,7 +83,7 @@ export const PostArticle: React.FC = () => {
   }))
 
   const goPost = () => {
-    if (!localStorage.getItem('token')) {
+    if (!initialState?.currentUser?.userId) {
       paramsRedirect({ params: { redirect: '/post/md' } })
       return
     }

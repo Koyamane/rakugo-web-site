@@ -1,5 +1,14 @@
+/*
+ * @Author: dingyun
+ * @Date: 2023-04-29 20:34:52
+ * @LastEditors: dingyun
+ * @Email: dingyun@zhuosoft.com
+ * @LastEditTime: 2023-05-08 18:40:43
+ * @Description:
+ */
+import { useToken } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 
 interface FooterBarProps {
   mobileMode?: boolean
@@ -8,6 +17,7 @@ interface FooterBarProps {
 }
 
 const FooterBar: React.FC<FooterBarProps> = React.memo(({ mobileMode, extra, children }) => {
+  const { token } = useToken()
   const footerBarClassName = useEmotionCss(({ token }) => {
     return {
       width: '100%',
@@ -44,8 +54,36 @@ const FooterBar: React.FC<FooterBarProps> = React.memo(({ mobileMode, extra, chi
     }
   })
 
+  const appendHeightDom = () => {
+    requestAnimationFrame(() => {
+      const barNode = document.getElementById('footer-bar')
+      const barDomNode = document.getElementById('footer-bar-dom')
+      if (window.innerWidth < token.screenLG) {
+        barDomNode?.setAttribute('style', `height: ${barNode?.offsetHeight}px; display: block`)
+      } else {
+        barDomNode?.setAttribute('style', `height: ${barNode?.offsetHeight}px; display: none`)
+      }
+    })
+  }
+
+  useLayoutEffect(() => {
+    const barNode = document.getElementById('footer-bar')
+    const barDomNode = document.createElement('div')
+    barDomNode.id = 'footer-bar-dom'
+    barDomNode.style.height = barNode?.offsetHeight + 'px'
+    const antProNode = document.querySelector('.ant-pro')
+    antProNode?.appendChild(barDomNode)
+    window.addEventListener('resize', appendHeightDom)
+
+    return () => {
+      window.removeEventListener('resize', appendHeightDom)
+      const barDomNode = document.getElementById('footer-bar-dom')
+      barDomNode?.remove()
+    }
+  }, [])
+
   return (
-    <div className={footerBarClassName}>
+    <div id='footer-bar' className={footerBarClassName}>
       <div className='footer-bar-content'>
         <div className='footer-bar-content-left'>{extra}</div>
         <div className='footer-bar-content-right'>{children}</div>

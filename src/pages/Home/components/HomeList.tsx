@@ -7,8 +7,7 @@
  * @Description:
  */
 import { BlogListSkeleton, IconText } from '@/components'
-import { useGlobalClassName, useGlobalHooks } from '@/hooks'
-import useFormatTime from '@/hooks/useFormatTime'
+import { useGlobalClassName, useFormatTime, useGlobalHooks } from '@/hooks'
 import { BlogPageApi } from '@/pages/Admin/BlogManagement/service'
 import { throttle } from '@/utils/tools'
 import {

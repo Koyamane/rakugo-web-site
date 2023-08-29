@@ -3,7 +3,7 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 16:11:10
+ * @LastEditTime: 2023-07-17 17:01:53
  * @Description:
  */
 
@@ -230,6 +230,12 @@ export default (): React.ReactNode => {
           {intl.formatMessage({ id: 'menu.post.article' })} -{' '}
           {intl.formatMessage({ id: 'pages.layouts.site.title' })}
         </title>
+        <meta name='keywords' content='rakugo,koyamane,落語,小山音' />
+        <meta
+          name='description'
+          property='og:description'
+          content='你轻轻地来，诉说着往事，留下一段佳话'
+        />
       </Helmet>
 
       <main className={postArticleClassName + ' post-article'}>

@@ -1,8 +1,6 @@
 import BlogListSkeleton from '@/components/BlogListSkeleton'
 import IconText from '@/components/IconText'
-import { useGlobalHooks } from '@/hooks'
-import useFormatTime from '@/hooks/useFormatTime'
-import usePaginationItem from '@/hooks/usePaginationItem'
+import { useFormatTime, usePaginationItem, useGlobalHooks } from '@/hooks'
 import {
   EyeOutlined,
   LikeFilled,
@@ -83,7 +81,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
     return item.status === 'REJECT' ? (
       <Popover
         trigger='hover'
-        content={item.rejectReason || '无'}
+        content={item.rejectReason}
         title={intl.formatMessage({ id: 'pages.form.rejectReason' })}
       >
         <a>{keyToValue('BLOG_STATUS', item.status)}</a>
@@ -190,7 +188,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
 
     '.ant-pagination': {
       textAlign: 'center',
-      marginBlock: token.marginMD
+      paddingBlock: token.paddingSM
     },
 
     // 放后面权重高，所以媒体查询要放后面来

@@ -10,6 +10,7 @@ export default {
   'menu.admin.announcement': 'Announcement Management',
   'menu.admin.blog': 'Blog Management',
   'menu.admin.dataDictionary': 'Data Dictionary',
+  'menu.admin.websiteBg': 'Website Background',
   'menu.login': 'Login',
   'menu.register': 'Register',
   'menu.register-result': 'Register Result',

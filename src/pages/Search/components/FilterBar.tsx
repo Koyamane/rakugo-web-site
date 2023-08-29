@@ -1,15 +1,7 @@
-/*
- * @Author: dingyun
- * @Date: 2023-04-28 11:09:26
- * @LastEditors: dingyun
- * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 15:03:47
- * @Description:
- */
 import { Drawer } from '@/components'
 import { useGlobalHooks } from '@/hooks'
 import { FilterOutlined } from '@ant-design/icons'
-import { ProForm, ProFormSelect } from '@ant-design/pro-components'
+import { ProForm, ProFormSelect } from '@ant-design/pro-form'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, useModel } from '@umijs/max'
 import { Divider, Form, Select, Space } from 'antd'
@@ -28,7 +20,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ dtoSort, setDtoSort, setSearchPar
   const [open, setOpen] = useState(false)
   const { formatOptions } = useGlobalHooks()
   const [curDate, setCurDate] = useState('none')
-  const [curSort, setCurSort] = useState('createdDate')
+  const [curSort, setCurSort] = useState('approvedDate')
   const { dataDictionaryObj } = useModel('useDataDictionary')
   const sortOptions = [
     {
@@ -84,7 +76,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ dtoSort, setDtoSort, setSearchPar
   const sortItem = [
     {
       label: <FormattedMessage id='pages.sort.upToDate' />,
-      value: 'createdDate'
+      value: 'approvedDate'
     },
     {
       label: <FormattedMessage id='pages.sort.hottest' />,
@@ -108,7 +100,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ dtoSort, setDtoSort, setSearchPar
         value === 'none'
           ? undefined
           : {
-              createdDate: [
+              approvedDate: [
                 dayjs()
                   .subtract(1, value as any)
                   .format('YYYY-MM-DD'),
@@ -145,7 +137,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ dtoSort, setDtoSort, setSearchPar
         formData.date === 'none'
           ? undefined
           : {
-              createdDate: [
+              approvedDate: [
                 dayjs()
                   .subtract(1, formData.date as any)
                   .format('YYYY-MM-DD'),

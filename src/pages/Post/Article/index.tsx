@@ -3,12 +3,11 @@
  * @Date: 2021-12-22 11:12:27
  * @LastEditors: dingyun
  * @Email: dingyun@zhuosoft.com
- * @LastEditTime: 2023-04-29 16:09:37
+ * @LastEditTime: 2023-07-17 16:52:40
  * @Description:
  */
 import { BackTop, Comment, DirectoryAnchor, FollowButton, FooterBar } from '@/components'
-import { useGlobalHooks } from '@/hooks'
-import useFormatTime from '@/hooks/useFormatTime'
+import { useGlobalHooks, useFormatTime } from '@/hooks'
 import { PageLoading, useToken } from '@ant-design/pro-components'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, Helmet, NavLink, useIntl, useModel, useParams } from '@umijs/max'
@@ -43,7 +42,6 @@ export default (): React.ReactNode => {
 
   const articleLayoutClassName = useEmotionCss(({ token }) => ({
     display: 'flex',
-    alignItems: 'flex-start',
     color: token.colorText,
 
     '.article-layout-left': {
@@ -51,6 +49,7 @@ export default (): React.ReactNode => {
       position: 'sticky',
       top: '50%',
       display: 'flex',
+      height: 'max-content',
       gap: token.marginMD,
       flexDirection: 'column',
       transform: 'translateY(-50%)',
@@ -125,6 +124,9 @@ export default (): React.ReactNode => {
       },
 
       '&-bottom': {
+        display: 'flex',
+        marginBlock: token.marginLG,
+        gap: token.marginLG,
         overflow: 'hidden'
       }
     },
@@ -135,7 +137,6 @@ export default (): React.ReactNode => {
 
       '&-user': {
         padding: token.paddingMD,
-        marginBlockEnd: token.marginMD,
         borderRadius: token.borderRadius,
         background: token.colorBgContainer,
 
@@ -190,6 +191,10 @@ export default (): React.ReactNode => {
             }
           }
         }
+      },
+
+      '&-directory': {
+        marginBlockStart: token.marginMD
       }
     },
 
@@ -210,13 +215,13 @@ export default (): React.ReactNode => {
     setLoading(true)
 
     try {
-      const res = await BlogInfoApi(id, userId)
+      const res = await BlogInfoApi(id, 1)
 
       setBlogInfo(res)
 
       if (res?.createdId) {
         const data = await BlogSimplePageApi({
-          dto: { createdId: res.createdId },
+          dto: { createdId: res.createdId, status: 'APPROVED' },
           pageSize: 5,
           searchMap: {
             id: {
@@ -263,12 +268,29 @@ export default (): React.ReactNode => {
           <title>
             {blogInfo.title} - {intl.formatMessage({ id: 'pages.layouts.site.title' })}
           </title>
+          <meta name='keywords' content={blogInfo.tags.join(',')} />
+          <meta name='description' content={blogInfo.summary} />
+          <meta property='og:title' content={blogInfo.title} />
+          <meta property='og:description' content={blogInfo.summary} />
+          <meta property='og:url' content={location.href} />
+          {blogInfo.cover && <meta property='og:image' content={blogInfo.cover} />}
+          <meta property='og:type' content={blogInfo.sort} />
+          <meta
+            property='og:site_name'
+            content={
+              keyToValue('ARTICLE_SORT', blogInfo.sort) +
+              ' - ' +
+              intl.formatMessage({ id: 'pages.layouts.site.title' })
+            }
+          />
         </Helmet>
 
         <div className={articleLayoutClassName}>
-          <div className='article-layout-left'>
-            <ArticleOperationBtn blogInfo={blogInfo} userId={userId} />
-          </div>
+          {blogInfo.status === 'APPROVED' && (
+            <div className='article-layout-left'>
+              <ArticleOperationBtn blogInfo={blogInfo} userId={userId} />
+            </div>
+          )}
 
           <div className='article-layout-content'>
             <div className='article-layout-content-header'>
@@ -318,7 +340,7 @@ export default (): React.ReactNode => {
 
             <Divider />
 
-            <Space size='large' className='article-layout-content-bottom'>
+            <div className='article-layout-content-bottom'>
               <Space>
                 <FormattedMessage id='pages.form.sort' />
                 <Tag color='magenta'>{keyToValue('ARTICLE_SORT', blogInfo.sort)}</Tag>
@@ -334,7 +356,7 @@ export default (): React.ReactNode => {
                   ))}
                 </span>
               </Space>
-            </Space>
+            </div>
 
             {blogInfo.status === 'APPROVED' && <Comment targetType='Blog' targetId={blogInfo.id} />}
           </div>
@@ -396,14 +418,17 @@ export default (): React.ReactNode => {
               )}
             </div>
 
-            {!!directoryList.length && <DirectoryAnchor items={directoryList} />}
+            {!!directoryList.length && (
+              <DirectoryAnchor items={directoryList} className='article-layout-right-directory' />
+            )}
           </div>
         </div>
 
-        <FooterBar mobileMode extra={<ArticleFooterUser blogInfo={blogInfo} />}>
-          <ArticleOperationBtn mobileMode blogInfo={blogInfo} userId={userId} />
-        </FooterBar>
-
+        {blogInfo.status === 'APPROVED' && (
+          <FooterBar mobileMode extra={<ArticleFooterUser blogInfo={blogInfo} />}>
+            <ArticleOperationBtn mobileMode blogInfo={blogInfo} userId={userId} />
+          </FooterBar>
+        )}
         <BackTop />
       </>
     )

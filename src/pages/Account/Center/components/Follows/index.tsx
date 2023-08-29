@@ -1,6 +1,6 @@
 import { FollowButton } from '@/components'
 import BlogListSkeleton from '@/components/BlogListSkeleton'
-import usePaginationItem from '@/hooks/usePaginationItem'
+import { usePaginationItem } from '@/hooks'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { NavLink, useModel } from '@umijs/max'
 import { Avatar, Pagination, Spin } from 'antd'
@@ -115,7 +115,7 @@ const Follows: React.FC<SelfProps> = ({ isMe, userId }) => {
 
     '.ant-pagination': {
       textAlign: 'center',
-      marginBlock: token.marginMD
+      paddingBlock: token.paddingSM
     }
   }))
 

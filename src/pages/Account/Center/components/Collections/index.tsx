@@ -1,14 +1,13 @@
 import BlogListSkeleton from '@/components/BlogListSkeleton'
 import IconText from '@/components/IconText'
-import useFormatTime from '@/hooks/useFormatTime'
-import usePaginationItem from '@/hooks/usePaginationItem'
+import { useFormatTime, usePaginationItem } from '@/hooks'
 import { EyeOutlined, UserOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { FormattedMessage, NavLink, useModel } from '@umijs/max'
 import { Divider, Pagination, Space, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { BlogCollectionPage } from '../../service'
 import CancelCollect from './CancelCollect'
+import { BlogCollectionPage } from '../../service'
 
 interface SelfProps {
   isMe?: boolean
@@ -121,7 +120,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, userId }) => {
 
     '.ant-pagination': {
       textAlign: 'center',
-      marginBlock: token.marginMD
+      paddingBlock: token.paddingSM
     }
   }))
 
