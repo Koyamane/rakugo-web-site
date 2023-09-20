@@ -90,6 +90,7 @@ const User: React.FC = () => {
         transform: `translateY(${token.marginSM}px)`
       },
       '& .ant-pro-form-login-main': {
+        width: 'auto !important',
         background: '#f5f5f5cc',
         padding: token.paddingMD,
         borderRadius: token.borderRadius,

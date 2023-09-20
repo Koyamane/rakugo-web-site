@@ -18,6 +18,7 @@ import IconText from './IconText'
 import InputFileItem from './InputFileItem'
 import { PostArticle, SelectLang, ThemeIcon } from './RightContent'
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown'
+import LazyImage from './LazyImage'
 
 export {
   Drawer,
@@ -35,5 +36,6 @@ export {
   ThemeIcon,
   SelectLang,
   AvatarDropdown,
-  AvatarName
+  AvatarName,
+  LazyImage
 }

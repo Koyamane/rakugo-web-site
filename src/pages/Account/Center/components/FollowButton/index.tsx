@@ -1,5 +1,5 @@
-import { useParamsRedirect } from '@/hooks'
 import { FollowSomeBodyApi, IsFollowedApi } from '@/components/FollowButton/services'
+import { useParamsRedirect } from '@/hooks'
 import { CheckOutlined, PlusOutlined } from '@ant-design/icons'
 import { useEmotionCss } from '@ant-design/use-emotion-css'
 import { useIntl, useModel } from '@umijs/max'
@@ -83,7 +83,7 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
       } else {
         setNums(values => ({
           ...values,
-          followersNum: followersNum - 1
+          followersNum: followersNum + 1
         }))
       }
     } catch (error) {
@@ -107,22 +107,15 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
       border: 'none'
     },
 
-    '&.ant-btn > span:first-child': {
+    '&.ant-btn > .ant-btn-icon': {
+      margin: '0 !important',
       fontWeight: token.fontWeightStrong,
       fontSize: token.fontSizeHeading4,
-      lineHeight: token.lineHeight,
-
-      '& > span': {
-        padding: '0'
-      },
-
-      '& > svg': {
-        verticalAlign: 'inherit'
-      }
+      lineHeight: token.lineHeight
     },
 
     '&.ant-btn > span:last-child': {
-      margin: 0,
+      margin: '0 !important',
       fontSize: token.fontSizeSM,
       color: token.colorTextDescription
     }

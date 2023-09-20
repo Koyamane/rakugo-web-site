@@ -6,8 +6,8 @@
  * @LastEditTime: 2023-05-10 11:11:48
  * @Description:
  */
-import { BlogListSkeleton, IconText } from '@/components'
-import { useGlobalClassName, useFormatTime, useGlobalHooks } from '@/hooks'
+import { BlogListSkeleton, IconText, LazyImage } from '@/components'
+import { useFormatTime, useGlobalClassName, useGlobalHooks } from '@/hooks'
 import { BlogPageApi } from '@/pages/Admin/BlogManagement/service'
 import { throttle } from '@/utils/tools'
 import {
@@ -186,7 +186,7 @@ const SearchList: React.FC<{ searchParams: API.PageParams; userId?: string }> = 
                       className='content-list-item-right'
                       to={`/article/${item.id}`}
                     >
-                      <img
+                      <LazyImage
                         src={item.cover}
                         alt={item.title}
                         className='content-list-item-right-cover'
