@@ -21,10 +21,6 @@ body,
       //   display: none;
       // }
     }
-
-    .ant-menu-light .ant-menu-submenu-selected > .ant-menu-submenu-title {
-      color: inherit;
-    }
   }
 
   .ant-pro-global-header-right-content {
@@ -84,13 +80,13 @@ body,
   }
 }
 
-.ant-result {
-  padding: 32px;
+// 解决 ios 端打开抽屉地址栏闪烁问题
+.ant-drawer {
+  position: absolute;
 }
 
-.ant-menu-light .ant-menu-item-selected,
-.ant-menu-light > .ant-menu .ant-menu-item-selected {
-  color: #c07764;
+.ant-result {
+  padding: 32px;
 }
 
 .react-medium-image-zoom {

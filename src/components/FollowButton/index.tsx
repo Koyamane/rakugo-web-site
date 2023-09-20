@@ -45,10 +45,6 @@ const FollowButton: React.FC<FollowButtonProps & ButtonProps> = React.memo(props
   const followButtonClassName = useEmotionCss(({ token }) => {
     return {
       '.follow-button': {
-        '&.ant-btn': {
-          fontSize: token.fontSizeSM
-        },
-
         '&.ant-btn-default': {
           color: token.colorTextDescription
         }

@@ -9,11 +9,11 @@
 import { DATA_DICTIONARY_STATUS, toObj } from '@/locales/dataDictionary'
 import { formatTableParams } from '@/utils/tools'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { ProFormText } from '@ant-design/pro-components'
+import { ProFormDigit, ProFormText } from '@ant-design/pro-components'
 import { ModalForm, ProFormSelect } from '@ant-design/pro-form'
 import type { ActionType, ProColumns } from '@ant-design/pro-table'
 import ProTable from '@ant-design/pro-table'
-import { App, Button, Col, Form, InputNumber, Popconfirm, Row, Space } from 'antd'
+import { App, Button, Col, Form, Popconfirm, Row, Space } from 'antd'
 import React, { useMemo, useRef, useState } from 'react'
 import {
   DataDictionaryAddApi,
@@ -246,19 +246,14 @@ const DataDictionaryManagement: React.FC = () => {
                 {fields.map(({ key, name, ...restField }) => (
                   <Col span={24} key={key}>
                     <Space align='baseline'>
-                      <Form.Item
+                      <ProFormDigit
+                        min={1}
+                        placeholder='顺序'
                         initialValue={key + 1}
                         name={[name, 'order']}
                         rules={[{ required: true }]}
-                        style={{ transform: 'translateY(-4px)' }}
-                      >
-                        <InputNumber
-                          min={1}
-                          placeholder='顺序'
-                          parser={(value: any) => value.replace(/\D/g, '')}
-                          formatter={(value: any) => value.replace(/\D/g, '')}
-                        />
-                      </Form.Item>
+                        fieldProps={{ precision: 0 }}
+                      />
                       <ProFormText
                         {...restField}
                         placeholder='键'

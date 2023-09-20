@@ -8,10 +8,10 @@ import { FormattedMessage, useModel } from '@umijs/max'
 import { Alert } from 'antd'
 import React, { useEffect, useState } from 'react'
 import Marquee from 'react-fast-marquee'
+import { BgImageInfoApi } from '../Admin/WebsiteBgManagement/service'
 import HomeList from './components/HomeList'
 import SortSideBar from './components/SortSideBar'
 import { BlogSortKey } from './data'
-import { BgImageInfoApi } from '../Admin/WebsiteBgManagement/service'
 
 export default (): React.ReactNode => {
   const { formatValue } = useGlobalHooks()

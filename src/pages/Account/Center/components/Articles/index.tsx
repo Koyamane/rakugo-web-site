@@ -1,6 +1,7 @@
+import { LazyImage } from '@/components'
 import BlogListSkeleton from '@/components/BlogListSkeleton'
 import IconText from '@/components/IconText'
-import { useFormatTime, usePaginationItem, useGlobalHooks } from '@/hooks'
+import { useFormatTime, useGlobalHooks, usePaginationItem } from '@/hooks'
 import {
   EyeOutlined,
   LikeFilled,
@@ -266,7 +267,7 @@ const Articles: React.FC<SelfProps> = ({ isMe, loginUserId, userId }) => {
                   className='content-list-item-right'
                   to={`/article/${item.id}`}
                 >
-                  <img
+                  <LazyImage
                     src={item.cover}
                     alt={item.title}
                     className='content-list-item-right-cover'
