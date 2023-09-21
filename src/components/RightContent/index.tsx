@@ -108,5 +108,5 @@ export const SelectLang: React.FC<{ className?: string }> = ({ className }) => {
     padding: token.paddingXS - 2
   }
 
-  return <UmiSelectLang className={className} style={selectLangStyle} reload={false} />
+  return <UmiSelectLang className={className} style={selectLangStyle} />
 }
